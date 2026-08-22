@@ -126,6 +126,8 @@ Never invent a persona. Run the interview (via `grill-me` / `grill-with-docs`, o
 - **Priority awareness** — 🔴/🟡/🟢 behavior like a real worker
 - **Personality** — warmth/terseness, tone, direct vs encouraging
 
+**Grill format that works with Panomete:** numbered questions with lettered options (a/b/c/d) plus an escape hatch ("d) your call"), max ~8 per round, and he answers in shorthand (`1d, 2b, 3a`). Use a numbered list in chat, NOT the `clarify` tool — clarify only supports one question with ≤4 choices, which is too slow for a multi-question grill. Works for both new souls (identity/scope/output/language/destination/tone/coverage) and upgrades (scope of level-up, what to preserve, doc depth).
+
 Push back on vague answers; each follow-up question makes the SOUL sharper. A "sharp specialist" beats a "blurry generalist" every time.
 
 ### 2. Naming & layout convention
@@ -138,7 +140,9 @@ Push back on vague answers; each follow-up question makes the SOUL sharper. A "s
 - One person wearing several hats = one soul per *role*, not one per person.
 
 ### 3. Anatomy (borrows the AI-SDLC template)
-Core Principles → Identity (name/role/emoji/vibe/mission) → Knowledge Base (vault-grounded) → Core Techniques (applied, not named) → Owned Documents (🔴/🟡/🟢 with template paths + depth) → Handoff Protocol (outgoing/incoming) → Priority Protocol → Execution Style → Collaboration Rules → Quality Gates.
+Core Principles → Identity (name/role/emoji/vibe/mission) → **Role Boundary** (for specialist/product souls: who owns what across the fleet) → Knowledge Base (vault-grounded) → Core Techniques (applied, not named) → Owned Documents (🔴/🟡/🟢 with template paths + depth) → Handoff Protocol (outgoing/incoming) → Priority Protocol → Execution Style → Collaboration Rules → Quality Gates.
+
+**Role Boundary section** (added 2026-08-06 after 4 specialist upgrades): when a soul shares a fleet with other specialist profiles, include a dedicated section that states explicitly what this role owns vs. what DevOps/Full-Stack/QA/PO own. This prevents cross-profile turf confusion — without it, specialist souls tend to absorb responsibilities that belong to other profiles. Every specialist soul upgraded in batch (devops, qa, product-owner, data-engineer) needed one.
 
 ### 4. Ground each soul in the user's BOK vault
 Each soul is a "graduate" of the BOK(s) that own its documents. The knowledge is **live**, so point at real vault paths, not titles:
@@ -148,6 +152,31 @@ Each soul is a "graduate" of the BOK(s) that own its documents. The knowledge is
 - `software-engineering-note/<KA>/` — deep domain notes
 
 **Verify every referenced path resolves** after writing — stale template names are the #1 error. See `references/soul-authoring-vault-grounded.md` and run `scripts/verify_soul_refs.py`.
+
+## Upgrading an Existing SOUL to a New Career Level
+
+When the user has a career-path vault (`swe-knowledge/career-path/<NN>_<Role>/`) and asks to level up an existing specialist soul (e.g. full-stack → senior), run the upgrade workflow in `references/soul-level-upgrade.md`:
+
+1. **Inventory the career path first** — read the target `00_overview.md` + every capability-area `00_overview.md` (the mid-vs-senior tables state the exact behavior shift).
+2. **Gap-analyze the current soul** — capability × coverage (✅/🟡/❌) table. Expect 5–7 missing areas on a level-up; that's the point.
+3. **Keep what survives** — carry forward still-valid principles (Dependency Rule, ADR discipline, API-contract-first) and preserve identity; elevate role line + philosophy ("code is the product" → "outcomes are the product").
+4. **Flip the career anchor** to the new level; add BOKs the new capability areas cite (BABOK/PMBOK/CyBOK for senior).
+5. **Same review-first gate + sync flow** as new souls: collection file → user review → approve → backup → copy → md5sum → smoke test. Registry/main-soul routing rows change only for NEW profiles, not level upgrades.
+
+### Product/business path variant
+
+Not every career path entered from Senior Software Engineer is a senior-specialist engineering path. For paths whose overview declares `career_family: product-and-business` or `level: manager` (for example, Product Manager), use a layered product upgrade rather than copying the Senior SWE soul:
+
+1. **Make the product path primary.** Map every product capability area (for example, discovery, strategy, prioritization, roadmapping, analytics, requirements, and technical partnership) to an operating charter.
+2. **Use Senior SWE as a foundation.** When `entry_from` includes Senior Software Engineer, include all nine senior capabilities in a compact mapping table, but translate them into product behavior instead of duplicating engineering techniques.
+3. **Elevate from backlog ownership to outcome ownership.** Add customer evidence, market context, strategic choices, measurable outcomes, living roadmaps, learning loops, and post-launch outcome review.
+4. **Declare role boundaries.** Product owns the problem, why, outcomes, and priority; engineering owns how; QA and DevOps provide quality and operational evidence. Do not silently turn the soul into a project manager, engineering manager, or architect.
+5. **Ground product documents in verified templates.** If a canonical backlog, roadmap, or experiment template does not exist, label it project-specific or external instead of inventing a vault path.
+6. **Treat career-path wikilinks as leads, not proof.** Career notes may contain illustrative or stale links. Verify every referenced path against the live filesystem before copying it into a soul.
+
+See `references/product-business-soul-upgrade.md` for the reusable capability map, document map, boundary rules, and review checklist.
+
+For a batch worked example showing the specialist-path upgrade pattern applied to 4 souls (devops, qa, product-owner, data-engineer) in one session — including the Role Boundary section, principle-count growth, BOK expansion, and sync flow — see `references/specialist-path-batch-upgrade.md`.
 
 ## Syncing Profiles to the Soul Collection
 
@@ -189,6 +218,18 @@ Already-running sessions keep the old soul (Hermes never mutates a live system p
 
 ### 6. Remember the main soul
 The default/main profile's SOUL lives at `$HERMES_HOME/SOUL.md` (not in `profiles/`). Back it up to the collection root (e.g. `soul-collection/hermes-main-soul.md`) when iterating on it — it's the file that governs the base agent.
+
+## Replicating the Setup to a New Machine
+
+When the user wants the whole Hermes setup on another computer (new PC, friend's PC, disaster recovery) — full verified detail in `references/machine-replication-handoff.md`.
+
+1. **Grill the scope first** (same numbered-options format as souls): base-only vs fleet, searxng local vs homelab, OpenRouter model tier, target OS, who owns the API keys. The answers define the runbook.
+2. **The GitHub repo is the handoff source** (`oat431/oralita_md`): `workflow/` = canonical dev skills, `skills/` = published copies, `soul-collection/` = souls, `profiles/<name>/` = sanitized profile handoffs. `git push` before going.
+3. **Skill install:** `hermes skills tap add oat431/oralita_md` + `hermes skills install <name>` — but taps resolve the `skills/` folder ONLY; skills under a different path (e.g. `workflow/`) are invisible to taps → fallback is direct raw-URL install of the SKILL.md.
+4. **Profile handoff:** `hermes profile export` works but ships caches (~105 MB). Lean copy = `SOUL.md` + `memories/` + `config.yaml` only; skip `state.db`, `sessions/`, caches.
+5. **🔴 SECRET HYGIENE (hard rule):** never copy `config.yaml` into a public repo as-is — `mcp_servers.<name>.env` carries live tokens (GitHub PATs, DB URLs with passwords). Sanitize to the model block only. GitHub push protection (GH013) blocks the push — treat the rejection as a gift: nothing landed, but the secret **transited GitHub's servers**, so amend the local commit (`git commit --amend`) AND recommend token rotation.
+6. **Skill publishing:** `hermes skills publish --to github --repo <owner/repo> <skill_path>` scans the skill, then creates a PR (it does NOT push directly). The merge API 404s on bot-created PRs → squash-merge locally (`git fetch origin pull/N/head:branch`, `git merge --squash`, push), then close the PR and delete the branch via API. Strip `__pycache__`/`.pyc` from the merged set.
+7. **User-facing runbook format (Panomete):** numbered steps, every command explained, tables for ladders/checklists, Mermaid flow at top, verification checklist at the end, written into the vault and pushed to the repo.
 
 ## Routing-Generalist Main Soul (multi-profile fleets)
 
@@ -260,3 +301,4 @@ When auditing a profile for a specific use case (e.g., programming):
 - **Don't store completion stats in memory.** "Phase 3 done, 12 of 20 files" rots within days. Obsidian or session_search are better.
 - **OpenClaw SOULs reference file paths that don't exist in Hermes.** Always map `~/.openclaw/state/` → `memory` tool, not literal file paths.
 - **Profiles inherit API keys from the shell environment.** If `DEEPSEEK_API_KEY` is set in `.env`, the new profile picks it up. Only run `gym setup` if you want a different provider.
+- **Never commit `config.yaml` to a public repo.** MCP server env sections hold live secrets — a profile's config is machine-local, not handoff material. Sanitize to the model block or omit it entirely (see Replicating section).
