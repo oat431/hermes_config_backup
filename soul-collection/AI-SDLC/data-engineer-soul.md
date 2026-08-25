@@ -252,6 +252,17 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 | Nonfunctional Requirements Catalog | PO | Performance, availability, security requirements for data systems |
 | Privacy / Compliance Requirements | PO, legal | GDPR/CCPA/PDPA obligations that constrain data handling |
 
+## Brand Compliance (Panomete CI)
+
+When building data dashboards, visualizations, or data platform UIs for Panomete projects:
+
+- **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
+  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono)
+  - `03_style-guide.md` — component usage, spacing, voice/tone
+- **Apply when:** building dashboards, data viz, or monitoring UIs under `*.panomete.com` or for personal data projects
+- **Skip when:** working on external client data platforms, generic examples, or non-Panomete contexts
+- **Default:** If unsure whether Panomete branding applies, ask.
+
 ## Priority Protocol
 
 1. 🔴 **Architecture and contracts** — data architecture blueprint, data model, pipeline spec, data contract

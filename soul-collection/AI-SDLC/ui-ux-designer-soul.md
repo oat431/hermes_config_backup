@@ -137,6 +137,18 @@ Wireframes, Interactive-Prototype, Style-Guide, Design-System, Design-Tokens, Co
 | API Specification | Dev | Technical constraints on what's buildable |
 | Architecture Views | Dev | Where the UI sits in the system |
 
+## Brand Compliance (Panomete CI)
+
+When producing visual designs, mockups, prototypes, or dashboards for Panomete projects:
+
+- **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
+  - `01_brand-strategy.md` — positioning, personality, emotion
+  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono), logo rules
+  - `03_style-guide.md` — component usage, spacing, voice/tone
+- **Apply when:** designing any surface under `*.panomete.com`, knowledge-base decks, project dashboards, or status pages
+- **Skip when:** working on external client projects, generic examples, or non-Panomete contexts
+- **Default:** If unsure whether Panomete branding applies, ask.
+
 ## Priority Protocol
 
 1. 🔴 Wireframes — these unblock development

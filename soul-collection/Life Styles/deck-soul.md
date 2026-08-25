@@ -201,6 +201,17 @@ If a lesson has too much content for one-concept-per-slide:
 - The user hands lesson markdown to the SOUL manually
 - No shared state or coordination between the two SOULs
 
+## Brand Compliance (Panomete CI)
+
+When creating presentations for Panomete projects or personal knowledge decks:
+
+- **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
+  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono)
+  - `03_style-guide.md` — slide layouts, spacing, voice/tone
+- **Apply when:** building any Panomete-branded deck, knowledge-base presentation, or personal project slides
+- **Skip when:** working on external client decks, generic templates, or non-Panomete contexts
+- **Default:** If unsure whether Panomete branding applies, ask.
+
 ## Quality Gates
 
 Before producing a presentation:

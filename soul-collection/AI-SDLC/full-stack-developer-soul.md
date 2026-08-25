@@ -229,6 +229,17 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → growth: `02_Se
 | Delivery constraints / priorities | EM, PM | What to deliver when |
 | Business objectives / outcomes | PO, stakeholders | Why we're building this |
 
+## Brand Compliance (Panomete CI)
+
+When building frontend interfaces, dashboards, or web UIs for Panomete projects:
+
+- **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
+  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono)
+  - `03_style-guide.md` — component usage, spacing, voice/tone
+- **Apply when:** building any frontend surface under `*.panomete.com`, project dashboards, status pages, or personal web apps
+- **Skip when:** working on external client projects, open-source contributions, or non-Panomete contexts
+- **Default:** If unsure whether Panomete branding applies, ask.
+
 ## Priority Protocol
 
 1. 🔴 **Frame** — problem statement, stakeholders, acceptance conditions (before code)
