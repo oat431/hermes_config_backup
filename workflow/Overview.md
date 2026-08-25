@@ -1,12 +1,14 @@
 # Workflow Overview
 
 > *Agent-created Hermes skills — copy to `~/.hermes/skills/` on any new machine to restore full capability.*
+>
+> **Structure:** main-profile skills live in `hermes-main-profile/`, profile-specific skills in their own folder per profile.
 
 ---
 
-## Skills Map (20 Active)
+## Skills Map (22 Main + 58 Profile-Specific)
 
-### 📚 PDF & Book Summarization
+### 📚 PDF & Book Summarization _(in `hermes-main-profile/`)_
 
 | Skill | Use when |
 |-------|---------|
@@ -58,8 +60,30 @@
 | Skill | Use when |
 |-------|---------|
 | **hermes-profile-setup** | Creating and configuring Hermes profiles for separate use cases. Profiles = isolated memory, skills, SOUL, tools per persona. |
+| **hermes-web-backends** | Fixing or configuring Hermes `web_search`/`web_extract` backends (firecrawl, searxng, tavily, exa, parallel, ddgs). Provider capability matrix + troubleshooting. |
+| **hermes-setup-replication** | Replicating a Hermes install onto a new Windows machine — souls, skills, profiles handoff pack. Windows HERMES_HOME + install one-liner + runbook pointer. |
 | **mcp-server-patterns** | Adding or troubleshooting MCP servers in Hermes Agent (filesystem, github, postgres, drawio, searxng). |
 | **skill-library-maintenance** | Reviewing or improving a Hermes skill library — consolidation, curation, health checks. |
+
+### 📦 Profile-Specific Skills
+
+Skills created inside individual specialist profiles (not in the main library). Each profile has its own top-level folder in `workflow/`.
+
+| Profile folder | # Skills | Notes |
+|---------|----------|-------|
+| product-owner | 12 | po-requirements-elicitation, go-hexagonal-api, go-backend-api/service, spec-document-elicitation, grill-me-requirements, requirements-to-backlog, project-spec-authoring, knowledge-base-quality-audit, evidence-based-document-audit, privacy-regulatory-research, go-fiber-backend-development |
+| full-stack | 11 | go-fiber-api-server, go-background-scheduler-api-poller, react-vite-spa, spec-driven-design, full-stack-repository-bootstrap, construction-docs, checklist-review, github-pr-qa-followup, interview-prep-coaching, interview-answer-cards, web-research |
+| educator | 10 | curriculum-vault-authoring, educational-content-authoring, career-guidance-authoring, career-path-overlay-authoring, educational-notes-bilingual, multilingual-note-conversion, obsidian-note-authoring, obsidian-vault-restructuring, exercise-authoring, iso-standards-compliance-review |
+| devops | 6 | homelab-infra-audit, homelab-microservice-deployment, keycloak-deployment, keycloak-docker, devops-doc-authoring, release-readiness-audit |
+| qa | 6 | spec-driven-qa-authoring, spec-driven-code-review, github-pr-follow-up-review, checklist-audit, knowledge-vault-audit, obsidian-vault-audit |
+| journey-writer | 3 | campaign-journal, wiki-lore-research, writing-practice-audit |
+| ui-ux | 3 | penpot-mcp, project-spec-docs, nginx-streaming-proxy |
+| career-coach | 2 | career-artifact-prep, career-coaching |
+| gym | 2 | fitness-coaching, weekly-training-review |
+| security-engineer | 2 | security-review-pass, tor-darkweb-exploration |
+| deck | 1 | presentation-design |
+
+**Restore:** copy `workflow/<profile-name>/*` → `%LOCALAPPDATA%\hermes\profiles\<profile-name>\skills\` on a new machine.
 
 ---
 
@@ -106,8 +130,13 @@
 ## Restoring on a New Machine
 
 ```bash
-# Copy all skills into Hermes
-cp -r F:/obsidian_note/oralita_md/workflow/* ~/AppData/Local/hermes/skills/
+# Copy main-profile skills into Hermes
+cp -r F:/obsidian_note/hermes_config_backup/workflow/hermes-main-profile/* ~/AppData/Local/hermes/skills/
+
+# Copy profile-specific skills back into each profile
+# (for each profile <name>):
+cp -r F:/obsidian_note/hermes_config_backup/workflow/<name>/* \
+      ~/AppData/Local/hermes/profiles/<name>/skills/
 
 # Verify
 hermes skills list | grep local
@@ -145,4 +174,4 @@ These skills were consolidated into others. Full content preserved in `archived/
 
 ---
 
-*Last updated: 2026-08-03*
+*Last updated: 2026-08-24*
