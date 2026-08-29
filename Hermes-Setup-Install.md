@@ -1,19 +1,19 @@
 ---
 title: "Hermes Setup Install"
-tags: [hermes, setup, guide, zai, qwencloud, searxng, windows]
+tags: [hermes, setup, guide, qwencloud, alibaba, searxng, windows]
 ---
 
 # Hermes Setup Install — Step-by-Step
 
 > **Purpose:** Replicate Panomete's Hermes setup on any Windows computer — a new machine (old one broke) or a friend's machine.
-> **Target spec:** Hermes desktop app + **Z.ai GLM Coding Plan** as main model + **QwenCloud Token Plan** (Alibaba) for the 12 specialist profiles + searxng (homelab via Tailscale, or local Docker) + 21 user skills + main soul + soul-collection.
+> **Target spec:** Hermes desktop app + **QwenCloud Token Plan** (Alibaba) as the single provider for the main agent + all 14 specialist profiles + searxng (homelab via Tailscale, or local Docker) + user skills + main soul + soul-collection.
 > **Handoff source:** GitHub repo `github.com/oat431/hermes_config_backup` (public — souls in `soul-collection/`, user skills in `workflow/`). USB copy is the offline fallback.
 > **Target paths:** `%LOCALAPPDATA%\hermes` (HERMES_HOME on Windows). `~/.hermes` does **not** exist on Windows — always resolve via `$env:LOCALAPPDATA\hermes`.
 
 ```mermaid
 flowchart LR
     A[Step 0: Push backup repo<br/>on your machine] --> B[Step 1: Install Hermes<br/>PowerShell one-liner]
-    B --> C[Step 2: Model providers<br/>zai main + QwenCloud profiles]
+    B --> C[Step 2: Model provider<br/>QwenCloud Token Plan]
     C --> D[Step 3: searxng<br/>Tailscale or local Docker]
     D --> E[Step 4: Wire searxng into Hermes]
     E --> F[Step 5: User skills<br/>from workflow/]
@@ -29,24 +29,24 @@ flowchart LR
 
 | Layer | What | Where it lives |
 |---|---|---|
-| Main model | `glm-5.2` via **zai** (GLM Coding Plan, `https://api.z.ai/api/coding/paas/v4`) | main `config.yaml` + `GLM_API_KEY` in `.env` |
-| Profile models | `glm-5.2` / `deepseek-v4-pro` / `qwen3.8-max` via **alibaba** (QwenCloud Token Plan) | each profile's `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
+| Main model | `deepseek-v4-flash-0731` via **alibaba** (QwenCloud Token Plan) | main `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
+| Profile models | `deepseek-v4-flash-0731` via **alibaba** (QwenCloud Token Plan) — same model + provider for all 14 profiles | each profile's `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
 | Search | searxng backend, homelab instance `http://100.73.143.25:7004` (Tailscale) or local Docker | `SEARXNG_URL` in `.env` |
 | MCP | github, postgres, drawio, filesystem, searxng | `mcp_servers` in main + every profile `config.yaml` |
-| Skills | 21 user skills (+ `archived/` old iterations) | `workflow/` in this repo → `%LOCALAPPDATA%\hermes\skills\` |
+| Skills | user skills (+ `archived/` old iterations) | `workflow/` in this repo → `%LOCALAPPDATA%\hermes\skills\` |
 | Souls | main soul + 14 profile souls + registry | `soul-collection/` in this repo |
 | Memory | limits 4000 (memory) / 2500 (user profile) chars | main `config.yaml` |
 
-**Model assignment matrix (profiles):**
+**Model assignment:** every profile + the main agent run `deepseek-v4-flash-0731` via `alibaba` (single uniform default as of 2026-08-29). The 6 models on the QwenCloud Token Plan (swap anytime per-profile):
 
-| Model | Profiles |
+| Model | Good for |
 |---|---|
-| `glm-5.2` (alibaba) | ui-ux, educator*, book-summarizer |
-| `deepseek-v4-pro` (alibaba) | full-stack, data-engineer, devops, qa, security-engineer, career-coach, financial-advisor, gym |
-| `qwen3.8-max` (alibaba) | journey-writer |
-| `glm-5.2` (zai) | educator — currently on zai coding plan, coherent with main |
-
-\* educator runs zai + explicit `base_url`; the other two glm profiles run alibaba. Either works — just keep `provider` and `base_url` consistent.
+| `qwen3.8-max` | strongest Qwen — general/writing |
+| `qwen3.8-flash` | fast Qwen — bulk/light work |
+| `qwen3.7-max` | prior-gen Qwen max |
+| `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
+| `deepseek-v4-flash-0731` | **default** — fast + capable, good all-rounder |
+| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
 
 ---
 
@@ -89,52 +89,46 @@ hermes --version
 
 ---
 
-## Step 2 — Model providers (two plans, two purposes)
+## Step 2 — Model provider (QwenCloud Token Plan, single provider)
 
-### 2.1 Main model — Z.ai GLM Coding Plan
-
-Run `hermes setup` and pick Z.ai, or manually:
+Everything — the main agent and all 14 profiles — runs on the **QwenCloud Token Plan** (Alibaba), `provider: alibaba`. One key covers every agent.
 
 ```powershell
-hermes config set model.provider zai
-hermes config set model.default glm-5.2
-hermes config set model.base_url https://api.z.ai/api/coding/paas/v4
+hermes config set model.provider alibaba
+hermes config set model.default deepseek-v4-flash-0731
 ```
 
 Key goes into `%LOCALAPPDATA%\hermes\.env` as:
 
 ```ini
-GLM_API_KEY=<your-zai-coding-plan-key>
-```
-
-### 2.2 Profile models — QwenCloud Token Plan (Alibaba)
-
-The 12 specialist profiles all use `provider: alibaba` with models `glm-5.2` / `deepseek-v4-pro` / `qwen3.8-max` — all included in the QwenCloud Token Plan (Personal). Same key covers every profile:
-
-```ini
 DASHSCOPE_API_KEY=<your-qwencloud-token-plan-key>
-# Token-plan endpoint (Anthropic-protocol gateway). Optional override:
+# Token-plan endpoint (Anthropic-protocol gateway). Set this so the alibaba
+# provider hits the token plan, not the default OpenAI-compatible DashScope URL:
 DASHSCOPE_BASE_URL=https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic
 ```
 
-Per-profile config block (see matrix above for which model goes where):
+> ⚠️ **`DASHSCOPE_BASE_URL` is required.** The `alibaba` provider defaults to the OpenAI-compatible `dashscope-intl.aliyuncs.com/compatible-mode/v1`, but your Token Plan key only works against the Anthropic-protocol token-plan gateway. Every profile's `.env` needs both `DASHSCOPE_API_KEY` and `DASHSCOPE_BASE_URL` — they are **not** inherited from the main `.env`.
+
+Per-profile config block (identical for all 14):
 
 ```yaml
 model:
-  default: deepseek-v4-pro
+  default: deepseek-v4-flash-0731
   provider: alibaba
 ```
 
-> ⚠️ **Protocol rule:** `provider` decides which API protocol Hermes speaks; `base_url` decides where requests go. They must match. Don't point an `alibaba` profile at Anthropic's or DeepSeek's URL — you'll get protocol errors. If `base_url` is unset, Hermes resolves the endpoint from the provider name (recommended).
+> ⚠️ **Protocol rule:** `provider` decides which API protocol Hermes speaks; `base_url` decides where requests go. Don't leave a stale `base_url` pointing at z.ai / DeepSeek / OpenRouter in a profile that now uses `alibaba` — you'll get protocol errors. If `base_url` is unset in `config.yaml`, the provider resolves it from `DASHSCOPE_BASE_URL` (recommended — don't set `base_url` per-profile).
 
-**Model quick-picks (all on the token plan):**
+**Model quick-picks (all 6 on the token plan):**
 
 | Model | Good for |
 |---|---|
 | `qwen3.8-max` | strongest Qwen — general/writing |
-| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
+| `qwen3.8-flash` | fast Qwen — bulk/light work |
+| `qwen3.7-max` | prior-gen Qwen max |
 | `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
-| `qwen3.6-flash` | cheap + fast — bulk/light work |
+| `deepseek-v4-flash-0731` | **default** — fast + capable, good all-rounder |
+| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
 
 Switch anytime: `hermes -m <model>` per session, or `hermes config set model.default <model>` + `/reset` globally.
 
@@ -302,7 +296,7 @@ This replaces the default persona with OraMesLita (the router + general helper).
 
 ---
 
-## Step 7 — Install the 12 profiles (from `soul-collection/`)
+## Step 7 — Install the 14 profiles (from `soul-collection/`)
 
 Souls live in `soul-collection/AI-SDLC/` (dev roles) and `soul-collection/Life Styles/` (life roles). Workflow: copy the soul as the profile's `SOUL.md`, then write a small `config.yaml` (model + MCP block).
 
@@ -315,38 +309,38 @@ mkdir -Force "$H\full-stack"
 Copy-Item "$S\AI-SDLC\full-stack-developer-soul.md" "$H\full-stack\SOUL.md"
 ```
 
-Minimal profile `config.yaml` (this is the whole file):
+Minimal profile `config.yaml` (this is the whole file — every profile uses the same model):
 
 ```yaml
 model:
-  default: deepseek-v4-pro
+  default: deepseek-v4-flash-0731
   provider: alibaba
 ```
 
-> MCP servers are **inherited per-profile config**, not from the main config — to give a profile MCP, copy the `mcp_servers` block from Step 8 into its `config.yaml` too (that's how the current machine does it: all 12 profiles carry the block).
+> MCP servers are **per-profile config**, not inherited from the main config — to give a profile MCP, copy the `mcp_servers` block from Step 8 into its `config.yaml` too (that's how the current machine does it: all profiles carry the block).
 
 > ⚠️ `financial-advisor` soul is **gitignored** (private) — copy it from USB/private storage, not the repo.
 
-Repeat for all 12 (soul filename → profile):
+Repeat for all 14 (soul filename → profile). All use `deepseek-v4-flash-0731` / `alibaba`:
 
-| Profile           | Soul file                                  | Model            |
-| ----------------- | ------------------------------------------ | ---------------- |
-| product-owner*    | `AI-SDLC/product-owner-soul.md`            | deepseek-v4-pro  |
-| full-stack        | `AI-SDLC/full-stack-developer-soul.md`     | deepseek-v4-pro  |
-| devops            | `AI-SDLC/devops-engineer-soul.md`          | deepseek-v4-pro  |
-| qa                | `AI-SDLC/qa-engineer-soul.md`              | deepseek-v4-pro  |
-| security-engineer | `AI-SDLC/security-engineer-soul.md`        | deepseek-v4-pro  |
-| ui-ux             | `AI-SDLC/ui-ux-designer-soul.md`           | glm-5.2          |
-| data-engineer     | `AI-SDLC/data-engineer-soul.md`            | deepseek-v4-pro  |
-| educator          | `Life Styles/educator-soul.md`             | glm-5.2 (zai ok) |
-| book-summarizer   | `Life Styles/book-summarizer-soul.md`      | glm-5.2          |
-| career-coach      | `Life Styles/career-coach-soul.md`         | deepseek-v4-pro  |
-| financial-advisor | `Life Styles/financial-advisor-soul.md` 🔒 | deepseek-v4-pro  |
-| gym               | `Life Styles/gym-soul.md`                  | deepseek-v4-pro  |
-| journey-writer    | `Life Styles/journey-writer-soul.md`       | qwen3.8-max      |
-| deck*             | `Life Styles/deck-soul.md`                 | glm-5.2          |
+| Profile           | Soul file                                  |
+| ----------------- | ------------------------------------------ |
+| product-owner*    | `AI-SDLC/product-owner-soul.md`            |
+| full-stack        | `AI-SDLC/full-stack-developer-soul.md`     |
+| devops            | `AI-SDLC/devops-engineer-soul.md`          |
+| qa                | `AI-SDLC/qa-engineer-soul.md`              |
+| security-engineer | `AI-SDLC/security-engineer-soul.md`        |
+| ui-ux             | `AI-SDLC/ui-ux-designer-soul.md`           |
+| data-engineer     | `AI-SDLC/data-engineer-soul.md`            |
+| educator          | `Life Styles/educator-soul.md`             |
+| book-summarizer   | `Life Styles/book-summarizer-soul.md`      |
+| career-coach      | `Life Styles/career-coach-soul.md`         |
+| financial-advisor | `Life Styles/financial-advisor-soul.md` 🔒 |
+| gym               | `Life Styles/gym-soul.md`                  |
+| journey-writer    | `Life Styles/journey-writer-soul.md`       |
+| deck*             | `Life Styles/deck-soul.md`                 |
 
-\* = soul exists, profile not currently installed — create only if wanted. 🔒 = private, not in repo.
+\* = soul exists, profile may not be installed — create only if wanted. 🔒 = private, not in repo.
 
 Check: `hermes profile list`. Full-fidelity alternative: `hermes profile import <profile.tar.gz>`.
 
@@ -403,8 +397,8 @@ Checklist (in order):
 
 - [ ] `hermes --version` works
 - [ ] `hermes doctor` — no red flags
-- [ ] Chat test: *"hello"* — responds via zai glm-5.2
-- [ ] Profile test: switch to `full-stack`, ask *"what model are you"* — deepseek-v4-pro via alibaba
+- [ ] Chat test: *"hello"* — responds via deepseek-v4-flash-0731
+- [ ] Profile test: switch to `full-stack`, ask *"what model are you"* — deepseek-v4-flash-0731 via alibaba
 - [ ] Search test: *"search the web for X"* — searxng returns live results
 - [ ] MCP test: ask any profile to *"list github repos"* — github MCP responds
 - [ ] `hermes skills list` — oralita-book-sum-obs present
@@ -428,14 +422,14 @@ Checklist (in order):
 | Push blocked: "Push cannot contain secrets" | A `config.yaml` in the push has live MCP credentials. Sanitize — keep the model block, strip `mcp_servers` env values |
 | Search works but web page fetch fails | Expected: `web_extract` needs a keyed provider (tavily/firecrawl/exa) — set `web.extract_backend` |
 | Memory at capacity warnings | `hermes config set memory.memory_char_limit 4000` + `hermes config set memory.user_char_limit 2500`, then `/reset` |
-| Model responds slow | Switch tier: `hermes -m qwen3.6-flash` (fast) or back via `hermes model` |
+| Model responds slow | Switch tier: `hermes -m qwen3.8-flash` (fast) or back via `hermes model` |
 
 ## Maintenance & backup notes
 
 - **The repo IS the backup.** `git push` after any soul/skill/guide change = offsite backup. Habit: `git add -A && git commit && git push` after sessions that changed skills/souls.
 - **Sync pattern (live → repo):** copy changed skill folders from `%LOCALAPPDATA%\hermes\skills\<category>\<skill>\` into `workflow/\<skill>\`; souls from `%LOCALAPPDATA%\hermes\profiles\<name>\SOUL.md` back into `soul-collection\<group>\<name>-soul.md`. Verify with a diff before committing.
 - **Community packs are not backed up** — reinstallable from skills.sh. Only `workflow/` is yours.
-- **Keys are the owner's responsibility.** `GLM_API_KEY`, `DASHSCOPE_API_KEY`, `GITHUB_TOKEN`… live only in `%LOCALAPPDATA%\hermes\.env`. Never in chats, logs, or the repo.
+- **Keys are the owner's responsibility.** `DASHSCOPE_API_KEY`, `DASHSCOPE_BASE_URL`, `GITHUB_TOKEN`… live only in `%LOCALAPPDATA%\hermes\.env` (and each profile's `.env`). Never in chats, logs, or the repo.
 - **Profiles aren't repo-backed beyond souls** (decision 2026-08-22): draft in chat, create on Hermes desktop. Souls + this guide are the restore path.
 - Update Hermes: `hermes update`. Health check: `hermes doctor`. Computer-use issues: `hermes computer-use doctor`.
 - Legacy note: `oat431/oralita_md` was the old handoff repo — its `skills/`+`workflow/`+`soul-collection/` copies are **stale**. `hermes_config_backup` is canonical now.
