@@ -1,0 +1,11 @@
+# Minimal settings.yml for the searxng Docker container (mounted at /etc/searxng/).
+# searxng deep-merges this over its defaults, so a minimal file is enough.
+# The `search.formats` list MUST include json or Hermes' web backend gets
+# `invalid format` 400 responses. Replace the secret_key with a long random string.
+server:
+  secret_key: "paste-any-long-random-string-here"
+
+search:
+  formats:
+    - html
+    - json
