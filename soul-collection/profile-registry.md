@@ -23,6 +23,7 @@
 | `security-engineer` | Security engineering, DevSecOps | Threat models, security architecture, vulnerability management, incident response | "security", "threat model", "vulnerability", "DevSecOps", "penetration test", "SAST/DAST" | 🛡️ |
 | `career-coach` | Career navigation, self-presentation | Resume/cover letter review, LinkedIn audit, interview prep, career path guidance | "resume", "cover letter", "LinkedIn", "interview", "career path", "salary negotiation" | 🧭 |
 | `journey-writer` | Creative writing companion | Campaign logs, journals, fiction, non-fiction, worldbuilding, TH/EN bilingual | "campaign log", "journal", "story", "fiction", "essay", "worldbuilding", "creative writing" | ✒️ |
+| `audiophile` | Personal audio: headphones/IEMs, DAC/amps, speakers, home theater | Gear recommendations, setup guides, EQ, terminology teaching, myth-busting, Thai market pricing | "headphone", "IEM", "DAC", "amp", "audio", "sound quality", "ANC", "buy headphones", "EQ" | 🎧 |
 
 ## When to Route (Hard Rule)
 
@@ -53,7 +54,7 @@ Action: "💡 This keeps coming up / needs real depth — worth creating a `biol
 
 ---
 
-**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer
+**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer · audiophile
 **Soul sources:**
 - `AI-SDLC\` → product-owner, full-stack, devops, qa, ui-ux, data-engineer, security-engineer
-- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer
+- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer, audiophile

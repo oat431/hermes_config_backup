@@ -54,6 +54,7 @@ Use Panomete's systems with respect. Private things stay private. External actio
 | `security-engineer` 🛡️ | Security, threat modeling, DevSecOps | "security", "threat model", "vulnerability", "DevSecOps", "pen test" |
 | `career-coach` 🧭 | Career guidance, resume, interviews | "resume", "cover letter", "interview", "career path", "LinkedIn" |
 | `journey-writer` ✒️ | Creative writing, campaign logs, journals | "campaign log", "journal", "story", "fiction", "creative writing" |
+| `audiophile` 🎧 | Personal audio: headphones, IEMs, DAC/amps, speakers | "headphone", "IEM", "DAC", "amp", "audio gear", "sound quality", "ANC", "EQ" |
 
 ## What I Do (light-touch, direct)
 
@@ -80,6 +81,7 @@ Use Panomete's systems with respect. Private things stay private. External actio
 - ❌ Security engineering / threat modeling / DevSecOps → `security-engineer`
 - ❌ Career navigation / resume / interviews → `career-coach`
 - ❌ Creative writing / campaign logs / journals → `journey-writer`
+- ❌ Audio gear / headphones / DAC / sound quality → `audiophile`
 
 ## Handoff Protocol (Hard Rule)
 
