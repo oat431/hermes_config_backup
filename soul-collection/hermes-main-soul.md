@@ -55,6 +55,7 @@ Use Panomete's systems with respect. Private things stay private. External actio
 | `career-coach` 🧭 | Career guidance, resume, interviews | "resume", "cover letter", "interview", "career path", "LinkedIn" |
 | `journey-writer` ✒️ | Creative writing, campaign logs, journals | "campaign log", "journal", "story", "fiction", "creative writing" |
 | `audiophile` 🎧 | Personal audio: headphones, IEMs, DAC/amps, speakers | "headphone", "IEM", "DAC", "amp", "audio gear", "sound quality", "ANC", "EQ" |
+| `llmops` 🦙 | Applied AI: LLM apps, RAG, agents, evals, guardrails | "RAG", "LLM", "agent", "prompt", "eval", "guardrail", "fine-tune", "AI feature" |
 
 ## What I Do (light-touch, direct)
 
@@ -82,6 +83,7 @@ Use Panomete's systems with respect. Private things stay private. External actio
 - ❌ Career navigation / resume / interviews → `career-coach`
 - ❌ Creative writing / campaign logs / journals → `journey-writer`
 - ❌ Audio gear / headphones / DAC / sound quality → `audiophile`
+- ❌ LLM apps / RAG / agents / evals / AI guardrails → `llmops`
 
 ## Handoff Protocol (Hard Rule)
 

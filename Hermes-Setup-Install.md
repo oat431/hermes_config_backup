@@ -29,23 +29,23 @@ flowchart LR
 
 | Layer | What | Where it lives |
 |---|---|---|
-| Main model | `deepseek-v4-flash-0731` via **alibaba** (QwenCloud Token Plan) | main `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
-| Profile models | `deepseek-v4-flash-0731` via **alibaba** (QwenCloud Token Plan) — same model + provider for all 14 profiles | each profile's `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
+| Main model | `qwen3.8-flash` via **alibaba** (QwenCloud Token Plan) | main `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
+| Profile models | `qwen3.8-flash` via **alibaba** (QwenCloud Token Plan) — same model + provider for all profiles | each profile's `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
 | Search | searxng backend, homelab instance `http://100.73.143.25:7004` (Tailscale) or local Docker | `SEARXNG_URL` in `.env` |
 | MCP | github, postgres, drawio, filesystem, searxng | `mcp_servers` in main + every profile `config.yaml` |
 | Skills | user skills (+ `archived/` old iterations) | `workflow/` in this repo → `%LOCALAPPDATA%\hermes\skills\` |
 | Souls | main soul + 14 profile souls + registry | `soul-collection/` in this repo |
 | Memory | limits 4000 (memory) / 2500 (user profile) chars | main `config.yaml` |
 
-**Model assignment:** every profile + the main agent run `deepseek-v4-flash-0731` via `alibaba` (single uniform default as of 2026-08-29). The 6 models on the QwenCloud Token Plan (swap anytime per-profile):
+**Model assignment:** every profile + the main agent run `qwen3.8-flash` via `alibaba` (single uniform default). The 6 models on the QwenCloud Token Plan:
 
 | Model | Good for |
 |---|---|
+| `qwen3.8-flash` | **default** — fast + capable, good all-rounder |
 | `qwen3.8-max` | strongest Qwen — general/writing |
-| `qwen3.8-flash` | fast Qwen — bulk/light work |
 | `qwen3.7-max` | prior-gen Qwen max |
 | `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
-| `deepseek-v4-flash-0731` | **default** — fast + capable, good all-rounder |
+| `deepseek-v4-flash-0731` | fast DeepSeek — alternative all-rounder |
 | `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
 
 ---
@@ -95,7 +95,7 @@ Everything — the main agent and all 14 profiles — runs on the **QwenCloud To
 
 ```powershell
 hermes config set model.provider alibaba
-hermes config set model.default deepseek-v4-flash-0731
+hermes config set model.default qwen3.8-flash
 ```
 
 Key goes into `%LOCALAPPDATA%\hermes\.env` as:
@@ -113,7 +113,7 @@ Per-profile config block (identical for all 14):
 
 ```yaml
 model:
-  default: deepseek-v4-flash-0731
+  default: qwen3.8-flash
   provider: alibaba
 ```
 
@@ -123,11 +123,11 @@ model:
 
 | Model | Good for |
 |---|---|
+| `qwen3.8-flash` | **default** — fast + capable, good all-rounder |
 | `qwen3.8-max` | strongest Qwen — general/writing |
-| `qwen3.8-flash` | fast Qwen — bulk/light work |
 | `qwen3.7-max` | prior-gen Qwen max |
 | `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
-| `deepseek-v4-flash-0731` | **default** — fast + capable, good all-rounder |
+| `deepseek-v4-flash-0731` | fast DeepSeek — alternative all-rounder |
 | `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
 
 Switch anytime: `hermes -m <model>` per session, or `hermes config set model.default <model>` + `/reset` globally.
@@ -313,7 +313,7 @@ Minimal profile `config.yaml` (this is the whole file — every profile uses the
 
 ```yaml
 model:
-  default: deepseek-v4-flash-0731
+  default: qwen3.8-flash
   provider: alibaba
 ```
 
