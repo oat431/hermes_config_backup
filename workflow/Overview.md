@@ -6,7 +6,7 @@
 
 ---
 
-## Skills Map (22 Main + 58 Profile-Specific)
+## Skills Map (22 Main + 8 shared + 71 Profile-Specific = 101)
 
 ### 📚 PDF & Book Summarization _(in `hermes-main-profile/`)_
 
@@ -69,19 +69,23 @@
 
 Skills created inside individual specialist profiles (not in the main library). Each profile has its own top-level folder in `workflow/`.
 
-| Profile folder | # Skills | Notes |
+| Profile folder | # Skills | New since 2026-08-24 marked ★ |
 |---------|----------|-------|
 | product-owner | 12 | po-requirements-elicitation, go-hexagonal-api, go-backend-api/service, spec-document-elicitation, grill-me-requirements, requirements-to-backlog, project-spec-authoring, knowledge-base-quality-audit, evidence-based-document-audit, privacy-regulatory-research, go-fiber-backend-development |
-| full-stack | 11 | go-fiber-api-server, go-background-scheduler-api-poller, react-vite-spa, spec-driven-design, full-stack-repository-bootstrap, construction-docs, checklist-review, github-pr-qa-followup, interview-prep-coaching, interview-answer-cards, web-research |
-| educator | 10 | curriculum-vault-authoring, educational-content-authoring, career-guidance-authoring, career-path-overlay-authoring, educational-notes-bilingual, multilingual-note-conversion, obsidian-note-authoring, obsidian-vault-restructuring, exercise-authoring, iso-standards-compliance-review |
-| devops | 6 | homelab-infra-audit, homelab-microservice-deployment, keycloak-deployment, keycloak-docker, devops-doc-authoring, release-readiness-audit |
-| qa | 6 | spec-driven-qa-authoring, spec-driven-code-review, github-pr-follow-up-review, checklist-audit, knowledge-vault-audit, obsidian-vault-audit |
-| journey-writer | 3 | campaign-journal, wiki-lore-research, writing-practice-audit |
-| ui-ux | 3 | penpot-mcp, project-spec-docs, nginx-streaming-proxy |
-| career-coach | 2 | career-artifact-prep, career-coaching |
+| full-stack | 13 | go-fiber-api-server, go-background-scheduler-api-poller, react-vite-spa, spec-driven-design, full-stack-repository-bootstrap, construction-docs, checklist-review, github-pr-qa-followup, interview-prep-coaching, interview-answer-cards, web-research, ai-chatbot-grounded-retrieval ★, job-hunting-loop-repo ★ |
+| educator | 11 | curriculum-vault-authoring, educational-content-authoring, career-guidance-authoring, career-path-overlay-authoring, educational-notes-bilingual, multilingual-note-conversion, obsidian-note-authoring, obsidian-vault-restructuring, exercise-authoring, iso-standards-compliance-review, self-learning-course-authoring ★ |
+| devops | 8 | homelab-infra-audit, homelab-microservice-deployment, keycloak-deployment, keycloak-docker, devops-doc-authoring, release-readiness-audit, windows-pc-audit ★, windows-pc-ops ★ |
+| qa | 7 | spec-driven-qa-authoring, spec-driven-code-review, github-pr-follow-up-review, checklist-audit, knowledge-vault-audit, obsidian-vault-audit, knowledge-vault-scaffolding ★ |
+| journey-writer | 4 | campaign-journal, wiki-lore-research, writing-practice-audit, online-profile-cards ★ |
+| ui-ux | 4 | penpot-mcp, project-spec-docs, nginx-streaming-proxy, branding-ci ★ |
+| career-coach | 3 | career-artifact-prep, career-coaching, career-path-vault-authoring ★ |
+| book-summarizer | 2 | narrative-book-summaries ★, research-paper-summaries ★ |
 | gym | 2 | fitness-coaching, weekly-training-review |
 | security-engineer | 2 | security-review-pass, tor-darkweb-exploration |
 | deck | 1 | presentation-design |
+| audiophile | 1 | personal-audio-guidance ★ |
+| data-engineer | 1 | publish-personal-project ★ |
+| financial-advisor · llmops | 0 | souls backed up in `soul-collection/`; no custom skills yet |
 
 **Restore:** copy `workflow/<profile-name>/*` → `%LOCALAPPDATA%\hermes\profiles\<profile-name>\skills\` on a new machine.
 
