@@ -1,6 +1,6 @@
 ---
 title: "Hermes Setup Install"
-tags: [hermes, setup, guide, qwencloud, alibaba, searxng, windows]
+tags: [hermes, setup, guide, xiaomi, mimo, searxng, windows]
 ---
 
 # Hermes Setup Install — Step-by-Step
@@ -29,24 +29,22 @@ flowchart LR
 
 | Layer | What | Where it lives |
 |---|---|---|
-| Main model | `qwen3.8-flash` via **alibaba** (QwenCloud Token Plan) | main `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
-| Profile models | `qwen3.8-flash` via **alibaba** (QwenCloud Token Plan) — same model + provider for all profiles | each profile's `config.yaml` + `DASHSCOPE_API_KEY` in `.env` |
+| Main model | `mimo-v2.6-pro` via **xiaomi** | main `config.yaml` + `XIAOMI_API_KEY` in `.env` |
+| Profile models | `mimo-v2.6-pro` via **xiaomi** — same model + provider for all profiles | each profile's `config.yaml` + `XIAOMI_API_KEY` in `.env` |
 | Search | searxng backend, homelab instance `http://100.73.143.25:7004` (Tailscale) or local Docker | `SEARXNG_URL` in `.env` |
 | MCP | github, postgres, drawio, filesystem, searxng | `mcp_servers` in main + every profile `config.yaml` |
 | Skills | user skills (+ `archived/` old iterations) | `workflow/` in this repo → `%LOCALAPPDATA%\hermes\skills\` |
 | Souls | main soul + 14 profile souls + registry | `soul-collection/` in this repo |
 | Memory | limits 4000 (memory) / 2500 (user profile) chars | main `config.yaml` |
 
-**Model assignment:** every profile + the main agent run `qwen3.8-flash` via `alibaba` (single uniform default). The 6 models on the QwenCloud Token Plan:
+**Model assignment:** every profile + the main agent run `mimo-v2.6-pro` via `xiaomi` (single uniform default). Xiaomi MiMo v2.6 models:
 
 | Model | Good for |
 |---|---|
-| `qwen3.8-flash` | **default** — fast + capable, good all-rounder |
-| `qwen3.8-max` | strongest Qwen — general/writing |
-| `qwen3.7-max` | prior-gen Qwen max |
-| `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
-| `deepseek-v4-flash-0731` | fast DeepSeek — alternative all-rounder |
-| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
+| `mimo-v2.6-pro` | **default** — capable all-rounder |
+| `mimo-v2.6-flash` | fast, lightweight tasks |
+| `mimo-v2.6-pro-ultraspeed` | ultra-low latency |
+| `mimo-v2.5-pro` | previous-gen pro |
 
 ---
 
@@ -89,46 +87,41 @@ hermes --version
 
 ---
 
-## Step 2 — Model provider (QwenCloud Token Plan, single provider)
+## Step 2 — Model provider (Xiaomi MiMo v2.6, single provider)
 
-Everything — the main agent and all 14 profiles — runs on the **QwenCloud Token Plan** (Alibaba), `provider: alibaba`. One key covers every agent.
+Everything — the main agent and all 16 profiles — runs on **Xiaomi MiMo v2.6**, `provider: xiaomi`. One key covers every agent.
 
-```powershell
-hermes config set model.provider alibaba
-hermes config set model.default qwen3.8-flash
+```bash
+hermes config set model.provider xiaomi
+hermes config set model.default mimo-v2.6-pro
 ```
 
 Key goes into `%LOCALAPPDATA%\hermes\.env` as:
 
 ```ini
-DASHSCOPE_API_KEY=<your-qwencloud-token-plan-key>
-# Token-plan endpoint (Anthropic-protocol gateway). Set this so the alibaba
-# provider hits the token plan, not the default OpenAI-compatible DashScope URL:
-DASHSCOPE_BASE_URL=https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic
+XIAOMI_API_KEY=<your-xiaomi-api-key>
 ```
 
-> ⚠️ **`DASHSCOPE_BASE_URL` is required.** The `alibaba` provider defaults to the OpenAI-compatible `dashscope-intl.aliyuncs.com/compatible-mode/v1`, but your Token Plan key only works against the Anthropic-protocol token-plan gateway. Every profile's `.env` needs both `DASHSCOPE_API_KEY` and `DASHSCOPE_BASE_URL` — they are **not** inherited from the main `.env`.
+> ⚠️ **Xiaomi API key** is stored in `auth.json` (credential_pool) or `.env` as `XIAOMI_API_KEY`. The provider resolves its own base_url (`https://api.xiaomimimo.com/v1`) — no per-profile `.env` needed for xiaomi.
 
 Per-profile config block (identical for all 14):
 
 ```yaml
 model:
-  default: qwen3.8-flash
-  provider: alibaba
+  default: mimo-v2.6-pro
+  provider: xiaomi
 ```
 
-> ⚠️ **Protocol rule:** `provider` decides which API protocol Hermes speaks; `base_url` decides where requests go. Don't leave a stale `base_url` pointing at z.ai / DeepSeek / OpenRouter in a profile that now uses `alibaba` — you'll get protocol errors. If `base_url` is unset in `config.yaml`, the provider resolves it from `DASHSCOPE_BASE_URL` (recommended — don't set `base_url` per-profile).
+> ⚠️ **Protocol rule:** `provider` decides which API protocol Hermes speaks; `base_url` decides where requests go. Don't leave a stale `base_url` pointing at z.ai / DeepSeek / OpenRouter / alibaba in a profile that now uses `xiaomi` — you'll get protocol errors. If `base_url` is unset in `config.yaml`, the provider resolves its own default endpoint (recommended — don't set `base_url` per-profile).
 
-**Model quick-picks (all 6 on the token plan):**
+**Model quick-picks (Xiaomi MiMo v2.6):**
 
 | Model | Good for |
 |---|---|
-| `qwen3.8-flash` | **default** — fast + capable, good all-rounder |
-| `qwen3.8-max` | strongest Qwen — general/writing |
-| `qwen3.7-max` | prior-gen Qwen max |
-| `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
-| `deepseek-v4-flash-0731` | fast DeepSeek — alternative all-rounder |
-| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
+| `mimo-v2.6-pro` | **default** — capable all-rounder |
+| `mimo-v2.6-flash` | fast, lightweight tasks |
+| `mimo-v2.6-pro-ultraspeed` | ultra-low latency |
+| `mimo-v2.5-pro` | previous-gen pro |
 
 Switch anytime: `hermes -m <model>` per session, or `hermes config set model.default <model>` + `/reset` globally.
 
@@ -313,8 +306,8 @@ Minimal profile `config.yaml` (this is the whole file — every profile uses the
 
 ```yaml
 model:
-  default: qwen3.8-flash
-  provider: alibaba
+  default: mimo-v2.6-pro
+  provider: xiaomi
 ```
 
 > MCP servers are **per-profile config**, not inherited from the main config — to give a profile MCP, copy the `mcp_servers` block from Step 8 into its `config.yaml` too (that's how the current machine does it: all profiles carry the block).
