@@ -1,5 +1,5 @@
 ---
-name: md-project-document-templates
+name: md-project-document_templates
 description: Create markdown (.md) project document templates from Body of Knowledge (BOK) standards. Covers BABOK, PMBOK, SWEBOK, SEBOK, CyBOK, DMBOK, UX/UI. Use when building structured project documentation in markdown instead of docx/xlsx.
 triggers:
   - project document template

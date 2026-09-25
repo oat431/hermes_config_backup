@@ -89,7 +89,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 - `08_Software_Configuration_Management\Version Control\` — branching/merge/release management
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\`
+`F:\obsidian_note\document_template\`
 - `16_Deployment_and_Operations\` — CI/CD Pipeline, Deployment Plan, Release Notes, Runbook, Capacity Plan, DR Plan, Incident Management Process, Infrastructure-as-Code, Monitoring Dashboard Spec, Operational KPIs, Rollback Plan, SLA, SLO/SLI Definitions, Container Configurations
 - `14_Security\` — DevSecOps Pipeline, SAST/DAST/SCA Reports, Incident Response Plan, Security Architecture, Access Control Policy
 - `19_Configuration_Management\` — SCMP, Baseline Records, Version Description Document
@@ -159,38 +159,38 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| SLO / SLI Definitions | `document-template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` | Heavy |
-| CI/CD Pipeline Configuration | `document-template\16_Deployment_and_Operations\CI-CD-Pipeline-Configuration.md` | Heavy |
-| Deployment Plan | `document-template\16_Deployment_and_Operations\Deployment-Plan.md` | Heavy |
-| Release Notes | `document-template\16_Deployment_and_Operations\Release-Notes.md` | Light |
-| Infrastructure-as-Code | `document-template\16_Deployment_and_Operations\Infrastructure-as-Code.md` | Heavy |
-| DevSecOps Pipeline Config | `document-template\14_Security\DevSecOps-Pipeline-Configuration.md` | Med |
+| SLO / SLI Definitions | `document_template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` | Heavy |
+| CI/CD Pipeline Configuration | `document_template\16_Deployment_and_Operations\CI-CD-Pipeline-Configuration.md` | Heavy |
+| Deployment Plan | `document_template\16_Deployment_and_Operations\Deployment-Plan.md` | Heavy |
+| Release Notes | `document_template\16_Deployment_and_Operations\Release-Notes.md` | Light |
+| Infrastructure-as-Code | `document_template\16_Deployment_and_Operations\Infrastructure-as-Code.md` | Heavy |
+| DevSecOps Pipeline Config | `document_template\14_Security\DevSecOps-Pipeline-Configuration.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
 | Error Budget Policy | part of `SLO-SLI-Definitions.md` (negotiated with PO) | Med |
-| Runbook (Operations Manual) | `document-template\16_Deployment_and_Operations\Operations-Manual-Runbook.md` | Heavy |
-| Rollback Plan | `document-template\16_Deployment_and_Operations\Rollback-Plan.md` | Med |
-| Disaster Recovery Plan | `document-template\16_Deployment_and_Operations\Disaster-Recovery-Plan.md` | Heavy |
-| Backup & Recovery Plan | `document-template\15_Data_Management\Backup-Recovery-Plan.md` | Med |
-| Incident Management Process | `document-template\16_Deployment_and_Operations\Incident-Management-Process.md` | Med |
-| Monitoring Dashboard Spec | `document-template\16_Deployment_and_Operations\Monitoring-Dashboard-Spec.md` | Med |
-| Capacity Plan | `document-template\16_Deployment_and_Operations\Capacity-Plan.md` | Med |
-| Load / Performance Test Report | `document-template\13_Testing_and_Verification\Performance-Test-Report.md` | Med |
-| Risk Register (ops risks) | `document-template\05_Project_Management_Planning\Risk-Register.md` | Med |
+| Runbook (Operations Manual) | `document_template\16_Deployment_and_Operations\Operations-Manual-Runbook.md` | Heavy |
+| Rollback Plan | `document_template\16_Deployment_and_Operations\Rollback-Plan.md` | Med |
+| Disaster Recovery Plan | `document_template\16_Deployment_and_Operations\Disaster-Recovery-Plan.md` | Heavy |
+| Backup & Recovery Plan | `document_template\15_Data_Management\Backup-Recovery-Plan.md` | Med |
+| Incident Management Process | `document_template\16_Deployment_and_Operations\Incident-Management-Process.md` | Med |
+| Monitoring Dashboard Spec | `document_template\16_Deployment_and_Operations\Monitoring-Dashboard-Spec.md` | Med |
+| Capacity Plan | `document_template\16_Deployment_and_Operations\Capacity-Plan.md` | Med |
+| Load / Performance Test Report | `document_template\13_Testing_and_Verification\Performance-Test-Report.md` | Med |
+| Risk Register (ops risks) | `document_template\05_Project_Management_Planning\Risk-Register.md` | Med |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| SLA | `document-template\16_Deployment_and_Operations\SLA.md` |
-| Operational KPIs Report | `document-template\16_Deployment_and_Operations\Operational-KPIs-Report.md` |
-| SAST / DAST / SCA Reports | `document-template\14_Security\SAST-Report.md` / `DAST-Report.md` / `SCA-Report.md` |
-| Incident Response Plan | `document-template\14_Security\Incident-Response-Plan.md` |
-| Security Architecture | `document-template\14_Security\Security-Architecture.md` |
-| SCMP / Baseline Records | `document-template\19_Configuration_Management\` |
+| SLA | `document_template\16_Deployment_and_Operations\SLA.md` |
+| Operational KPIs Report | `document_template\16_Deployment_and_Operations\Operational-KPIs-Report.md` |
+| SAST / DAST / SCA Reports | `document_template\14_Security\SAST-Report.md` / `DAST-Report.md` / `SCA-Report.md` |
+| Incident Response Plan | `document_template\14_Security\Incident-Response-Plan.md` |
+| Security Architecture | `document_template\14_Security\Security-Architecture.md` |
+| SCMP / Baseline Records | `document_template\19_Configuration_Management\` |
 | Platform Service Catalog / Golden Paths | handcrafted (no template yet) — propose one |
-| Technical Debt Register (ops toil) | `document-template\17_Maintenance_and_Support\Technical-Debt-Register.md` |
+| Technical Debt Register (ops toil) | `document_template\17_Maintenance_and_Support\Technical-Debt-Register.md` |
 
 ## Document Handoff Protocol
 
@@ -271,5 +271,5 @@ Before releasing anything:
 ---
 
 > **Curriculum:** SRE & Platform Engineer path (6 capability areas) + Senior SWE foundation (9 areas) + SWEBOK / CyBOK / PMBOK / SEBoK (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\`
+> **Templates:** `F:\obsidian_note\document_template\`
 > **Profile:** Senior DevOps / SRE / Platform Engineer — reliability, delivery automation, and developer platform (mid-size orgs, 5–50 devs, Agile/Lean)

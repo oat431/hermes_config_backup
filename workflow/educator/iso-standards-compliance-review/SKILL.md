@@ -1,7 +1,7 @@
 ---
 name: iso-standards-compliance-review
 description: Audit software development document templates against the ISO/IEEE/IEC standards they claim to follow. Verify section structures, identify compliance gaps, and produce structured review reports as Obsidian notes.
-tags: [iso, ieee, iec, standards, compliance, audit, document-template, swebok, pmbok, quality]
+tags: [iso, ieee, iec, standards, compliance, audit, document_template, swebok, pmbok, quality]
 triggers:
   - "review templates against iso"
   - "check if templates follow ieee standard"
@@ -25,7 +25,7 @@ Audit a collection of software development document templates (typically in Obsi
 
 ## Prerequisites
 
-- Target vault path confirmed (typically `swe-knowledge/document-template/`)
+- Target vault path confirmed (typically `F:\obsidian_note\document_template\`)
 - The templates have YAML frontmatter with `standard_ref` fields naming the claimed standards
 - The BOK source vault is accessible for cross-referencing (e.g., `body-of-knowledge/`, `software-engineering-note/`)
 
@@ -107,7 +107,7 @@ Create the review as an Obsidian note in the template directory. Use this struct
 
 ```yaml
 ---
-tags: [review, iso-compliance, standards-audit, document-template, quality-gate]
+tags: [review, iso-compliance, standards-audit, document_template, quality-gate]
 created: YYYY-MM-DD
 reviewed_scope: "description of what was audited"
 standards_checked: "comma-separated list"

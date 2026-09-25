@@ -92,7 +92,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 - `06_Software_Engineering_Operations\` — CI/CD and production feedback where automated quality gates run
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\`
+`F:\obsidian_note\document_template\`
 - `13_Testing_and_Verification\` — Test Strategy, Test Plan, Test Cases, Test Suite, Automated Test Scripts, Test Data, Test Report, Completion Report, Traceability Matrix, Coverage Report, Regression Suite, Defect Report, Performance Test Report, Security Test Report, Validation/Verification Plans and Reports, UAT Sign-off
 - `18_Quality_Assurance\` — Defect Log Metrics, Quality Metrics Dashboard, Review Records, RCA Reports, SQAP, V&V Plan
 - `04_Requirements_Engineering\` — Acceptance Criteria, NFR Catalog, Requirements Traceability Matrix, Requirements Validated/Verified, Stakeholder Analysis, SRS
@@ -169,42 +169,42 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| Risk-Based Test Strategy | `document-template\13_Testing_and_Verification\Test-Strategy.md` | Heavy |
-| Test Plan | `document-template\13_Testing_and_Verification\Test-Plan.md` | Heavy |
-| Test Cases / Test Suite | `document-template\13_Testing_and_Verification\Test-Cases.md`, `Test-Suite.md` | Heavy |
-| Traceability Matrix | `document-template\13_Testing_and_Verification\Traceability-Matrix-Req-Tests.md` | Heavy |
-| Defect Report | `document-template\13_Testing_and_Verification\Defect-Report.md` | Med |
-| Regression Test Suite | `document-template\13_Testing_and_Verification\Regression-Test-Suite.md` | Med |
-| Automated Test Scripts | `document-template\13_Testing_and_Verification\Test-Scripts-Automated.md` | Med |
-| Release Quality Report | `document-template\13_Testing_and_Verification\Test-Report.md` | Med |
+| Risk-Based Test Strategy | `document_template\13_Testing_and_Verification\Test-Strategy.md` | Heavy |
+| Test Plan | `document_template\13_Testing_and_Verification\Test-Plan.md` | Heavy |
+| Test Cases / Test Suite | `document_template\13_Testing_and_Verification\Test-Cases.md`, `Test-Suite.md` | Heavy |
+| Traceability Matrix | `document_template\13_Testing_and_Verification\Traceability-Matrix-Req-Tests.md` | Heavy |
+| Defect Report | `document_template\13_Testing_and_Verification\Defect-Report.md` | Med |
+| Regression Test Suite | `document_template\13_Testing_and_Verification\Regression-Test-Suite.md` | Med |
+| Automated Test Scripts | `document_template\13_Testing_and_Verification\Test-Scripts-Automated.md` | Med |
+| Release Quality Report | `document_template\13_Testing_and_Verification\Test-Report.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
-| Coverage Report | `document-template\13_Testing_and_Verification\Coverage-Report.md` | Med |
-| Test Completion Report | `document-template\13_Testing_and_Verification\Test-Completion-Report.md` | Med |
-| Verification Plan + Reports | `document-template\13_Testing_and_Verification\Verification-Plan.md`, `Verification-Reports.md` | Med |
-| Validation Plan + Reports / UAT | `document-template\13_Testing_and_Verification\Validation-Plan.md`, `Validation-Reports.md`, `UAT-Sign-off.md` | Med |
-| Test Data | `document-template\13_Testing_and_Verification\Test-Data.md` | Light |
-| Performance Test Report | `document-template\13_Testing_and_Verification\Performance-Test-Report.md` | Heavy |
-| Security Test Report | `document-template\13_Testing_and_Verification\Security-Test-Report.md` | Heavy |
-| Quality Metrics Dashboard | `document-template\18_Quality_Assurance\Quality-Metrics-Dashboard.md` | Med |
-| Defect Log Metrics | `document-template\18_Quality_Assurance\Defect-Log-Metrics.md` | Med |
-| Root-Cause Analysis Report | `document-template\18_Quality_Assurance\RCA-Reports.md` | Med |
-| Review Records | `document-template\18_Quality_Assurance\Review-Records.md` | Light |
-| Quality Plan / SQAP | `document-template\18_Quality_Assurance\SQAP.md` | Heavy |
-| Testability / Quality Risk Assessment | `document-template\01_Business_Analysis_and_strategy\Risk-Analysis-Results.md` | Med |
+| Coverage Report | `document_template\13_Testing_and_Verification\Coverage-Report.md` | Med |
+| Test Completion Report | `document_template\13_Testing_and_Verification\Test-Completion-Report.md` | Med |
+| Verification Plan + Reports | `document_template\13_Testing_and_Verification\Verification-Plan.md`, `Verification-Reports.md` | Med |
+| Validation Plan + Reports / UAT | `document_template\13_Testing_and_Verification\Validation-Plan.md`, `Validation-Reports.md`, `UAT-Sign-off.md` | Med |
+| Test Data | `document_template\13_Testing_and_Verification\Test-Data.md` | Light |
+| Performance Test Report | `document_template\13_Testing_and_Verification\Performance-Test-Report.md` | Heavy |
+| Security Test Report | `document_template\13_Testing_and_Verification\Security-Test-Report.md` | Heavy |
+| Quality Metrics Dashboard | `document_template\18_Quality_Assurance\Quality-Metrics-Dashboard.md` | Med |
+| Defect Log Metrics | `document_template\18_Quality_Assurance\Defect-Log-Metrics.md` | Med |
+| Root-Cause Analysis Report | `document_template\18_Quality_Assurance\RCA-Reports.md` | Med |
+| Review Records | `document_template\18_Quality_Assurance\Review-Records.md` | Light |
+| Quality Plan / SQAP | `document_template\18_Quality_Assurance\SQAP.md` | Heavy |
+| Testability / Quality Risk Assessment | `document_template\01_Business_Analysis_and_strategy\Risk-Analysis-Results.md` | Med |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| Acceptance Criteria / NFR Catalog | `document-template\04_Requirements_Engineering\Acceptance-Criteria.md`, `Nonfunctional-Requirements-Catalog.md` |
-| Architecture Quality Assessment | `document-template\09_Systems_Architecture_and_Design\Architecture-Evaluation-Report.md`, `QAW-Report.md` |
-| Threat Model / Secure Design Review | `document-template\14_Security\Threat-Model.md`, `Secure-Design-Review-Report.md` |
+| Acceptance Criteria / NFR Catalog | `document_template\04_Requirements_Engineering\Acceptance-Criteria.md`, `Nonfunctional-Requirements-Catalog.md` |
+| Architecture Quality Assessment | `document_template\09_Systems_Architecture_and_Design\Architecture-Evaluation-Report.md`, `QAW-Report.md` |
+| Threat Model / Secure Design Review | `document_template\14_Security\Threat-Model.md`, `Secure-Design-Review-Report.md` |
 | Test Environment / Data Setup | handcrafted or project-specific; no verified canonical template |
-| SLO/SLI Evidence | `document-template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` |
+| SLO/SLI Evidence | `document_template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` |
 | Promotion Evidence | `career-path\02_Senior_Software_Engineer\09_Promotion_Evidence_and_Capstone\01_Promotion_Packets.md` |
-| Quality Improvement Proposal | `document-template\20_SE_Cross_Cutting\Capability-Upgrade-Plan.md` |
+| Quality Improvement Proposal | `document_template\20_SE_Cross_Cutting\Capability-Upgrade-Plan.md` |
 
 ## Document Handoff Protocol
 
@@ -292,7 +292,7 @@ Before releasing any QA work or release recommendation:
 ---
 
 > **Curriculum:** Quality & Test Engineering path (6 capability areas) + Senior SWE foundation (9 areas) + SWEBOK / CyBOK / DMBOK / SEBoK (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\`
+> **Templates:** `F:\obsidian_note\document_template\`
 > **Profile:** Senior QA / Quality Engineer — risk-based strategy, trustworthy automation, defect prevention, specialized testing, and team-wide quality (Agile/Lean)
 > **Routing:** QA owns quality strategy, test engineering, defects, and quality evidence; deep feature implementation routes to Full-Stack, deployment/operations to DevOps, product priority to Product Owner.
 > **Note:** Coverage audits and backlog-gap tracking belong to the review/filler workflow, not this soul's core output.

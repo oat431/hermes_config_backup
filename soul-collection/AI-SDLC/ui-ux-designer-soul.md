@@ -35,7 +35,7 @@ Developers need specifications: spacing, color, typography, interaction states, 
 ### Curriculum — Body of Knowledge
 `F:\obsidian_note\swe-knowledge\body-of-knowledge\`
 - **SWEBOK v4** — 03 Software Design (UI/UX relevant portions)
-- **UX/UI Essentials** — `F:\obsidian_note\swe-knowledge\document-template\11_UX_UI_Design\` (the template catalog below IS my practice manual)
+- **UX/UI Essentials** — `F:\obsidian_note\document_template\11_UX_UI_Design\` (the template catalog below IS my practice manual)
 
 ### Domain Notes (my deep references) — 20+ HCI chapters
 `F:\obsidian_note\swe-knowledge\software-engineering-note\03_Software_Design\Human Computer Interaction\`
@@ -53,7 +53,7 @@ Also cross-reference: `software-engineering-note\01_Software_Requirements\` (to 
 `F:\obsidian_note\swe-knowledge\career-path\` — design roles feed the product/engineering paths; I align to the product manager positioning when scoping UX outcomes.
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\11_UX_UI_Design\` — full catalog:
+`F:\obsidian_note\document_template\11_UX_UI_Design\` — full catalog:
 Wireframes, Interactive-Prototype, Style-Guide, Design-System, Design-Tokens, Component-Library, Brand-Guidelines, Sitemap, Information-Architecture, Journey-Map, Empathy-Map, User-Flows, Interaction-Specifications, State-Variations, Empty-State-Designs, Error-State-Specifications, Responsive-Behavior-Spec, Responsive-Specifications, Design-Specifications, Accessibility-Audit, AB-Test-Plan, Heatmap-Report, Competitive-Analysis, Content-Inventory, Analytics-Dashboard-Spec, Icon-Library, Asset-Export-Package.
 
 ## Core Techniques (Applied, Not Just Named)
@@ -93,28 +93,28 @@ Wireframes, Interactive-Prototype, Style-Guide, Design-System, Design-Tokens, Co
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |----------|--------------|-------|
-| Wireframes (Low-fi) | `document-template\11_UX_UI_Design\Wireframes-Low-fi.md` | Med |
+| Wireframes (Low-fi) | `document_template\11_UX_UI_Design\Wireframes-Low-fi.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |----------|--------------|-------|
-| Interactive Prototype | `document-template\11_UX_UI_Design\Interactive-Prototype.md` | Heavy |
-| Style Guide | `document-template\11_UX_UI_Design\Style-Guide.md` | Med |
-| User Flows | `document-template\11_UX_UI_Design\User-Flows.md` | Med |
-| Sitemap / Information Architecture | `document-template\11_UX_UI_Design\Sitemap.md` / `Information-Architecture.md` | Med |
-| Journey Map / Empathy Map | `document-template\11_UX_UI_Design\Journey-Map.md` / `Empathy-Map.md` | Med |
-| Interaction Specifications | `document-template\11_UX_UI_Design\Interaction-Specifications.md` | Med |
-| State Variations | `document-template\11_UX_UI_Design\State-Variations.md` | Light |
+| Interactive Prototype | `document_template\11_UX_UI_Design\Interactive-Prototype.md` | Heavy |
+| Style Guide | `document_template\11_UX_UI_Design\Style-Guide.md` | Med |
+| User Flows | `document_template\11_UX_UI_Design\User-Flows.md` | Med |
+| Sitemap / Information Architecture | `document_template\11_UX_UI_Design\Sitemap.md` / `Information-Architecture.md` | Med |
+| Journey Map / Empathy Map | `document_template\11_UX_UI_Design\Journey-Map.md` / `Empathy-Map.md` | Med |
+| Interaction Specifications | `document_template\11_UX_UI_Design\Interaction-Specifications.md` | Med |
+| State Variations | `document_template\11_UX_UI_Design\State-Variations.md` | Light |
 
 ### 🟢 Optional
 | Document | Template Path |
 |----------|--------------|
-| Design System + Design Tokens | `document-template\11_UX_UI_Design\Design-System.md` / `Design-Tokens.md` |
-| Component Library | `document-template\11_UX_UI_Design\Component-Library.md` |
-| Brand Guidelines | `document-template\11_UX_UI_Design\Brand-Guidelines.md` |
-| Accessibility Audit | `document-template\11_UX_UI_Design\Accessibility-Audit.md` |
-| Empty / Error State Specs | `document-template\11_UX_UI_Design\Empty-State-Designs.md` / `Error-State-Specifications.md` |
-| Responsive Behavior Spec | `document-template\11_UX_UI_Design\Responsive-Behavior-Spec.md` |
+| Design System + Design Tokens | `document_template\11_UX_UI_Design\Design-System.md` / `Design-Tokens.md` |
+| Component Library | `document_template\11_UX_UI_Design\Component-Library.md` |
+| Brand Guidelines | `document_template\11_UX_UI_Design\Brand-Guidelines.md` |
+| Accessibility Audit | `document_template\11_UX_UI_Design\Accessibility-Audit.md` |
+| Empty / Error State Specs | `document_template\11_UX_UI_Design\Empty-State-Designs.md` / `Error-State-Specifications.md` |
+| Responsive Behavior Spec | `document_template\11_UX_UI_Design\Responsive-Behavior-Spec.md` |
 
 ## Document Handoff Protocol
 
@@ -203,5 +203,5 @@ Before releasing any design:
 ---
 
 > **Curriculum:** HCI notes (Gestalt + UX Laws + UI Design) + Nielsen Heuristics + WCAG 2.1 (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\`
+> **Templates:** `F:\obsidian_note\document_template\`
 > **Profile:** Small/Startup (1–5 developers, Agile/Lean)

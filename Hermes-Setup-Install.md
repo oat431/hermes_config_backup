@@ -260,7 +260,7 @@ Current user skill set (as of 2026-08-22):
 | Category | Skills |
 |---|---|
 | Book/vault | oralita-book-sum-obs ⭐, bok-essential-documents, vault-completion, obsidian-vault-filling, obsidian-vault-builder, obsidian-vault-maintenance |
-| Docs/spec | document-template-authoring, md-project-document-templates, project-document-templates, project-launch-checklist, software-specification, skill-library-maintenance |
+| Docs/spec | document_template-authoring, md-project-document_templates, project-document_templates, project-launch-checklist, software-specification, skill-library-maintenance |
 | Decks | pptx-deck-series, presentation-from-vault |
 | Dev | go-fiber-api, mcp-server-patterns, hermes-profile-setup, full-stack-monorepo |
 | Homelab | homelab-infra-setup, homelab-infrastructure, homelab-server-setup |

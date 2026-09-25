@@ -86,7 +86,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → growth: `02_Se
 | Algorithms & Data Structures | `F:\obsidian_note\swe-knowledge\computing-foundation-note\Algorithm\`, `Algorithm_advance\` | Med |
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\`
+`F:\obsidian_note\document_template\`
 - `01_Business_Analysis_and_strategy\` — Business Case, Current/Future State, Gap Analysis, Solution Recommendation
 - `04_Requirements_Engineering\` — SRS, Stakeholder Analysis, Acceptance Criteria, NFR Catalog, Assumption Log
 - `05_Project_Management_Planning\` — Risk Register, Basis of Estimates, RACI, Milestone List, Communications Plan
@@ -168,39 +168,39 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → growth: `02_Se
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| Problem Statement + Stakeholder Analysis | `document-template\01_Business_Analysis_and_strategy\Current-State-Description.md`, `04_Requirements_Engineering\Stakeholder-Analysis.md` | Heavy |
-| ADR | `document-template\09_Systems_Architecture_and_Design\Architecture-Decision-Records.md` | Heavy |
+| Problem Statement + Stakeholder Analysis | `document_template\01_Business_Analysis_and_strategy\Current-State-Description.md`, `04_Requirements_Engineering\Stakeholder-Analysis.md` | Heavy |
+| ADR | `document_template\09_Systems_Architecture_and_Design\Architecture-Decision-Records.md` | Heavy |
 | Source Code + Unit Tests | codebase | — |
-| API Specification (OpenAPI) | `document-template\10_Software_Design\API-Specification.md` | Heavy |
-| Database Schema DDL | `document-template\10_Software_Design\Database-Schema-DDL.md` | Heavy |
-| Test Strategy | `document-template\13_Testing_and_Verification\Test-Strategy.md` | Med |
-| SLO/SLI Definitions | `document-template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` | Med |
-| Deployment Plan + Runbook | `document-template\16_Deployment_and_Operations\Deployment-Plan.md`, `Operations-Manual-Runbook.md` | Med |
-| Risk Register | `document-template\05_Project_Management_Planning\Risk-Register.md` | Med |
-| README / Developer Guide | `document-template\12_Construction\README-Developer-Guide.md` | Med |
+| API Specification (OpenAPI) | `document_template\10_Software_Design\API-Specification.md` | Heavy |
+| Database Schema DDL | `document_template\10_Software_Design\Database-Schema-DDL.md` | Heavy |
+| Test Strategy | `document_template\13_Testing_and_Verification\Test-Strategy.md` | Med |
+| SLO/SLI Definitions | `document_template\16_Deployment_and_Operations\SLO-SLI-Definitions.md` | Med |
+| Deployment Plan + Runbook | `document_template\16_Deployment_and_Operations\Deployment-Plan.md`, `Operations-Manual-Runbook.md` | Med |
+| Risk Register | `document_template\05_Project_Management_Planning\Risk-Register.md` | Med |
+| README / Developer Guide | `document_template\12_Construction\README-Developer-Guide.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
-| Business Case | `document-template\01_Business_Analysis_and_strategy\Business-Case.md` | Med |
-| Software Architecture Document | `document-template\09_Systems_Architecture_and_Design\Software-Architecture-Document.md` | Heavy |
-| Architecture Evaluation (ATAM) | `document-template\09_Systems_Architecture_and_Design\Architecture-Evaluation-Report.md` | Heavy |
-| ERD | `document-template\10_Software_Design\ERD.md` | Med |
-| Incident Review / RCA | `document-template\18_Quality_Assurance\RCA-Reports.md` | Med |
-| Technical Debt Register | `document-template\17_Maintenance_and_Support\Technical-Debt-Register.md` | Med |
-| CI/CD + DevSecOps Config | `document-template\16_Deployment_and_Operations\CI-CD-Pipeline-Configuration.md`, `14_Security\DevSecOps-Pipeline-Configuration.md` | Med |
+| Business Case | `document_template\01_Business_Analysis_and_strategy\Business-Case.md` | Med |
+| Software Architecture Document | `document_template\09_Systems_Architecture_and_Design\Software-Architecture-Document.md` | Heavy |
+| Architecture Evaluation (ATAM) | `document_template\09_Systems_Architecture_and_Design\Architecture-Evaluation-Report.md` | Heavy |
+| ERD | `document_template\10_Software_Design\ERD.md` | Med |
+| Incident Review / RCA | `document_template\18_Quality_Assurance\RCA-Reports.md` | Med |
+| Technical Debt Register | `document_template\17_Maintenance_and_Support\Technical-Debt-Register.md` | Med |
+| CI/CD + DevSecOps Config | `document_template\16_Deployment_and_Operations\CI-CD-Pipeline-Configuration.md`, `14_Security\DevSecOps-Pipeline-Configuration.md` | Med |
 | Mentoring / Development Plan | handcrafted | Light |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| Trade-Study Reports | `document-template\09_Systems_Architecture_and_Design\Trade-Study-Reports.md` |
-| QAW Report | `document-template\09_Systems_Architecture_and_Design\QAW-Report.md` |
-| SBOM | `document-template\12_Construction\SBOM.md` |
-| Design Rationale | `document-template\10_Software_Design\Design-Rationale.md` |
-| Code Review Records | `document-template\12_Construction\Code-Review-Records.md` |
-| SAST / DAST / SCA Reports | `document-template\14_Security\` |
-| SCMP | `document-template\19_Configuration_Management\SCMP.md` |
+| Trade-Study Reports | `document_template\09_Systems_Architecture_and_Design\Trade-Study-Reports.md` |
+| QAW Report | `document_template\09_Systems_Architecture_and_Design\QAW-Report.md` |
+| SBOM | `document_template\12_Construction\SBOM.md` |
+| Design Rationale | `document_template\10_Software_Design\Design-Rationale.md` |
+| Code Review Records | `document_template\12_Construction\Code-Review-Records.md` |
+| SAST / DAST / SCA Reports | `document_template\14_Security\` |
+| SCMP | `document_template\19_Configuration_Management\SCMP.md` |
 | Promotion Packet (evidence of impact) | `career-path\02_Senior_Software_Engineer\09_Promotion_Evidence_and_Capstone\01_Promotion_Packets.md` |
 
 ## Document Handoff Protocol
@@ -298,5 +298,5 @@ Before releasing any work:
 ---
 
 > **Curriculum:** Senior SWE career path (9 capability areas) + SWEBOK / SEBoK / BABOK / PMBOK / CyBOK (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\`
+> **Templates:** `F:\obsidian_note\document_template\`
 > **Profile:** Senior full-stack engineer — outcomes, reliability, economics, and team growth (1–15 devs, Agile/Lean)

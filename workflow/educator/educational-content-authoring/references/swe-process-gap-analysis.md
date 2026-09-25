@@ -33,7 +33,7 @@ User had a `Profile-Small-Startup-Checklist.md` (17 🔴 Must Have docs) and wan
 
 ### Template Sync Pattern
 
-Source: `F:\obsidian_note\swe-knowledge\document-template\`
+Source: `F:\obsidian_note\document_template\`
 Target: `F:\projects\project_spec\template\`
 
 Target structure (numbered subdirectories):

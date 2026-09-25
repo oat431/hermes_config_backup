@@ -317,7 +317,7 @@ When this change is approved, update the existing requirements, acceptance crite
 
 ## Auditing Essential-Document Catalogs
 
-When auditing a document-template or Essential Documents library against multiple BOKs and a completed knowledge vault, treat the task as a **catalog-and-tailoring audit**, not as a hunt for more filenames.
+When auditing a document_template or Essential Documents library against multiple BOKs and a completed knowledge vault, treat the task as a **catalog-and-tailoring audit**, not as a hunt for more filenames.
 
 1. **Inventory before judging.** Read every file in the target folder, count source rows/profile rows, inspect headings, and verify both internal wikilinks and literal source paths. Use the actual local vault path as the source of truth; do not trust stale paths written in old banners.
 2. **Build a cross-source map.** Compare the catalog with the BOK overview/chapter outputs and the user's completed notes. Track each candidate as one of: artifact, plan, baseline, register/log, report, review/approval record, model/diagram, generated/tool output, technique, or organizational/regulatory evidence.

@@ -1,5 +1,5 @@
 ---
-name: project-document-templates
+name: project-document_templates
 description: Create markdown (.md) templates for project documents (Business Case, SRS, Test Plan, etc.) based on BOK standards (SWEBOK, PMBOK, BABOK, SEBOK, CyBOK, DMBOK, UX/UI). Produces fill-in-the-blank templates with YAML frontmatter, structured tables, and placeholder conventions. Also handles building master checklists consolidating documents across multiple BOKs.
 version: 1.0.0
 author: Hermes Agent

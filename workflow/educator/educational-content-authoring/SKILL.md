@@ -454,7 +454,7 @@ The overlay answers: **how does a senior technical professional connect technica
 
 ### Phase 1: Inventory Before Recommending a New BOK
 
-1. Scan the existing BOK root, target technical-note root, foundations, checklists, and document-template library.
+1. Scan the existing BOK root, target technical-note root, foundations, checklists, and document_template library.
 2. Count files and inspect representative file sizes. Do not rely on stale overview claims.
 3. Read the top-level BOK index, the target technical-note index, and the relevant framework overviews.
 4. Search for adjacent coverage such as leadership, product management, enterprise architecture, service management, procurement, finance, organizational change, and technical program management.
@@ -555,7 +555,7 @@ Every major domain should end with something the learner can create. Prefer arti
 - Benefits-realization review
 - Retrospective with evidence
 
-Use existing `document-template` files when they exist. Do not create duplicate templates merely because the new BOK has a new name.
+Use existing `document_template` files when they exist. Do not create duplicate templates merely because the new BOK has a new name.
 
 ### Phase 7: Create a Cross-BOK Capstone
 

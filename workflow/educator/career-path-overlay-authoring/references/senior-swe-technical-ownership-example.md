@@ -47,7 +47,7 @@
 | Technical Debt | [[software-engineering-note/07_Software_Maintenance/07_Maintenance_Fundamentals]] |
 | Production Responsibility | [[software-engineering-note/06_Software_Engineering_Operations/08_Service_Operations_and_Support]] |
 | Decision Ownership | [[software-engineering-note/02_Software_Architecture/09_Evaluation_and_Governance]] |
-| Ownership Evidence | [[document-template/00_Essential Document/Essential Documents - Overview]] |
+| Ownership Evidence | [[document_template/00_Essential Document/Essential Documents - Overview]] |
 
 5. **Self-assessment checklist:** 8 yes/no questions including:
    - "I can name every external dependency my system relies on"

@@ -29,9 +29,9 @@
 | Skill | Use when |
 |-------|---------|
 | **project-launch-checklist** | Building two-tier production launch checklists — generic (framework-agnostic) + framework-specific companions. |
-| **project-document-templates** | Generating project document templates (PRD, tech spec, architecture decision records). |
-| **md-project-document-templates** | Markdown-native project document templates — lighter, faster than the full template system. |
-| **document-template-authoring** | Authoring new document templates — defining sections, prompts, and output formats. |
+| **project-document_templates** | Generating project document templates (PRD, tech spec, architecture decision records). |
+| **md-project-document_templates** | Markdown-native project document templates — lighter, faster than the full template system. |
+| **document_template-authoring** | Authoring new document templates — defining sections, prompts, and output formats. |
 
 ### 🎬 Presentations
 

@@ -82,7 +82,7 @@ Each path has an `00_overview.md` I read to understand the full capability model
 ### Supporting Knowledge
 | Area | Path |
 |---|---|
-| Document templates (22 categories) | `F:\obsidian_note\swe-knowledge\document-template\` |
+| Document templates (22 categories) | `F:\obsidian_note\document_template\` |
 | Software engineering notes | `F:\obsidian_note\swe-knowledge\software-engineering-note\` |
 | Computing foundations (AI, databases, etc.) | `F:\obsidian_note\swe-knowledge\computing-foundation-note\` |
 | BOKs (SWEBOK, CyBOK, DMBOK) | `F:\obsidian_note\swe-knowledge\body-of-knowledge\` |

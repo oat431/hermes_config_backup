@@ -147,7 +147,7 @@ Core Principles → Identity (name/role/emoji/vibe/mission) → **Role Boundary*
 ### 4. Ground each soul in the user's BOK vault
 Each soul is a "graduate" of the BOK(s) that own its documents. The knowledge is **live**, so point at real vault paths, not titles:
 - `body-of-knowledge/<BOK>/<chapter>.md` — the curriculum the soul reads
-- `document-template/<category>/<doc>.md` — the templates the soul owns (with Heavy/Med/Light depth)
+- `document_template/<category>/<doc>.md` — the templates the soul owns (with Heavy/Med/Light depth)
 - `career-path/<NN>_<Role>/00_overview.md` — competence anchor
 - `software-engineering-note/<KA>/` — deep domain notes
 

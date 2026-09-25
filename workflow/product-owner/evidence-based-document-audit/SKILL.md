@@ -153,7 +153,7 @@ Keep conclusions proportional to evidence. Use “not named,” “overlaps,” 
 
 When the target is an Obsidian vault or Markdown repository, apply the additional probes below:
 
-- Treat the folder name `document-template` as a claim to test: distinguish a document catalog/checklist from actual reusable templates with metadata and lifecycle fields.
+- Treat the folder name `document_template` as a claim to test: distinguish a document catalog/checklist from actual reusable templates with metadata and lifecycle fields.
 - Resolve Obsidian wikilinks and literal backtick paths separately; a healthy wikilink graph does not prove that embedded filesystem paths are current.
 - Compare profile counts and Quick-Start checklists against the priority-marked rows. Report both true omissions and abbreviation/naming mismatches.
 - Build an applicability matrix that separates core practice, artifact form, and context (universal, common, conditional, domain-specific, or not applicable).

@@ -104,7 +104,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 - `F:\obsidian_note\swe-knowledge\computing-foundation-note\Database\` — data and system constraints relevant to product decisions
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\`
+`F:\obsidian_note\document_template\`
 - `01_Business_Analysis_and_strategy\` — Business Objectives, Business Case, Current/Future State, Gap Analysis, Potential Value, Solution Recommendation, Benefits Management
 - `02_Elicitation_and_Collaboration\` — Elicitation Activity Plan, Confirmed/Unconfirmed Elicitation Results, Stakeholder Engagement Approach
 - `03_Concept_and_Mission_Definition\` — Stakeholder Needs, Stakeholder Register, Feasibility Study, Market Analysis/Technology Assessment, Mission Analysis
@@ -192,44 +192,44 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| Business Objectives | `document-template\01_Business_Analysis_and_strategy\Business-Objectives.md` | Heavy |
-| Problem / Stakeholder Needs | `document-template\03_Concept_and_Mission_Definition\Stakeholder-Needs-Document.md` | Heavy |
-| Discovery Plan and Evidence | `document-template\02_Elicitation_and_Collaboration\Elicitation-Activity-Plan.md`, `Elicitation-Results-Confirmed.md` | Heavy |
-| Business Case / Value Case | `document-template\01_Business_Analysis_and_strategy\Business-Case.md` | Heavy |
-| User Stories | `document-template\04_Requirements_Engineering\User-Stories.md` | Med |
-| Acceptance Criteria | `document-template\04_Requirements_Engineering\Acceptance-Criteria.md` | Med |
+| Business Objectives | `document_template\01_Business_Analysis_and_strategy\Business-Objectives.md` | Heavy |
+| Problem / Stakeholder Needs | `document_template\03_Concept_and_Mission_Definition\Stakeholder-Needs-Document.md` | Heavy |
+| Discovery Plan and Evidence | `document_template\02_Elicitation_and_Collaboration\Elicitation-Activity-Plan.md`, `Elicitation-Results-Confirmed.md` | Heavy |
+| Business Case / Value Case | `document_template\01_Business_Analysis_and_strategy\Business-Case.md` | Heavy |
+| User Stories | `document_template\04_Requirements_Engineering\User-Stories.md` | Med |
+| Acceptance Criteria | `document_template\04_Requirements_Engineering\Acceptance-Criteria.md` | Med |
 | Product Backlog | External product tool or project-specific Markdown; no single canonical vault template | — |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
-| Product Strategy / Vision | `document-template\01_Business_Analysis_and_strategy\Business-Objectives.md`, `Business-Case.md` plus project-specific strategy document | Heavy |
-| Current/Future State and Gap Analysis | `document-template\01_Business_Analysis_and_strategy\Current-State-Description.md`, `Future-State-Description.md`, `Gap-Analysis.md` | Med |
-| Solution Recommendation | `document-template\01_Business_Analysis_and_strategy\Solution-Recommendation.md` | Med |
-| Value / Benefits Management | `document-template\01_Business_Analysis_and_strategy\Potential-Value.md`, `Benefits-Management-Plan.md` | Med |
-| Stakeholder Analysis / Engagement | `document-template\04_Requirements_Engineering\Stakeholder-Analysis.md`, `document-template\02_Elicitation_and_Collaboration\Stakeholder-Engagement-Approach.md` | Med |
-| Nonfunctional Requirements Catalog | `document-template\04_Requirements_Engineering\Nonfunctional-Requirements-Catalog.md` | Med |
-| Requirements Traceability Matrix | `document-template\04_Requirements_Engineering\Requirements-Traceability-Matrix.md` | Med |
-| Assumption and Requirements Change Logs | `document-template\04_Requirements_Engineering\Assumption-Log.md`, `Requirements-Change-Log.md` | Light |
-| Definition of Done | `document-template\04_Requirements_Engineering\Definition-of-done.md` | Light |
+| Product Strategy / Vision | `document_template\01_Business_Analysis_and_strategy\Business-Objectives.md`, `Business-Case.md` plus project-specific strategy document | Heavy |
+| Current/Future State and Gap Analysis | `document_template\01_Business_Analysis_and_strategy\Current-State-Description.md`, `Future-State-Description.md`, `Gap-Analysis.md` | Med |
+| Solution Recommendation | `document_template\01_Business_Analysis_and_strategy\Solution-Recommendation.md` | Med |
+| Value / Benefits Management | `document_template\01_Business_Analysis_and_strategy\Potential-Value.md`, `Benefits-Management-Plan.md` | Med |
+| Stakeholder Analysis / Engagement | `document_template\04_Requirements_Engineering\Stakeholder-Analysis.md`, `document_template\02_Elicitation_and_Collaboration\Stakeholder-Engagement-Approach.md` | Med |
+| Nonfunctional Requirements Catalog | `document_template\04_Requirements_Engineering\Nonfunctional-Requirements-Catalog.md` | Med |
+| Requirements Traceability Matrix | `document_template\04_Requirements_Engineering\Requirements-Traceability-Matrix.md` | Med |
+| Assumption and Requirements Change Logs | `document_template\04_Requirements_Engineering\Assumption-Log.md`, `Requirements-Change-Log.md` | Light |
+| Definition of Done | `document_template\04_Requirements_Engineering\Definition-of-done.md` | Light |
 | Roadmap | Project-specific or external product tool; use Now/Next/Later and confidence metadata | — |
-| Product Metrics / Experiment Plan | `document-template\20_SE_Cross_Cutting\Measurement-Plan.md`, `document-template\15_Data_Management\Report-Dashboard-Catalog.md` plus project-specific experiment record | Med |
-| Data Quality / Analytics Governance | `document-template\15_Data_Management\Data-Quality-Strategy.md`, `Analytics-Governance-Policy.md` | Med |
-| Risk Register | `document-template\05_Project_Management_Planning\Risk-Register.md` | Med |
-| RACI / Stakeholder Engagement Plan | `document-template\05_Project_Management_Planning\RACI-Matrix.md`, `Stakeholder-Engagement-Plan.md` | Light |
-| Product Outcome Review | `document-template\21_Solution_Evaluation\Solution-Performance-Analysis.md`, `Recommended-Actions.md` | Med |
+| Product Metrics / Experiment Plan | `document_template\20_SE_Cross_Cutting\Measurement-Plan.md`, `document_template\15_Data_Management\Report-Dashboard-Catalog.md` plus project-specific experiment record | Med |
+| Data Quality / Analytics Governance | `document_template\15_Data_Management\Data-Quality-Strategy.md`, `Analytics-Governance-Policy.md` | Med |
+| Risk Register | `document_template\05_Project_Management_Planning\Risk-Register.md` | Med |
+| RACI / Stakeholder Engagement Plan | `document_template\05_Project_Management_Planning\RACI-Matrix.md`, `Stakeholder-Engagement-Plan.md` | Light |
+| Product Outcome Review | `document_template\21_Solution_Evaluation\Solution-Performance-Analysis.md`, `Recommended-Actions.md` | Med |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| Feasibility / Market Analysis | `document-template\03_Concept_and_Mission_Definition\Feasibility-Study.md`, `Market-Analysis-Technology-Assessment.md` |
-| Stakeholder Register | `document-template\03_Concept_and_Mission_Definition\Stakeholder-Register.md` |
-| Requirements / Product SRS | `document-template\04_Requirements_Engineering\Business-Requirements-Document.md`, `Software-Requirements-Specification.md` |
-| Technical Decision Record | `document-template\20_SE_Cross_Cutting\Decision-Records.md` or incoming engineering ADR |
-| Privacy Impact Assessment | `document-template\15_Data_Management\Privacy-Impact-Assessment.md` |
-| Data Quality Scorecard | `document-template\15_Data_Management\Data-Quality-Scorecard.md` |
-| Lessons Learned | `document-template\06_Project_Management_Executing_and_MC\Lessons-Learned-Register.md` |
-| Product Launch / Closure Review | `document-template\07_Project_Management_Closing\Final-Report.md`, `Verified-Deliverables.md` |
+| Feasibility / Market Analysis | `document_template\03_Concept_and_Mission_Definition\Feasibility-Study.md`, `Market-Analysis-Technology-Assessment.md` |
+| Stakeholder Register | `document_template\03_Concept_and_Mission_Definition\Stakeholder-Register.md` |
+| Requirements / Product SRS | `document_template\04_Requirements_Engineering\Business-Requirements-Document.md`, `Software-Requirements-Specification.md` |
+| Technical Decision Record | `document_template\20_SE_Cross_Cutting\Decision-Records.md` or incoming engineering ADR |
+| Privacy Impact Assessment | `document_template\15_Data_Management\Privacy-Impact-Assessment.md` |
+| Data Quality Scorecard | `document_template\15_Data_Management\Data-Quality-Scorecard.md` |
+| Lessons Learned | `document_template\06_Project_Management_Executing_and_MC\Lessons-Learned-Register.md` |
+| Product Launch / Closure Review | `document_template\07_Project_Management_Closing\Final-Report.md`, `Verified-Deliverables.md` |
 | Promotion Evidence | `career-path\02_Senior_Software_Engineer\09_Promotion_Evidence_and_Capstone\01_Promotion_Packets.md` |
 
 ## Document Handoff Protocol
@@ -321,7 +321,7 @@ Before releasing a product decision, requirement, or roadmap commitment:
 ---
 
 > **Curriculum:** Product Manager path (7 capability areas) + Senior SWE foundation (9 areas) + BABOK / PMBOK / DMBOK / SWEBOK (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\`
+> **Templates:** `F:\obsidian_note\document_template\`
 > **Profile:** Senior Product Owner / Product Manager — product and business direction, discovery, prioritization, analytics, requirements, and technical partnership (Agile/Lean)
 > **Boundary:** Product owns what, why, outcomes, and priority; engineering owns how; QA and DevOps provide quality and operational evidence.
 > **Source:** `F:\obsidian_note\swe-knowledge\career-path\14_Product_Manager\`

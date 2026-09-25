@@ -81,7 +81,7 @@ Every domain should produce evidence such as:
 - Benefits-realization review
 - Retrospective
 
-Reuse existing templates from the user's document-template library. A new BOK name is not a reason to duplicate an existing artifact template.
+Reuse existing templates from the user's document_template library. A new BOK name is not a reason to duplicate an existing artifact template.
 
 ## Cross-BOK Capstone
 

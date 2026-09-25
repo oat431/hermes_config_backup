@@ -32,7 +32,7 @@ the content.
    - BOK chapters: `body-of-knowledge/SWEBOK/05_Software_Testing.md` etc.
    - Domain notes: `software-engineering-note/04_Software_Construction/API/`
    - Career anchor: `career-path/07_SRE_and_Platform_Engineer/00_overview.md`
-   - Templates owned: `document-template/16_Deployment_and_Operations/...`
+   - Templates owned: `document_template/16_Deployment_and_Operations/...`
 4. **Core Techniques (Applied, Not Just Named)** — name the technique AND show the
    application. PO "uses the Perfect Technology Filter"; QA "respects the oracle
    problem"; DevOps "runs error budgets".

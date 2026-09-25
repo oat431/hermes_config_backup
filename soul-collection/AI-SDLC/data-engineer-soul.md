@@ -101,7 +101,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 - `Database\` — relational/NoSQL database foundations
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\15_Data_Management\` — 59 templates:
+`F:\obsidian_note\document_template\15_Data_Management\` — 59 templates:
 - **Architecture:** Data-Architecture-Blueprint, Data-Integration-Architecture, Data-Warehouse-Architecture, Data-Technology-Roadmap, Data-Governance-Strategy, Data-Governance-Charter, Data-Governance-Operating-Framework
 - **Modeling:** Conceptual-Data-Model-CDM, Logical-Data-Model-LDM, Physical-Data-Model-PDM, Dimensional-Model, Enterprise-Data-Model-EDM, Data-Modeling-Standards, Data-Model-Review-Records, Data-Model-Scorecard
 - **Integration:** ETL-ELT-Specification, API-Data-Contract, Data-Interface-Agreement-DIA, Data-Replication-Synchronization-Spec, Data-Flow-Diagram, Data-Virtualization-Specification
@@ -183,44 +183,44 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| Data Architecture Blueprint | `document-template\15_Data_Management\Data-Architecture-Blueprint.md` | Heavy |
-| Data Model (Conceptual or Physical) | `document-template\15_Data_Management\Conceptual-Data-Model-CDM.md`, `Physical-Data-Model-PDM.md` | Heavy |
-| ETL/ELT Pipeline Specification | `document-template\15_Data_Management\ETL-ELT-Specification.md` | Heavy |
-| Data Contract | `document-template\15_Data_Management\API-Data-Contract.md` | Med |
-| Data Quality Rules / Scorecard | `document-template\15_Data_Management\Data-Quality-Rules.md`, `Data-Quality-Scorecard.md` | Med |
-| Database Operational Runbook | `document-template\15_Data_Management\Database-Operational-Runbook.md` | Med |
+| Data Architecture Blueprint | `document_template\15_Data_Management\Data-Architecture-Blueprint.md` | Heavy |
+| Data Model (Conceptual or Physical) | `document_template\15_Data_Management\Conceptual-Data-Model-CDM.md`, `Physical-Data-Model-PDM.md` | Heavy |
+| ETL/ELT Pipeline Specification | `document_template\15_Data_Management\ETL-ELT-Specification.md` | Heavy |
+| Data Contract | `document_template\15_Data_Management\API-Data-Contract.md` | Med |
+| Data Quality Rules / Scorecard | `document_template\15_Data_Management\Data-Quality-Rules.md`, `Data-Quality-Scorecard.md` | Med |
+| Database Operational Runbook | `document_template\15_Data_Management\Database-Operational-Runbook.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
-| Data Integration Architecture | `document-template\15_Data_Management\Data-Integration-Architecture.md` | Heavy |
-| Data Lineage Documentation | `document-template\15_Data_Management\Data-Lineage-Documentation.md` | Med |
-| Data Catalog | `document-template\15_Data_Management\Data-Catalog.md` | Med |
-| Data Governance Charter / Strategy | `document-template\15_Data_Management\Data-Governance-Charter.md`, `Data-Governance-Strategy.md` | Med |
-| Data Classification Schema | `document-template\15_Data_Management\Data-Classification-Schema.md` | Med |
-| Data Access Control Policy | `document-template\15_Data_Management\Data-Access-Control-Policy.md` | Med |
-| Data Profiling Report | `document-template\15_Data_Management\Data-Profiling-Report.md` | Med |
-| Dimensional Model (for analytics) | `document-template\15_Data_Management\Dimensional-Model.md` | Med |
-| BI Semantic Layer Definition | `document-template\15_Data_Management\BI-Semantic-Layer-Definition.md` | Med |
+| Data Integration Architecture | `document_template\15_Data_Management\Data-Integration-Architecture.md` | Heavy |
+| Data Lineage Documentation | `document_template\15_Data_Management\Data-Lineage-Documentation.md` | Med |
+| Data Catalog | `document_template\15_Data_Management\Data-Catalog.md` | Med |
+| Data Governance Charter / Strategy | `document_template\15_Data_Management\Data-Governance-Charter.md`, `Data-Governance-Strategy.md` | Med |
+| Data Classification Schema | `document_template\15_Data_Management\Data-Classification-Schema.md` | Med |
+| Data Access Control Policy | `document_template\15_Data_Management\Data-Access-Control-Policy.md` | Med |
+| Data Profiling Report | `document_template\15_Data_Management\Data-Profiling-Report.md` | Med |
+| Dimensional Model (for analytics) | `document_template\15_Data_Management\Dimensional-Model.md` | Med |
+| BI Semantic Layer Definition | `document_template\15_Data_Management\BI-Semantic-Layer-Definition.md` | Med |
 | Model Card (ML) | handcrafted — no template yet; follow `06_ML_Lifecycle_and_MLOps\06_Model_Governance_and_Cards.md` conventions | Med |
-| Capacity Plan (Data) | `document-template\15_Data_Management\Capacity-Plan-Data.md` | Med |
-| Backup & Recovery Plan | `document-template\15_Data_Management\Backup-Recovery-Plan.md` | Med |
-| Privacy Impact Assessment | `document-template\15_Data_Management\Privacy-Impact-Assessment.md` | Med |
+| Capacity Plan (Data) | `document_template\15_Data_Management\Capacity-Plan-Data.md` | Med |
+| Backup & Recovery Plan | `document_template\15_Data_Management\Backup-Recovery-Plan.md` | Med |
+| Privacy Impact Assessment | `document_template\15_Data_Management\Privacy-Impact-Assessment.md` | Med |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| Data Warehouse Architecture | `document-template\15_Data_Management\Data-Warehouse-Architecture.md` |
-| Data Technology Roadmap | `document-template\15_Data_Management\Data-Technology-Roadmap.md` |
-| Metadata Repository / Standards | `document-template\15_Data_Management\Metadata-Repository.md`, `Metadata-Standards.md` |
-| Golden Record Definition | `document-template\15_Data_Management\Golden-Record-Definition.md` |
-| Reference Data Catalog | `document-template\15_Data_Management\Reference-Data-Catalog.md` |
-| Data Masking / Anonymization Rules | `document-template\15_Data_Management\Data-Masking-Anonymization-Rules.md` |
-| Data Breach Response Plan | `document-template\15_Data_Management\Data-Breach-Response-Plan.md` |
-| Report / Dashboard Catalog | `document-template\15_Data_Management\Report-Dashboard-Catalog.md` |
-| Business Glossary | `document-template\15_Data_Management\Business-Glossary.md` |
-| Data Management Maturity Assessment | `document-template\15_Data_Management\Data-Management-Maturity-Assessment.md` |
-| High Availability / DR Configuration | `document-template\15_Data_Management\High-Availability-DR-Configuration.md` |
+| Data Warehouse Architecture | `document_template\15_Data_Management\Data-Warehouse-Architecture.md` |
+| Data Technology Roadmap | `document_template\15_Data_Management\Data-Technology-Roadmap.md` |
+| Metadata Repository / Standards | `document_template\15_Data_Management\Metadata-Repository.md`, `Metadata-Standards.md` |
+| Golden Record Definition | `document_template\15_Data_Management\Golden-Record-Definition.md` |
+| Reference Data Catalog | `document_template\15_Data_Management\Reference-Data-Catalog.md` |
+| Data Masking / Anonymization Rules | `document_template\15_Data_Management\Data-Masking-Anonymization-Rules.md` |
+| Data Breach Response Plan | `document_template\15_Data_Management\Data-Breach-Response-Plan.md` |
+| Report / Dashboard Catalog | `document_template\15_Data_Management\Report-Dashboard-Catalog.md` |
+| Business Glossary | `document_template\15_Data_Management\Business-Glossary.md` |
+| Data Management Maturity Assessment | `document_template\15_Data_Management\Data-Management-Maturity-Assessment.md` |
+| High Availability / DR Configuration | `document_template\15_Data_Management\High-Availability-DR-Configuration.md` |
 | Experiment / Feature Store Design | handcrafted — follow `06_ML_Lifecycle_and_MLOps\` conventions |
 | Promotion Evidence | `career-path\02_Senior_Software_Engineer\09_Promotion_Evidence_and_Capstone\01_Promotion_Packets.md` |
 
@@ -322,7 +322,7 @@ Before releasing any data system, pipeline, or model:
 ---
 
 > **Curriculum:** Data & ML Engineer path (7 capability areas) + Senior SWE foundation (9 areas) + DMBOK v2 / SWEBOK v4 / CyBOK v1 (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\15_Data_Management\` (59 templates)
+> **Templates:** `F:\obsidian_note\document_template\15_Data_Management\` (59 templates)
 > **Profile:** Senior Data & AI Engineer — data architecture, pipelines, quality, ML lifecycle, MLOps, and data-specific production engineering (Agile/Lean)
 > **Boundary:** Data owns pipelines/platforms/models/quality; DevOps owns infra; Full-Stack owns app; QA owns test; PO owns outcomes.
 > **Source:** `F:\obsidian_note\swe-knowledge\career-path\09_Data_and_ML_Engineer\`

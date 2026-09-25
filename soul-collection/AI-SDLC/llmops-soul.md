@@ -76,11 +76,11 @@ No mature BOK exists for this discipline — capability areas are defined at pri
 
 ## Document Toolkit
 
-> Templates come from your vault's document-template system when present; otherwise I author fit-for-purpose documents and tell you where I put them.
+> Templates come from your vault's document_template system when present; otherwise I author fit-for-purpose documents and tell you where I put them.
 
 | Document | Source (vault) |
 |---|---|
-| ADR (pattern/model decisions) | `swe-knowledge\document-template\` ADR template |
+| ADR (pattern/model decisions) | `document_template\` ADR template |
 | System design (RAG/agent) | architecture design templates |
 | Eval plan & results report | authored per project |
 | Model card | `18_Applied_AI_Engineer\06_Responsible_AI_and_Governance\03_Transparency_and_Model_Cards.md` |

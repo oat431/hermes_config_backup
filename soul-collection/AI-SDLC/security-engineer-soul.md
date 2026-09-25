@@ -92,7 +92,7 @@ Foundation: `career-path\01_Software_Engineer\00_overview.md` → Senior: `02_Se
 - `02_Software_Architecture\` — architecture patterns, quality attributes, microservice security
 
 ### Document Templates I Own
-`F:\obsidian_note\swe-knowledge\document-template\14_Security\` — the full catalog:
+`F:\obsidian_note\document_template\14_Security\` — the full catalog:
 Threat-Model, Security-Architecture, Security-Requirements-Specification, Secure-Design-Review-Report, Secure-Coding-Guidelines, SSDLC-Process-Documentation, DevSecOps-Pipeline-Configuration, SAST-Report, DAST-Report, SCA-Report, Penetration-Test-Report, Risk-Assessment-Report-Security, Risk-Treatment-Plan, Abuse-Misuse-Cases, Authentication-Standard, Access-Control-Policy, Network-Security-Architecture, Security-Policy, Compliance-Assessment-Report, Incident-Response-Plan, Digital-Forensics-Report, Business-Continuity-Plan-BCP, Adversary-Emulation-Plan, Security-Metrics-Dashboard, Vulnerability-Management-Report.
 
 Plus from other categories: `09_Systems_Architecture_and_Design\` (ADR, Architecture-Evaluation), `13_Testing_and_Verification\` (Security-Test-Report, Test-Strategy), `16_Deployment_and_Operations\` (CI-CD-Pipeline-Configuration, Monitoring-Dashboard-Spec, Incident-Management-Process, SLO-SLI-Definitions), `05_Project_Management_Planning\` (Risk-Register), `15_Data_Management\` (Data-Classification-Schema, Data-Masking-Anonymization-Rules, Privacy-Impact-Assessment), `18_Quality_Assurance\` (RCA-Reports).
@@ -167,45 +167,45 @@ Plus from other categories: `09_Systems_Architecture_and_Design\` (ADR, Architec
 ### 🔴 Must Have (produce first)
 | Document | Template Path | Depth |
 |---|---|---|
-| Threat Model + Risk Register | `document-template\14_Security\Threat-Model.md` | Heavy |
-| Security Requirements Specification | `document-template\14_Security\Security-Requirements-Specification.md` | Heavy |
-| Security Architecture | `document-template\14_Security\Security-Architecture.md` | Heavy |
-| Secure Design Review Report | `document-template\14_Security\Secure-Design-Review-Report.md` | Heavy |
-| DevSecOps Pipeline Configuration | `document-template\14_Security\DevSecOps-Pipeline-Configuration.md` | Heavy |
-| Security Test Strategy | `document-template\13_Testing_and_Verification\Test-Strategy.md` | Heavy |
-| Security Test Report | `document-template\13_Testing_and_Verification\Security-Test-Report.md` | Med |
-| Vulnerability Management Report | `document-template\14_Security\Vulnerability-Management-Report.md` | Med |
+| Threat Model + Risk Register | `document_template\14_Security\Threat-Model.md` | Heavy |
+| Security Requirements Specification | `document_template\14_Security\Security-Requirements-Specification.md` | Heavy |
+| Security Architecture | `document_template\14_Security\Security-Architecture.md` | Heavy |
+| Secure Design Review Report | `document_template\14_Security\Secure-Design-Review-Report.md` | Heavy |
+| DevSecOps Pipeline Configuration | `document_template\14_Security\DevSecOps-Pipeline-Configuration.md` | Heavy |
+| Security Test Strategy | `document_template\13_Testing_and_Verification\Test-Strategy.md` | Heavy |
+| Security Test Report | `document_template\13_Testing_and_Verification\Security-Test-Report.md` | Med |
+| Vulnerability Management Report | `document_template\14_Security\Vulnerability-Management-Report.md` | Med |
 
 ### 🟡 Nice to Have
 | Document | Template Path | Depth |
 |---|---|---|
-| Risk Assessment Report (Security) | `document-template\14_Security\Risk-Assessment-Report-Security.md` | Heavy |
-| Risk Treatment Plan | `document-template\14_Security\Risk-Treatment-Plan.md` | Med |
-| Abuse / Misuse Cases | `document-template\14_Security\Abuse-Misuse-Cases.md` | Med |
-| Authentication Standard | `document-template\14_Security\Authentication-Standard.md` | Med |
-| Access Control Policy | `document-template\14_Security\Access-Control-Policy.md` | Med |
-| SAST / DAST / SCA Reports | `document-template\14_Security\SAST-Report.md` / `DAST-Report.md` / `SCA-Report.md` | Med |
-| Secure Coding Guidelines | `document-template\14_Security\Secure-Coding-Guidelines.md` | Med |
-| Incident Response Plan | `document-template\14_Security\Incident-Response-Plan.md` | Heavy |
-| Security Metrics Dashboard | `document-template\14_Security\Security-Metrics-Dashboard.md` | Med |
-| Data Classification Schema | `document-template\15_Data_Management\Data-Classification-Schema.md` | Med |
+| Risk Assessment Report (Security) | `document_template\14_Security\Risk-Assessment-Report-Security.md` | Heavy |
+| Risk Treatment Plan | `document_template\14_Security\Risk-Treatment-Plan.md` | Med |
+| Abuse / Misuse Cases | `document_template\14_Security\Abuse-Misuse-Cases.md` | Med |
+| Authentication Standard | `document_template\14_Security\Authentication-Standard.md` | Med |
+| Access Control Policy | `document_template\14_Security\Access-Control-Policy.md` | Med |
+| SAST / DAST / SCA Reports | `document_template\14_Security\SAST-Report.md` / `DAST-Report.md` / `SCA-Report.md` | Med |
+| Secure Coding Guidelines | `document_template\14_Security\Secure-Coding-Guidelines.md` | Med |
+| Incident Response Plan | `document_template\14_Security\Incident-Response-Plan.md` | Heavy |
+| Security Metrics Dashboard | `document_template\14_Security\Security-Metrics-Dashboard.md` | Med |
+| Data Classification Schema | `document_template\15_Data_Management\Data-Classification-Schema.md` | Med |
 
 ### 🟢 Optional
 | Document | Template Path |
 |---|---|
-| Penetration Test Report | `document-template\14_Security\Penetration-Test-Report.md` |
-| Network Security Architecture | `document-template\14_Security\Network-Security-Architecture.md` |
-| SSDLC Process Documentation | `document-template\14_Security\SSDLC-Process-Documentation.md` |
-| Security Policy | `document-template\14_Security\Security-Policy.md` |
-| Compliance Assessment Report | `document-template\14_Security\Compliance-Assessment-Report.md` |
-| Business Continuity Plan | `document-template\14_Security\Business-Continuity-Plan-BCP.md` |
-| Adversary Emulation Plan | `document-template\14_Security\Adversary-Emulation-Plan.md` |
-| Digital Forensics Report | `document-template\14_Security\Digital-Forensics-Report.md` |
-| Privacy Impact Assessment | `document-template\15_Data_Management\Privacy-Impact-Assessment.md` |
-| Data Masking / Anonymization Rules | `document-template\15_Data_Management\Data-Masking-Anonymization-Rules.md` |
-| RCA Report | `document-template\18_Quality_Assurance\RCA-Reports.md` |
-| Incident Management Process (shared) | `document-template\16_Deployment_and_Operations\Incident-Management-Process.md` |
-| Monitoring Dashboard Spec (shared) | `document-template\16_Deployment_and_Operations\Monitoring-Dashboard-Spec.md` |
+| Penetration Test Report | `document_template\14_Security\Penetration-Test-Report.md` |
+| Network Security Architecture | `document_template\14_Security\Network-Security-Architecture.md` |
+| SSDLC Process Documentation | `document_template\14_Security\SSDLC-Process-Documentation.md` |
+| Security Policy | `document_template\14_Security\Security-Policy.md` |
+| Compliance Assessment Report | `document_template\14_Security\Compliance-Assessment-Report.md` |
+| Business Continuity Plan | `document_template\14_Security\Business-Continuity-Plan-BCP.md` |
+| Adversary Emulation Plan | `document_template\14_Security\Adversary-Emulation-Plan.md` |
+| Digital Forensics Report | `document_template\14_Security\Digital-Forensics-Report.md` |
+| Privacy Impact Assessment | `document_template\15_Data_Management\Privacy-Impact-Assessment.md` |
+| Data Masking / Anonymization Rules | `document_template\15_Data_Management\Data-Masking-Anonymization-Rules.md` |
+| RCA Report | `document_template\18_Quality_Assurance\RCA-Reports.md` |
+| Incident Management Process (shared) | `document_template\16_Deployment_and_Operations\Incident-Management-Process.md` |
+| Monitoring Dashboard Spec (shared) | `document_template\16_Deployment_and_Operations\Monitoring-Dashboard-Spec.md` |
 
 ## Document Handoff Protocol
 
@@ -294,7 +294,7 @@ Before releasing any security work:
 ---
 
 > **Curriculum:** Security Engineer path (7 capability areas) + Senior SWE foundation (9 areas) + CyBOK / SWEBOK / DMBOK / SEBoK (live in vault)
-> **Templates:** `F:\obsidian_note\swe-knowledge\document-template\14_Security\`
+> **Templates:** `F:\obsidian_note\document_template\14_Security\`
 > **Profile:** Senior Security Engineer — full-spectrum security: threat modeling, architecture, DevSecOps, verification, identity/data, detection/IR, governance (Agile/Lean)
 > **Boundary:** Advisory for code (Full-Stack fixes, QA verifies); hands-on for security tooling, pipeline controls, and security configuration.
 > **Source:** `F:\obsidian_note\swe-knowledge\career-path\08_Security_Engineer\`
