@@ -148,19 +148,23 @@ Keep conclusions proportional to evidence. Use “not named,” “overlaps,” 
 7. **Citing a local summary as if it were the primary standard.** Identify whether the note is a paraphrase, a book-derived practice, or the actual authoritative publication.
 8. **Replacing the requested audit with edits.** The user asked for evidence; do not modify the catalog unless explicitly requested.
 9. **Overstating current-edition facts.** Include the edition/year and status when the claim depends on currency.
+10. **Trusting prior remediation claims.** When the target set contains an earlier audit or review doc marked "✅ FIXED", re-verify every claimed fix with a machine check (grep/script) before accepting it — quick passes routinely claim blanket fixes that only partially landed, and repeating the claim launders a false fix into the next baseline.
+11. **Patching a self-contradictory index.** When a master checklist's totals disagree with each other AND with the files on disk, do not renumber it in place; flag it for regeneration-from-disk after the categorization decision, because hand-maintained counts drift again immediately.
 
 ## Obsidian/Markdown Template-Set Audits
 
 When the target is an Obsidian vault or Markdown repository, apply the additional probes below:
 
 - Treat the folder name `document_template` as a claim to test: distinguish a document catalog/checklist from actual reusable templates with metadata and lifecycle fields.
-- Resolve Obsidian wikilinks and literal backtick paths separately; a healthy wikilink graph does not prove that embedded filesystem paths are current.
+- Resolve Obsidian wikilinks and literal backtick paths separately; a healthy wikilink graph does not prove that embedded filesystem paths are current. Strip fenced code blocks before wikilink resolution — shell `[[ ... ]]` test operators otherwise register as broken links — and remember placeholder text with nested brackets (`[[X]%]`) also parses as a wikilink, a recurring false-broken source in placeholder-ized templates.
 - Compare profile counts and Quick-Start checklists against the priority-marked rows. Report both true omissions and abbreviation/naming mismatches.
 - Build an applicability matrix that separates core practice, artifact form, and context (universal, common, conditional, domain-specific, or not applicable).
 - Reconcile overview/index counts and scope claims across the source corpus before treating extracted labels as authoritative.
 - Check repository status before/after a read-only audit so pre-existing working-tree changes are not attributed to the audit.
+- When the templates feed AI-persona-driven spec generation, scan every template for example-content contamination (concrete IDs, currency, dates, named example entities that a consumer could inherit as real data) and report per-file scores, not just spot-checks.
+- When the user asks for a large restructure, the deliverable is a dated plan doc + companion data doc written into the vault — never in-place edits to the audited templates during the audit session.
 
-See `references/obsidian-template-audit.md` for a reusable probe sequence, evidence patterns, and standards-verification examples.
+See `references/obsidian-template-audit.md` for a reusable probe sequence, evidence patterns, standards-verification examples, and the contamination-scan scoring recipe.
 
 ## Verification Checklist
 

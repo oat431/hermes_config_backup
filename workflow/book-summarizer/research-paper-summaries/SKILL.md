@@ -1,7 +1,7 @@
 ---
 name: research-paper-summaries
 description: "Use when summarizing a research paper or technical report into Obsidian notes. Single-file or split-set workflows with quote, number, and style verification against the PDF."
-version: 1.2.0
+version: 1.3.0
 author: curator
 license: MIT
 platforms: [windows, linux, macos]
@@ -23,7 +23,7 @@ A research paper, preprint, or technical report the user wants as ONE durable no
 | Technical book or multi-file source set (vault) | `oralita-book-sum-obs` (user-protected) |
 | Narrative/argument book (per-chapter vault) | `narrative-book-summaries` |
 
-**Large reports split into sets.** Rule confirmed with this user on a 59-page technical report: papers/guides up to about 25–30 pages get ONE file; large reports (60+ pages, with results/appendices taking roughly half) get a **numbered set in a subfolder**. The user's preferred split for big technical reports: content files (methods and story) + one tests file + an overview:
+**Large reports split into sets.** Rule confirmed with this user on a 59-page technical report: papers/guides up to about 45 pages with one coherent story get ONE file (a 44-page model report worked as a single ~3,600-word note); large reports (60+ pages, with results/appendices taking roughly half) get a **numbered set in a subfolder**. The user's preferred split for big technical reports: content files (methods and story) + one tests file + an overview:
 
 - `00_Overview.md` — MOC: lineup table, headline numbers, file map, reading paths.
 - `01_...md` and up — content files in the report's own order, method-focused, pointing to the tests file for full numbers.
@@ -40,6 +40,7 @@ Default landing zone for this user's paper summaries: `F:/obsidian_note/oralita_
 - **Confirm shape decisions in ONE clarify call** the first time a new paper or format comes up: destination, granularity (single file vs split set), and depth. Depth options: study note ~1,800–3,500 words (recommended for this user), brief ~1,000, deep dive ~5,000+.
 - **Citations:** establish whether printed page = PDF page (check page footers in the extraction) and state the convention in the note header. When they differ (journal articles, old scans), compute the offset from the footers (printed = PDF page + k), record it in the note header AND the manifest row, and cite printed pages in the body. Cite pages from the source only; never invent page numbers or quotes.
 - **Version fidelity:** cite the exact version matching the PDF (page-1 stamp reads `arXiv:<id>vN`). Summarize what that version says, not the latest revision.
+- **Two-layer format: plain body first, dense appendix last (standing user preference, set after a "mid range" note proved unreadable to them).** The body teaches the paper in normal words: what it is via analogy, the 2-4 ideas that matter explained as sentences not formulas, results one line each, the most memorable story told as narrative, why the reader should care. Formulas, full benchmark tables, hyperparameters, and verbatim quotes all move to an `# Appendix: The Dense Details` H1 at the end of the SAME file, page-cited. Never write a single-density academic-style note; the user cannot learn from it. Body roughly 1,200-2,000 words, appendix carries the rest.
 - **Quotes verbatim and page-attributed; everything else own words.** Short quotes only, never long passages.
 - **Style (standing user preferences):** no em-dashes in prose (use commas/colons/parens); en-dashes only in page ranges (`pp. 8–9`); English; label your own additions `(synthesis)`; kebab-case filename in oralita_md.
 - **Report real counts at the end:** quotes verified, number spot-checks, hash match, and honest limitations (including what was deliberately not summarized).
@@ -51,9 +52,11 @@ Default landing zone for this user's paper summaries: `F:/obsidian_note/oralita_
 ```python
 import pymupdf
 doc = pymupdf.open(pdf_path)
-print(doc.page_count, doc.get_toc())      # page count + section map
+print(doc.page_count, len(doc.get_toc())) # page count + section map (get_toc is doc-level, not per page)
 print(doc[0].get_text()[:1200])           # title page: version stamp, abstract
 ```
+
+If `import pymupdf` fails, the shell's default python is not the one that carries it: probe the candidate interpreters (`where python`, the hermes-agent venv python) and run extraction/verification with the interpreter that imports it, rather than reinstalling.
 
 - Sample first/middle/last pages to confirm a real text layer. LaTeX PDFs extract clean; scans with a usable (even noisy) text layer can go straight through with `--ocr-tolerant` verification; re-OCR via `ocr-and-documents` only when there is no text layer or it is unusably corrupt.
 - Build the content breakdown: main body pages (source of the summary), references pages (skip for summary value), appendix pages (substance vs boilerplate).
@@ -80,19 +83,30 @@ with open(out, "w", encoding="utf-8") as f:
 
 ### 4. Write the note (direct synthesis)
 
-Follow `templates/paper-study-note.md` (for split sets, reuse this anatomy per file). Anatomy:
+Follow `templates/paper-study-note.md` (for split sets, reuse this anatomy per file). Anatomy is two layers:
+
+**Plain-language body (the part the user reads):**
 
 1. Frontmatter: `title`, `tags`, `created`, `source` (fit the destination vault's convention; oralita_md uses title/tags/created, add `source`).
-2. H1 + source blockquote: full citation, page convention, coverage note.
-3. `## TL;DR` — 2–3 paragraphs in mentor voice: what it does, the load-bearing findings, why it matters.
-4. `## Why This Paper Matters` — context, what it changes.
-5. `## The Paper at a Glance` — section / pages / what-it-delivers table.
-6. Body sections in the paper's own order. Formulas restated in inline code with the original constants (`M_opt = 0.1715 · C^0.5243`); condensed results tables (representative rows, not every table); at most one Mermaid diagram, only for a real relationship.
-7. `## Limitations and Future Work` — the paper's own section; keep it.
-8. `## Practitioner Takeaways (synthesis)`.
-9. `## Memorable Quotes` — 3–4 verbatim quotes as `> "..." (p. N)` (the checker parses this exact line shape).
-10. `## Related` — source PDF path, arXiv URL, related vault paths as code, not wikilinks.
-11. Footer: date, version summarized, verification statement.
+2. H1 + source blockquote: full citation, page convention, coverage note, and a pointer that dense detail lives in the appendix.
+3. `## What Is This Paper, In Plain Words` — the paper via one everyday analogy, no jargon; what the lab did and why.
+4. `## The <N> Ideas That Matter` — one subsection per load-bearing finding, each explained in normal sentences ("the best settings can be calculated, not searched"), page-cited.
+5. Results in one line each, plus at most one Mermaid diagram only for a real relationship.
+6. The most memorable/human story from the paper told as narrative (e.g. an honesty experiment, a failure analysis).
+7. `## Why You Should Care` — 2-4 concrete reasons aimed at the reader's own work.
+
+**`# Appendix: The Dense Details` (H1, reference layer):**
+
+8. Paper map table (section / pp. / what it delivers).
+9. Formulas in inline code with the original constants (`M_opt = 0.1715 * C^0.5243`); full results tables; hyperparameters; pre-training specifics.
+10. `Limitations and Future Work` — the paper's own section; keep it.
+11. `Practitioner Takeaways` — numbered, page-cited.
+12. `Memorable Quotes` — 3–4 verbatim quotes as `> "..." (p. N)` (the checker parses this exact line shape).
+
+**Closing (after the appendix):**
+
+13. `## Related` — source PDF path, arXiv URL, deliberate cross-note links, related vault paths as code, not wikilinks.
+14. Footer: date, version summarized, note the body+appendix restructure if revising, verification statement.
 
 ### 5. Verify, then promote
 
@@ -108,7 +122,7 @@ The checker verifies: quotes verbatim (whitespace-normalized, split-quote aware,
 ## Pitfalls
 
 - **A scratch script named after a stdlib module breaks pymupdf.** `inspect.py` shadows stdlib `inspect`, and pymupdf dies at import with a misleading "partially initialized module / circular import" error. Name scratch scripts with a prefix (`pdf_inspect.py`).
-- **Split quotes across page breaks.** The PDF text layer can place a floating figure caption between the two halves of a sentence that spans a page break, so a valid quote fails a naive grep. Verify both fragments and confirm the only text between them is the caption/footer/page marker; for high-stakes quotes cross-check the arXiv HTML (`curl -sL https://arxiv.org/html/<id>vN | grep ...`). Never alter or drop the quote to make the check pass.
+- **Split quotes across page breaks.** The extraction's own `===== [PDF p. N] =====` markers sever every page-crossing quote, and the PDF text layer can also place a floating figure caption between the two halves of a sentence, so a valid quote fails a naive grep. Strip the page markers from the source before substring matching (the bundled checker's split-quote retry also treats caption text between halves as legitimate). Verify both fragments and confirm the only text between them is the caption/footer/page marker; for high-stakes quotes cross-check the arXiv HTML (`curl -sL https://arxiv.org/html/<id>vN | grep ...`). Never alter or drop the quote to make the check pass.
 - **PDF outline numbers can be off by one.** Verify each section's start page against the page's own text, not the `get_toc()` entry.
 - **References and boilerplate appendix pages get a page range, not a summary.** Summarize appendix pages only where they carry substance; list the rest in the coverage note.
 - **The number spot-check list is the extraction's tripwire.** Keep a list of the note's load-bearing numbers (fitted constants, dataset sizes, benchmark scores) and grep them against the extract; extraction garbling shows up here first.
@@ -116,9 +130,9 @@ The checker verifies: quotes verbatim (whitespace-normalized, split-quote aware,
 - **Hyphenated line breaks break verbatim quote and number checks.** PDF text layers split words across lines ("develop-\nment", "Qwen3-\nCoder"); whitespace flattening is not enough. On any MISS, retry with "- " removed (joined form) before concluding anything; for hyphenated tokens also try the spaced form (`Qwen3-Coder` matches source `Qwen3- Coder`).
 - **Scanned/OCR PDFs need artifact-tolerant quote matching.** Old scans (PDF 1.3-era conversions, no TOC, first-page sample full of ligatures like ﬁ/ﬂ or merged words like "Eventhoughwehave") break whitespace normalization: words merge and characters corrupt ("my be" for "may be", "built-ln" for "built-in", "i~s" for "is"). Use `--ocr-tolerant` (ligatures to ASCII, then compare with ALL whitespace and ASCII hyphens stripped); pick quotes from clean passages of the text layer and paraphrase anything too corrupt to verify verbatim. A quote you cannot verify against the layer is not quotable.
 - **Scans often do not print their own bibliographic data.** When venue/year/DOI are absent from the PDF, complete the citation from the ACM DL / DBLP record, keep the page range as the scan's own footers show it, and mark the completed fields as externally verified in the note footer and manifest. Label non-source body content (e.g. "the language became CLU") with an explicit (external) marker, distinct from (synthesis).
-- **Number checks need variants.** Tokens pick up trailing punctuation ("4.32."); "50,000" may be "50 000" in the extract. Strip trailing punctuation, remove thousands commas, and on the source side remove inter-digit spaces. A full-token scan (--scan-all) catches transcription typos a hand-written list misses.
+- **Number checks need variants.** Tokens pick up trailing punctuation ("4.32."); "50,000" may be "50 000" in the extract. Strip trailing punctuation, remove thousands commas, and on the source side remove inter-digit spaces. Spot-check with the SOURCE's spelling, not the note's: math-heavy PDFs use λ, ×, ≈, and U+2212 minus where the note writes lambda/x/~/-; arXiv LaTeX often writes bare `100000`/`2400` where the note adds thousands separators, and prose may spell `1.5 million`/`5 million` where the note compresses to 1.5M/5M; math-italic letters live in U+1D400–U+1D7FF (`6𝑁𝐷` not `6ND`), so fold that whole block to ASCII (index % 52 maps to A–Za–z) in the normalizer before comparing. Probe the extract for the actual form before declaring a MISS. A full-token scan (--scan-all) catches transcription typos a hand-written list misses.
 - **The zero-em-dash gate covers titles and link lists too.** Em-dashes sneak in as "Title — Subtitle" and in Related bullets (wikilink then em-dash then reason); use ":" as the separator in both. Prefer quotes without em-dashes so the gate stays clean; a verbatim quote that contains one keeps its punctuation.
-- **Sibling papers link both ways.** When a companion summary lands, patch the older note's Related section to wikilink the new note (read the file first, minimal patch, announce it in the report) and keep staged copies plus manifest hashes in sync so run records stay truthful.
+- **Cross-paper links: deliberate pairs only, never folder lists.** The user removed all generic "More paper summaries in this folder" lists and sibling links: they accumulate without bound. Link two notes only when the connection is specific and substantive (companion study + practitioner guide; a model report + the benchmark paper it headlines), wire it BOTH ways with a one-line reason, and announce it in the report. When patching a promoted note, read it first, keep staged copy and manifest hash in sync, and record the pair in memory so the allow-list stays current.
 
 ## Reporting
 
@@ -126,6 +140,6 @@ Close with the real numbers: output path and word count, coverage (what was summ
 
 ## Files
 
-- `templates/paper-study-note.md` — fill-in starter with the approved anatomy.
+- `templates/paper-study-note.md` — fill-in starter with the approved two-layer anatomy (plain body + dense appendix).
 - `scripts/verify_paper_note.py` — staged-note checker: quotes (hyphen-break and split-quote aware), number checks with variants, em-dash/fence/frontmatter/wikilink gates, `--ocr-tolerant` for scanned PDFs (ligature map + whitespace/hyphen-stripped comparison). A safety net, not a substitute for reading the note.
 - `references/large-report-splits.md` — the numbered-set pattern for big technical reports, with the worked example.

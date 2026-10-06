@@ -54,14 +54,27 @@ def nospace(s: str) -> str:
 
 def source_variants(raw: str):
     base = norm(raw)
+    # extraction page markers sever every page-crossing quote; strip them so the
+    # marker-free variant can match quotes that span a page boundary
+    unmarked = re.sub(r"===== \[PDF p\. \d+\] =====", " ", base)
     joined = base.replace("- ", "")               # hyphenated line-break join
     dense = re.sub(r"(?<=\d) (?=\d)", "", base)   # "50 000" -> "50000"
-    return [base, joined, dense, dense.replace("- ", "")]
+    return [base, unmarked, joined, dense, dense.replace("- ", ""),
+            unmarked.replace("- ", "")]
 
 
 def number_variants(value: str):
     v = value.strip().strip(".,;: ")
+    # source glyphs for ASCII spellings in notes: math PDFs print λ/×/~ as Greek and symbols
     out = {value.strip(), v, v.replace(",", ""), v.replace("-", "- "), v.replace("-", "")}
+    if "lambda" in v:
+        out.add(v.replace("lambda", "\u03bb"))
+    if " x " in v:
+        out.add(v.replace(" x ", " \u00d7 "))
+    if v.endswith("x"):                      # "5.5x" against source "5.5×"
+        out.add(v[:-1] + "\u00d7")
+    if "~" in v:
+        out.add(v.replace("~", "\u2248"))
     return [x for x in out if x]
 
 

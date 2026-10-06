@@ -25,7 +25,7 @@ Audit a collection of software development document templates (typically in Obsi
 
 ## Prerequisites
 
-- Target vault path confirmed (typically `F:\obsidian_note\document_template\`)
+- Target vault path confirmed (typically `document_template/`)
 - The templates have YAML frontmatter with `standard_ref` fields naming the claimed standards
 - The BOK source vault is accessible for cross-referencing (e.g., `body-of-knowledge/`, `software-engineering-note/`)
 

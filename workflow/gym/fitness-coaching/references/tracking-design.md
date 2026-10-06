@@ -2,7 +2,7 @@
 
 Built 2026-08-20/23 (data-gap audit → 8-file template suite → Phase 3 live files). Future template or phase-file work should follow these instead of re-litigating them.
 
-## The 8-file template suite (`fitness/template/`)
+## The 8-file template suite (global: `F:/obsidian_note/oralita_md/templates/fitness/`)
 
 | File | Role |
 | --- | --- |
@@ -15,14 +15,14 @@ Built 2026-08-20/23 (data-gap audit → 8-file template suite → Phase 3 live f
 | body-metrics.md | BIA weekly + tape monthly + photos monthly (ONE file) |
 | food-log.md | Thai anchors + dish table + weekly audit |
 
-A copy of the suite also lives in the GLOBAL Obsidian templates folder `F:/obsidian_note/oralita_md/templates/fitness/` (placed there by another session). When the user says "create by this template", read the global copy and conform the live phase files to it.
+The suite was MOVED (not copied) to the GLOBAL Obsidian templates folder `F:/obsidian_note/oralita_md/templates/fitness/` by another session — `fitness/template/` no longer exists. When the user says "create by this template", read the global copy and conform the live phase files to it.
 
 ## Measurement frequencies — user asked; answers are settled
 
 - **BP:** daily only in the baseline week (first 7 days, 2 readings 1 min apart, record both + average), then Sunday + Thursday. Never daily forever — ±5–10 mmHg day-to-day noise; the weekly average is the trend. Exception: 2 sessions ≥140/90 → daily for a week + doctor visit.
 - **Blood panel:** baseline now → 6-month retest. Monthly draws are pointless (HbA1c is a 3-month average; lipids swing ±5–10% biologically). Conditional: a ▲ marker → recheck that one marker at 3 months.
 - **Run/walk:** 1 structured session/week at 120+ kg (Wed), plus Sun easy treadmill once home-based. Daily walking lives in the steps column. No daily run-walk — joint risk.
-- **Body metrics:** BIA weekly (Sunday, fasted), tape + photos monthly (1st Sunday). One file because all three happen in one Sunday sitting — the user renamed the file to `body-metrics.md` for exactly this reason.
+- **Body metrics:** BIA weekly (Sunday, fasted), tape + photos monthly (1st Sunday). One file because all three happen in one Sunday sitting — the user renamed the file to `body-metrics.md` for exactly this reason. Later split (2026-08-23) when the vault restructured: weekly BIA → phase `logs/weekly/smart-scale-weekly.md`; tape + photos → vault-root `body-measurements-monthly.md`. The template file still bundles all three as a design.
 
 ## User preferences (encode in files, don't re-ask)
 

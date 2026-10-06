@@ -1,6 +1,34 @@
 # Penpot — Homelab Configuration
 
-> Verified on Penpot 2.16.2 (backend/frontend/exporter/mcp images), Docker 29.6.2, Panomete homelab.
+> Verified on Penpot 2.17.1 (backend/frontend/exporter/mcp images), Docker 29.6.2, Panomete homelab.
+
+## Version Pinning & Upgrades
+
+The compose pins every image as `${PENPOT_VERSION:-2.16}`. Pin the version with a project `.env` (leaves compose untouched):
+
+```
+# ~/application/penpot/.env
+PENPOT_VERSION=2.17.1
+```
+
+Upgrade procedure (verified 2.16 → 2.17.1, 2026-08-26):
+
+```bash
+cd ~/application/penpot
+cp docker-compose.yaml docker-compose.yaml.bak-$(grep PENPOT_VERSION .env | cut -d= -f2)   # tag backup with old version
+# edit .env: PENPOT_VERSION=<new>
+docker compose config --quiet          # validate before pulling
+docker compose pull                    # MUST pull explicitly — default pull_policy won't fetch new tags
+docker compose up -d                   # recreates changed containers
+# watch migrations:
+docker logs penpot-penpot-backend-1 2>&1 | grep -iE "migration|welcome"
+```
+
+Notes:
+- **Migrations run automatically at backend startup** — wait for `hint="welcome to penpot", version="<new>"` before judging success. 2.16→2.17.1 applied `0150-mod-http-session-v2`, `0152-rename-version-...` in seconds.
+- **Transient 502s in frontend logs during recreate are harmless** — websocket requests hit the old backend while containers restart; they clear once the backend is up.
+- First boot of a fresh version applies ~150 numbered migrations; upgrades apply only the delta.
+- Before first image pull, verify the tag exists: `curl -s https://hub.docker.com/v2/repositories/penpotapp/backend/tags/<VER> | jq .name`
 
 ## Container Details
 

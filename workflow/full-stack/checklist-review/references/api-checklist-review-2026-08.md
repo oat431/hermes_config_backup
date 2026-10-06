@@ -67,3 +67,25 @@ print("Done.")
 
 ## Result
 200 → 250 lines, 17 → 19 sections. All changes applied, cross-references verified.
+
+---
+
+# 2026-09 Refresh — Parent Update + Family Fan-Out
+
+## Parent additions (api.md, verified)
+- **RFC 9457** replaces the RFC 7807 citation in the error-format item (application/problem+json, stable machine-readable codes).
+- **OpenAPI 3.1 + breaking-change CI gate**: spectral house ruleset + `oasdiff`/`openapi-diff` failing the build on breaking changes — the REST analog of `buf breaking` for gRPC (which was already covered).
+- **RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset (+ RateLimit-Policy)** response headers — clients cannot self-throttle without them; minimum on 429.
+- **HTTP caching semantics**: Cache-Control with s-maxage / stale-while-revalidate / Vary — let the CDN absorb traffic before app code.
+- **X-Request-ID propagation**: read from client, generate if absent, return in every response (especially errors) — maps a support ticket to logs in one lookup.
+- **AsyncAPI** named for event contracts (§11); **quotas vs rate limiting** distinction (§17) — burst control ≠ product entitlements.
+
+## Fan-out pattern (2 waves of 3 subagents)
+- Wave tasks carry: parent sections as wording reference, framework-specific tool mapping, conditional wording ('if a message-queue section exists, add outbox; else skip and report'), and a renumber/self-verify step.
+- Framework adaptations used: dotnet → Stryker.NET, .NET 10 native OpenAPI 3.1; fastapi → Pydantic v2 native 3.1, slowapi, mutmut; fiber → swaggo, requestid middleware; nestjs → @nestjs/throttler, Stryker; axum → utoipa, cargo-mutants; spring → springdoc, ProblemDetail, Micrometer Tracing (Sleuth retired), PIT, Spring Modulith outbox.
+- Outbox stays parent-only: variants lacking a message-queue section skip it by design.
+
+## Structural normalization (scan before content work)
+- Three variants shipped unnumbered `## Name` headers while their matrices were numbered → numbered all sections 1..N in existing order.
+- spring-boot shipped a section-count vs matrix-row-count mismatch (14 vs 16) → reconcile sections and rows, renumber both; never delete a row that maps to real content.
+- Both defect classes are invisible in content-only review — the consistency scan (sections numbered? count == rows?) precedes any family content refresh.

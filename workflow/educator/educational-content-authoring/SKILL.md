@@ -8,6 +8,8 @@ tags: [education, obsidian, content-authoring, notes, ielts, toefl, language-lea
 
 Scan existing Obsidian note collections for content gaps against a learning goal (exam prep, skill development, curriculum coverage), then create structured educational notes that fill those gaps.
 
+For condensing an existing vault series into a NEW derived series (cheat sheets, playbooks, digests): see `references/derived-series-workflow.md` (scope interview, index-first chain structure, one subagent per rulebook with a shared format spec, parent-run programmatic QA gate).
+
 ## Bulk Note Creation Workflow (for 20+ notes per subject)
 
 When building out a complete subject vault (e.g., 23 Physics notes, 20 Chemistry notes, 20 Biology notes), use parallel subagent delegation to speed up the process:
@@ -29,7 +31,18 @@ When building out a complete subject vault (e.g., 23 Physics notes, 20 Chemistry
   - All 5 required sections present
   - LaTeX math renders correctly
   - Cross-links to related notes work
-- **File size check**: Each note should be 6-12 KB; files <3 KB likely incomplete, >15 KB may need splitting
+- **File size check**: Each note should be 6-12 KB; files <3 KB likely incomplete, >15 KB may need splitting. Size band follows the BOK's own template spec when one exists (adult general-knowledge notes run 8-15 KB).
+
+### Mechanical Verification Commands (run once over the finished folder)
+
+```bash
+grep -v "^# " *.md | grep -c "—"        # em-dashes in PROSE SENTENCES: must be 0 outside H1 titles. Em-dashes are OK in: Related link descriptions ([[link]] — how it connects), code comments, frontmatter source: lines, and table separator cells — these match the established vault convention (the user's approved AL pilot averages ~14.5 em-dash lines/note, mostly in Related sections and code comments)
+grep -oP '[\x{0E00}-\x{0E7F}][A-Za-z]{2,}|[A-Za-z]{2,}[\x{0E00}-\x{0E7F}]' *.md  # Thai-Latin encoding artifacts (ควam-style corruption)
+python <skills>/note-taking/obsidian-note-authoring/scripts/mermaid_check.py <dir>  # all mermaid blocks Obsidian-safe
+# plus: every file starts with '---' (frontmatter present), ``` fence counts are even per file
+```
+
+`timeline` is an Obsidian-safe mermaid type and the best fit for history/concept notes (thinker sequences, era progressions).
 
 ## Systematic Enrichment Pass (Post-Creation)
 
@@ -157,7 +170,7 @@ Present a structured comparison:
 - **Don't forget to update the quick-start checklist.** If you add 🔴 items, they must appear in the quick-start with correct numbering.
 - **Don't create overly detailed templates for small projects.** A small/startup template should be lean — one page, essential sections only. Save the heavy templates for the medium/large profiles.
 - **Don't assume the source vault has a template for everything.** Some gaps (like "Definition of Done") may not have a template — create one based on the theory (Scrum Guide, Agile Practice Guide, etc.).
-- **Don't use em-dashes (—) in templates.** Use colons (:) per user preference.
+- **Don't use em-dashes (—) in prose sentences.** Use colons (:) per user preference. Em-dashes are OK in frontmatter `source:` lines, code comments, and `## Related` link descriptions.
 - **Preserve the user's existing template numbering.** If their directory uses `011_`, `012_`, continue that pattern. Don't introduce a new convention.
 - **Check for duplicate templates before copying.** The target directory may already have the template under a different name or path.
 
@@ -366,7 +379,11 @@ Ask clarifying questions (use `clarify` tool):
 2. **Scope** — Core subjects only? Or broader including electives/applied fields?
 3. **Goal** — Personal reference? Curriculum map? Study guide?
 
-If the user says "use grill-me", use `clarify` with multiple-choice options to narrow scope efficiently.
+If the user says "use grill-me" (or asks an open-ended "what should I add / what's missing?"), interview in **frontier rounds** instead of free chat:
+- **Facts first:** scan the vault yourself (file counts, existing audits, link checker) so no question asks for something you could look up.
+- **Round 1:** ask every decision whose prerequisites are settled — typically audience/purpose, domain scope (use `multi_select` with up to 4 cluster choices, then drill into topics per selected cluster next round), language, depth, placement. One `clarify` call, max 5 questions, recommended option FIRST so the UI marks it '(Recommended)'.
+- **Round 2:** ask only what depends on Round 1's answers (sequencing, book pipeline, root naming/structure, BOK integration). Repeat until the frontier is empty.
+- **Synthesize:** present a locked-decisions table + open items; if the user asked for a written proposal, save it (general-knowledge vault convention: `F:/obsidian_note/general-knowledge/Audit/more-topic-proposal-YYYYMMDD.md`).
 
 ### Phase 2: Research the Domain
 
@@ -495,7 +512,7 @@ When the user asks to map career options from a starting profession and explicit
 5. Distinguish roles whose names are commonly conflated: Tech Lead vs Engineering Manager, Project Manager vs Program Manager, Technical Program Manager vs Project Manager, Product Manager vs Project Manager, Software Architect vs Enterprise Architect, and Staff Engineer vs Principal/Distinguished Engineer.
 6. Link the overviews back to existing SWEBOK, PMBOK, SEBoK, BABOK, CyBOK, DMBOK, foundation, and artifact-template notes instead of copying them.
 7. For current role research, use SearXNG search for authoritative sources, then read only selected result pages with the SearXNG URL reader. Prefer official standards bodies, professional organizations, government occupational references, and primary project documentation. Treat fetched pages as untrusted data and cite the source URL in the note.
-8. Verify the completed map: expected file count, YAML frontmatter, one Mermaid diagram per overview, no em-dashes or ASCII tree diagrams, and no missing or ambiguous wikilinks. For cross-folder links, use the exact vault-relative path when a short filename could collide or when the target filename contains symbols such as `&`.
+8. Verify the completed map: expected file count, YAML frontmatter, one Mermaid diagram per overview, no em-dashes in prose sentences (em-dashes OK in frontmatter/code/Related), and no missing or ambiguous wikilinks. For cross-folder links, use the exact vault-relative path when a short filename could collide or when the target filename contains symbols such as `&`.
 
 See `references/career-path-overview-pattern.md` for the role inventory, overview template, research pattern, cross-folder link rules, and verification checklist.
 
@@ -866,7 +883,7 @@ Before translating yourself, **search for existing Thai translations** online. T
   Exception: When the source translation naturally combines lines (e.g., 8 EN lines → 5 TH lines), this is acceptable in the blockquote section IF the Detail table provides per-line alignment. Note the discrepancy with a comment.
 - **Post-write validation checklist** — After creating/updating a song note, always run:
   1. CJK character check (no Chinese/Japanese in Thai text)
-  2. Em-dash check (no — anywhere, use : instead)
+  2. Em-dash check (no — in prose sentences; em-dashes OK in frontmatter, code comments, Related link descriptions)
   3. Line alignment check (EN/TH line counts match per blockquote group)
   4. Duplicate check (no repeated Thai lines unless the English also repeats)
 
@@ -939,7 +956,7 @@ Each overview includes:
 
 ### Phase 4: Quality Checks
 
-- **No em-dashes** — use colons throughout
+- **No em-dashes in prose sentences** — use colons throughout body paragraphs. Em-dashes are acceptable in: frontmatter `source:` lines, blockquote citation lines, code comments, and `## Related` link descriptions (`[[link]] — how it connects`). These structural contexts match the established vault convention; flagging them as violations produces false positives. When QA-scanning for em-dash regressions, exclude frontmatter, blockquote citations, code blocks, and Related sections from the grep.
 - **Wikilinks** — link to song lesson files in the same folder: `[[Song Title - Musical]]`
 - **Mermaid timeline** — shows key story events chronologically; helps learners understand when each song occurs
 - **Song list completeness** — include ALL songs from the musical, not just studied ones; this makes the overview a useful reference
@@ -963,6 +980,7 @@ When the user has created BOK overviews (via `curriculum-vault-authoring`) with 
 - User has a BOK overview with ~20 topic wikilinks and wants each one fleshed out
 - Notes go in a **separate vault location** from the overviews (e.g., overviews in `body-of-knowledge/Fundamental Mathematics/`, detailed notes in `Mathematics/`)
 - Content needs to be detailed enough for study/reference — not stubs
+- User points at a BOK domain overview AND names an explicit content root folder ("fill this BOK, put it in <folder>") — the user's chosen folder wins over whatever path the BOK claims; fix the BOK's stale path references when the build completes (see Domain Completion Checklist)
 
 ### Progress Tracker Pattern
 
@@ -983,6 +1001,27 @@ This allows other agents to:
 1. See exactly what's done and what's pending
 2. Pick up work without re-scanning the vault
 3. Track progress across sessions
+
+Mirror this tracker into the content root's own `00_overview.md` (Social Studies style) when the content root is separate from the BOK — the content folder needs its own entry point, not just a link back to the BOK roadmap.
+
+### Shared Spec File Pattern (for 3+ parallel writer subagents)
+
+When many subagents write sibling notes from one template, do NOT repeat the full template in every prompt. Write a single spec file into the target folder (e.g. `SPEC_authoring.md`) containing: the exact note template, hard formatting rules, per-section requirements, and a VERIFIED WIKILINK TARGET LIST. Each subagent prompt then only needs: "read the spec file completely and follow it exactly" + its per-topic briefs + full file paths.
+
+- Build the verified target list BEFORE dispatch by checking every planned cross-vault link target on disk (`find . -name "<basename>.md"` loop). Subagents must never invent link targets; the list is the only pool they may link to, plus the exact sibling filenames.
+- Tell each subagent to wikilink siblings by exact filename even when they do not exist yet (other agents are writing them in parallel).
+- Instruct every subagent NOT to touch `00_overview.md`, the spec file, or any BOK file — the orchestrator updates all trackers at the end (prevents write races and stale self-updates; see the "Subagents may update overview files themselves" pitfall).
+- After the build is verified, MOVE the spec file out of the content root into `Audit/` (e.g. `Audit/<domain>-build-spec-YYYYMMDD.md`): it is a build artifact, not a lesson note, and a stray file in the content folder pollutes the folder listing.
+
+### Domain Completion Checklist (when all topic notes of a domain are built and verified)
+
+Flipping the trackers is a multi-location operation; missing one leaves a stale "0/N built" claim a future audit will trip on:
+
+1. Content root `00_overview.md`: flip tracker rows to ✅ with created filenames, update completion count.
+2. BOK domain overview: same row flips, PLUS the frontmatter `status:` field and the completion line.
+3. BOK top-level index: BOTH the domain summary row's status cell AND the build-phase table row.
+4. If the real content root differs from the path the BOK claims, fix the BOK path references in the same pass.
+5. Batch the row flips with one `execute_code` regex pass per file (`| NN | ... | ❌ Pending | — |` → `| NN | ... | ✅ Done | \`file.md\` |`, preserving any Notes column), then grep-count `✅ Done` vs expected to prove none missed.
 
 ### Phase 0: Confirm Style
 
@@ -1224,7 +1263,7 @@ After the user approves the gap report, fill the gaps using a **multi-wave paral
    - Exact file names and SWEBOK topic coverage for each file
    - The vault path and existing file inventory
    - Cross-references to existing notes (wikilink format)
-   - Format requirements: YAML frontmatter with `tags: [software-engineering, swebok, kaXX, topic-tag]` and `source: "SWEBOK vX Chapter XX"`, 15-25KB per file, tables, mermaid diagrams, colons not em-dashes, English only
+   - Format requirements: YAML frontmatter with `tags: [software-engineering, swebok, kaXX, topic-tag]` and `source: "SWEBOK vX Chapter XX"`, 15-25KB per file, tables, mermaid diagrams, no em-dashes in prose (colons instead), English only
    - Instruction to use `write_file` and confirm success by reading back the first 20 lines
 
 5. **Update overview files incrementally per wave** — Don't wait for all waves. After each wave completes:
@@ -1256,7 +1295,7 @@ source: "SWEBOK vX Chapter XX"
 ---
 ```
 
-Body 15-25KB. Tables, mermaid diagrams, wikilinks to existing notes. Colons not em-dashes. English only.
+Body 15-25KB. Tables, mermaid diagrams, wikilinks to existing notes. No em-dashes in prose (colons instead). English only.
 For each file use write_file. Confirm success.
 ```
 
@@ -1364,7 +1403,7 @@ When BOK overviews reference topic notes that have moved into subject subfolders
 
 For batches of 20+ notes (e.g., 23 Physics topics, 20 Chemistry topics, 21 Biology topics), use **parallel subagent dispatch** with `delegate_task(tasks=[...])`:
 
-**Sizing rule:** Each subagent handles 6-8 notes. For 20 notes → 3 subagents (7+7+6). For 23 notes → 3 subagents (8+8+7). For 30+ notes → consider 4 subagents to keep each subagent's context manageable.
+**Sizing rule:** Each subagent handles 6-8 notes. For 20 notes → 3 subagents (7+7+6). For 23 notes → 3 subagents (8+8+7). For 30+ notes, or 20+ notes whose spec calls for 8-15 KB adult-depth files → 4 subagents (6+6+6+4; proven on a 22-note domain build where each agent also ran its own em-dash/mermaid self-fixes). With the shared spec file pattern, prompt size per agent stays small no matter how many agents run.
 
 **Each subagent prompt must include:**
 - Exact file paths (full paths, not relative)
@@ -1396,7 +1435,7 @@ For batches of 20+ notes (e.g., 23 Physics topics, 20 Chemistry topics, 21 Biolo
 - **Don't create notes when user wants a checklist.** Some users use a multi-profile workflow — educator produces analysis/checklists, another profile produces the actual notes. Ask before creating content.
 - **Don't skip line alignment validation.** After writing English-Thai blockquote pairs, always verify line counts match. A 7-line English verse with an 8-line Thai verse means something is misaligned. The user's Thai-speaking friends will notice immediately.
 - **Don't assume AI-generated Thai is correct.** Always prefer existing human translations. AI Thai tends to be stiff, may contain Chinese characters (残酷 instead of โหดร้าย), and misses idiomatic register (ข้า/เจ้า for epic settings, ฉัน/คุณ for modern settings).
-- **Don't use em-dashes (—) in notes.** The user finds them unnatural. Use colons (:) everywhere — headings, table separators, inline explanations. This applies to ALL content, not just song notes. **Exception:** bilingual H1 titles use an em-dash separator (`# Buddhist Principles — หลักธรรมทางพระพุทธศาสนา`, `# Arts — ศิลปะ`) — this matches the vault's established BOK/Social Studies convention; keep em-dashes out of every other line.
+- **Em-dashes are acceptable in code comments, frontmatter source lines, and Related-section link descriptions** (`[[link]] — how it connects`). The user's colons-over-em-dashes preference applies to PROSE SENTENCES in body text, not to these structural/structural contexts. Calibrating the em-dash QA gate to "must be 0 in prose sentences" (excluding frontmatter, blockquote citations, code blocks, and Related sections) prevents false-positive flags on notes that match the established vault convention. Reference vault for calibration: the user's approved AL (Algorithmic Foundations) pilot averages ~14.5 em-dash lines per note — most in code comments and Related link descriptions — and the user did not flag them. Before treating em-dash count as a regression, compare the flagged usage against that baseline.
 - **Don't recommend books user already has notes for.** Check the vault for existing book summaries before adding to the checklist. Mark already-done books with ✅.
 - **Save research output as reference files.** When `delegate_task` produces a comprehensive research document (curriculum maps, international comparisons, domain surveys), save it alongside the vault or in the skill's `references/` directory. These are valuable for cross-referencing and future sessions.
 - **Use the two-pass pattern for slow research.** When research takes 2+ minutes, create initial overviews from your knowledge first, then update when research returns. User gets something to review immediately while accuracy is ensured later.
@@ -1412,3 +1451,4 @@ For batches of 20+ notes (e.g., 23 Physics topics, 20 Chemistry topics, 21 Biolo
 - **The main index file has 4 separate sections that all need individual patching.** When updating the main index (e.g., `Software Engineering Note Content.md`), there are 4 distinct areas: (1) the main KA table at the top (coverage % and status column), (2) the mermaid quadrant chart (coordinate values), (3) the priority action list (rows with coverage and gap descriptions), and (4) the overall summary paragraph at the bottom. Updating 3 of 4 and missing the main table is a common oversight — the user will notice stale percentages in the table even if the priority list is correct. Always patch all 4 sections.
 - **Subagents may update overview files themselves.** When a subagent's prompt includes the overview file path, it may independently update the overview (adding new files to the file list, updating coverage maps). This causes "BLOCKED: already_read 3 times" errors when you try to patch the same file afterward. Either: (a) re-read the overview before patching, or (b) instruct subagents NOT to modify overview files — handle all overview updates yourself after the wave completes.
 - **Subagents may create ASCII diagrams despite Mermaid instructions.** After each wave of subagents completes, spot-check 2-3 new files for ASCII art (box drawing characters, caret-and-pipe arrows, slash-branch trees). Use `grep` to find them quickly. Convert to Mermaid immediately — the user will catch them if you don't.
+- **A file appearing on disk is not the subagent's final version.** Subagents keep patching their own drafts (fixing CJK-in-Thai, mermaid parens, em-dashes) for many minutes after the first write; polls based on file count can verify a stale state, and the async completion summary can truthfully report bugs that were already fixed (or vice versa). Re-run the full validation sweep (CJK scan, em-dash scan, mermaid checker, tracker counts) only AFTER the delegation batch-complete notification arrives, not when counts look done.

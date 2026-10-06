@@ -1,7 +1,7 @@
 ---
 name: interview-prep-coaching
 description: Use when building or reviewing interview prep notes.
-version: 1.0.0
+version: 1.1.0
 author: Dev (full-stack profile)
 license: MIT
 metadata:
@@ -52,6 +52,14 @@ When asked to review prep, ground every finding in real artifacts — never take
 ## Time triage
 
 With <24h to the interview: a mock interview round and code-walkthrough rehearsal outrank more silent reading. Sequence recommendations as an evening plan with per-item time budgets.
+
+## Take-home deliverable polishing
+
+When the user is polishing a take-home assignment before submission (e.g. ITOPPLUS ai-engineer-takehome), the deliverable IS interview prep — coach the artifact:
+
+- Verify the README Quick Start on the **project venv**, not the session's own Python — the session interpreter often has deps the user's (and the interviewer's) terminal lacks. Include venv activation (PowerShell/cmd variants) and a `ModuleNotFoundError` troubleshooting note in the README; the interviewer will run it live.
+- Keep the DECISION_LOG as a living document — every non-trivial fix lands as a dated entry with its "why" (root cause → fix → verification). It's the walkthrough backbone; lessons like provider-migration traps read as senior field notes.
+- Refactor under test: baseline the test suite green, backup outside the repo when no git, keep tests green per step, and add regression tests for each bug fixed during cleanup. "Found gap → root cause → fix → regression test → live verify" is the strongest walkthrough story there is.
 
 ## Pitfalls
 

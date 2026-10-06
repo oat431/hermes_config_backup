@@ -24,6 +24,8 @@ Author a complete spec package from a **written requirements source** (interview
 - User references `F:\projects\project_spec\template\` and lets you pick templates
 - Context is an assessment/interview where "bonus points" matter
 
+> **Presentation variant:** when the user has ALREADY shipped the code and needs a presentation/interview defense spec (slide script, talking points, evidence refs), do NOT force-fit the development template. Load `references/presentation-spec-variant.md` and use the 4-file presentation doc set instead. The template is ~40% useful as raw material for a presentation — assess honestly and propose the variant.
+
 ## Workflow
 
 ### 1. Fetch the source
@@ -101,3 +103,4 @@ Numbered assumptions (A1, A2, …) live in ONE table in `000_spec_index.md`: sta
 ## Support Files
 
 - `references/interview-challenge-playbook.md` — worked example: Go + MongoDB + JWT challenge (SevenSolution), the 10-doc set, bonus-synergy analysis, and the assumption set that was baked in.
+- `references/presentation-spec-variant.md` — variant for **post-build interview presentation specs** (code already shipped, user needs a slide script, not a development package). Use when the user says "presentation," "interview presentation," or "keynote."

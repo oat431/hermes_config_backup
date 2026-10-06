@@ -57,12 +57,14 @@ When the user notices broken backlinks, follow the workflow in `references/wikil
 Key rules:
 - Obsidian can resolve by filename, but path-qualified links are valid and may be required to disambiguate duplicate basenames. Flatten `[[Folder/Note]]` or `[[../dir/Note]]` only when the destination basename is unique and the canonical vault style permits it.
 - Handle aliases without losing them: `[[broken|alias]]` → `[[correct|alias]]`.
+- Replace BOTH shapes in the correction pass: bare `[[X]]` AND aliased `[[X|alias]]`. A mapping applied only to the bare target leaves every `[[X|alias]]` instance broken, and the re-scan 'confirms' the fix while the aliased links still fail.
 - Preserve heading/block suffixes while repairing targets; verify the target anchor when the workflow claims anchor-level correctness.
 - Leave user's personal notes (daily notes, memory) alone — only fix knowledge vaults.
 - **Concept-only links** (for example `[[viruses]]` or `[[CRM]]`) may be intentional knowledge links. Convert to bold only when they are proven placeholders or the user explicitly requests flattening.
 - **Folder-style links** (`[[02-Creational/]]`) are invalid navigation targets unless the vault intentionally uses folder links; remove only after checking the local convention.
 - **Placeholder text** (`[[wikilinks]]`, `[[Related Topic]]`) → remove entirely.
 - **Backslash in links** (`[[Note\|alias]]`) → fix to `[[Note|alias]]` (single `\` is common, not just `\\`).
+- **Old section-number names** (v3-style `[[02_Structured_Analysis_Modeling]]`, `[[05_Metrics_and_Costs]]`): map SEMANTICALLY — read the actual headings/tables of the candidate target notes and pick by content, never by name similarity or numeric order alone; names survive consolidations, content does not follow the number.
 
 ### Multi-Pass Strategy
 

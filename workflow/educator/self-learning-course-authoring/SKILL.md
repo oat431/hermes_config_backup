@@ -34,7 +34,8 @@ Not for mapping external curricula into BOK structures (that is
 - **Root files:** `00_Course_Map.md` (hub: mission, rules, protocol, phase tracker, capstone ladder, open items) · `01_Syllabus.md` (ALL lessons mapped upfront: `# | lesson | focus | resources | est | checkbox` in per-phase tables, plus dojo lists and checkpoints) · `02_Resources.md` (verified links: spine vs optional vs orientation maps; cross-vault assets).
 - **Lessons:** `phase-N-<name>/NN_Title.md`, GLOBAL numbering across phases (00, 01, 02 ... through the last phase).
 - **Style:** English, colons over em-dashes, Mermaid over ASCII, numbered prefixes. Frontmatter: `document_type: Lesson`, `lesson_type`, `course`, `lesson`, `phase`, `estimated_time`, `prerequisites`, `related`, `project`, `tags`.
-- **Lesson shape:** Learning Objectives · Prerequisites · Concept · Visual Reference · Hands-On · Going Deeper · Interview Lens · Done When (checkboxes) · Key Takeaways. Skeleton in `templates/lesson.md`.
+- **Lesson shape:** Learning Objectives · Prerequisites · Concept · Visual Reference · Hands-On · Going Deeper · Interview Lens · Done When (checkboxes) · Key Takeaways. Skeleton in `templates/lesson.md`. For non-interview courses (kids, hobby, portfolio-driven), replace Interview Lens with a Show & Tell / community block.
+- **Career-series folders:** when the target sits inside `general-knowledge/career/<topic>/`, also match the series conventions: bilingual `<Topic> - Overview.md` (Thai/English, mermaid education pathway), `source.md` (verified links + last-verified date), frontmatter with `profession`/`degree`/`duration` Thai strings.
 
 ## Procedure
 

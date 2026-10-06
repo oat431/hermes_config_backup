@@ -80,8 +80,8 @@ LiveSync is the primary consumer of CouchDB. Key notes:
 3. **LiveSync setup requires (after CouchDB running):**
    - Create database (e.g. `obsidian-livesync`)
    - Create non-admin user for the plugin
-   - Enable CORS (so Obsidian app can reach CouchDB)
-   - Nginx reverse proxy (`sync.panomete.com` or similar → `127.0.0.1:5984`)
+   - Enable CORS (so Obsidian app can reach CouchDB) — see Step 5 for the master-switch gotcha
+   - Nginx reverse proxy (`obsync.panomete.com` → `127.0.0.1:5984`)
 
 ## LiveSync Provisioning (API — after CouchDB is running)
 
@@ -124,17 +124,58 @@ curl -X PUT -u ${COUCHDB_USER}:${COUCHDB_PASSWORD} \
 
 Without this, the user authenticates but gets `"You are not allowed"` when accessing the DB.
 
-### Step 5 — Enable CORS
+### Step 5 — Enable CORS (THE gotcha step)
 
-CouchDB config API expects **raw JSON strings** (not objects with `"value":`). Wrong format causes `"a JSON string expected"`:
+CouchDB 3.x CORS has a **master switch that defaults OFF**:
+
+```
+[chttpd] enable_cors = false   ← DEFAULT
+```
+
+Without it, every `[cors]` setting is silently ignored — no `Access-Control-*` headers on any response, and OPTIONS preflights fall through to auth and return 401. This exact symptom ("The request was successful by API. But the native fetch API failed!") took a full debugging session to trace to this one key.
+
+Config API expects **raw JSON strings** (not objects with `"value":`). Wrong format causes `"a JSON string expected"`:
 
 ```bash
-# ✅ Correct — raw JSON string value
-curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"*"' http://127.0.0.1:5984/_node/_local/_config/cors/origins
-curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"true"' http://127.0.0.1:5984/_node/_local/_config/cors/credentials
-curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"accept, authorization, content-type, origin"' http://127.0.0.1:5984/_node/_local/_config/cors/headers
-curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"GET, PUT, POST, HEAD, DELETE"' http://127.0.0.1:5984/_node/_local/_config/cors/methods
+BASE=http://127.0.0.1:5984/_node/_local/_config
+
+# 1. MASTER SWITCH — without this nothing else matters
+curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"true"' $BASE/chttpd/enable_cors
+
+# 2. Explicit origins — see rule below
+curl -X PUT -u admin:PASS -H "Content-Type: application/json" \
+  -d '"app://obsidian.md,capacitor://localhost,http://localhost,https://localhost,https://obsync.panomete.com"' \
+  $BASE/cors/origins
+
+curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"true"' $BASE/cors/credentials
+curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"accept,authorization,content-type,origin,referer,x-requested-with"' $BASE/cors/headers
+curl -X PUT -u admin:PASS -H "Content-Type: application/json" -d '"GET,PUT,POST,HEAD,DELETE"' $BASE/cors/methods
 ```
+
+**CORS rules learned the hard way:**
+
+1. **`enable_cors` master switch** — `[chttpd] enable_cors = true` is required; default false. CORS silently does nothing without it (verify via `curl -s .../_node/_local/_config/chttpd`).
+2. **`origins = *` + `credentials = true` conflict** — CouchDB logs `config: [cors] credentials set to false for reason nil` and silently disables credentials. Use an explicit origin list (must include `app://obsidian.md` for the Obsidian desktop Electron app, `capacitor://localhost` for mobile).
+3. **Config values live in TWO places** — the runtime config DB (set via `_config` API, applied live) AND the ini files. The official docker image regenerates `docker.ini` at startup from runtime config — edit BOTH for persistence.
+4. **`docker cp` breaks config writes** — files copied into the container get host UID (1000), but CouchDB runs as UID 5984. Every config PUT then fails with `{"error":"bad_request","reason":"eacces"}`. Fix: `docker exec local-couchdb chown 5984:5984 /opt/couchdb/etc/local.d/docker.ini`.
+5. **Never delete a tracked ini file at runtime** — deleting `11-cors.ini` crashed the config server (`badrpc ... Couldn't find server configuration file`), making ALL config ops fail until container restart. Edit files, don't delete them mid-flight.
+
+**Verify (the test that actually matters):**
+
+```bash
+# OPTIONS preflight with Obsidian's real origin — expect 204 + headers
+curl -si -X OPTIONS -H "Origin: app://obsidian.md" \
+  -H "Access-Control-Request-Method: PUT" \
+  -H "Access-Control-Request-Headers: authorization" \
+  https://obsync.panomete.com/obsidian-livesync | grep -i "HTTP/\|access-control"
+# → HTTP/1.1 204 No Content
+#   access-control-allow-origin: app://obsidian.md
+#   access-control-allow-credentials: true
+```
+
+If preflight returns **401**, CORS is still off (enable_cors missing or origin not listed).
+
+**Nginx stays a pure proxy** — CouchDB emits CORS headers natively; adding them in Nginx produces duplicate `Access-Control-*` headers and browsers reject the response. Keep the Nginx block simple (proxy_pass + headers + `proxy_buffering off` for the long-poll `_changes` feed).
 
 ### Step 6 — Verify user access
 
@@ -199,4 +240,5 @@ Port 5984 IS the database port — it just happens to speak HTTP. The admin UI (
 - [ ] `curl -s -u admin:PASSWORD http://127.0.0.1:5984/_all_dbs` returns `[]` (empty, no DBs yet)
 - [ ] After provisioning: `_users`, `_replicator`, `_global_changes`, `obsidian-livesync` all present
 - [ ] `curl -s -u USERNAME:PASSWORD http://127.0.0.1:5984/_session` returns `"ok": true`
-- [ ] CORS enabled (all 4 config keys set via `_node/_local/_config/cors/*`)
+- [ ] `[chttpd] enable_cors = true` AND all 4 `[cors]` keys set (check `_node/_local/_config/chttpd` + `_node/_local/_config/cors`)
+- [ ] OPTIONS preflight with `Origin: app://obsidian.md` returns 204 + `access-control-allow-origin` (the test that catches every CORS miss)

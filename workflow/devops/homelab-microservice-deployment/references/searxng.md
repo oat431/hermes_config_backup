@@ -46,19 +46,31 @@ valkey:
    EOF
    ```
 
-## Rate Limiter Configuration
+## Rate Limiter — keep it OFF on this instance (critical)
 
-When SearXNG is used as an MCP backend or API endpoint, rapid requests trigger **upstream engine rate limits** (Google, Bing, Startpage CAPTCHAs). The SearXNG limiter throttles incoming requests before they hit upstream engines.
+**Current state: `limiter: false`.** This is a PRIVATE instance (Tailscale + Cloudflare tunnel + `noindex`), and SearXNG's bot-detection limiter — built for public instances — silently breaks AI/API clients here:
 
-### settings.yml additions
+- Its checks (`http_user_agent`, `http_accept`, `http_sec_fetch`, …) block non-browser clients outright: curl / Python / MCP tools get `429 Too Many Requests`.
+- It enforces a hardcoded **API_WINDOW limit: 4 requests/hour** for any `format != html` request — every AI/MCP call is an API call.
+- It resolves the **true client IP through trusted proxy chains** (Cloudflare → cloudflared → Nginx), so public visitors can never match a passlist. A passlist cannot whitelist "the internet" — the old limiter+passlist design could never work for the public URL.
+
+### Diagnosing "SearXNG refuses to respond" (429s)
+
+1. Test the SAME request on all three paths: direct `http://127.0.0.1:7004`, via Nginx (`-H "Host: search.panomete.com" http://127.0.0.1:80/`), and the public URL.
+2. Vary the User-Agent: browser (Chrome string), `curl` default, `python-urllib` — each with and without `format=json`. **Browser-UA testing hides the bug**; always test with the exact client a real consumer uses.
+3. **Limiter block messages log at DEBUG level** — invisible in `docker logs`; only `PASS … matched PASSLIST` shows (WARNING level). No block logs ≠ nothing was blocked.
+4. To see the real proxy chain, add a temporary Nginx location echoing `$remote_addr` / `$http_x_forwarded_for`, request it, then remove it.
+5. Definitive MCP-path test: drive the MCP server over raw stdio JSON-RPC — spawn `node <npx-cache>/mcp-searxng/dist/cli.js` with `SEARXNG_URL` set; send `initialize` → `notifications/initialized` → `tools/call` (`searxng_web_search`); read the newline-delimited JSON responses. Distinguishes "server broken" from "client path blocked".
+
+### settings.yml (current working state)
 
 ```yaml
 server:
-  limiter: true
+  limiter: false          # private instance — see above
   method: "GET"           # GET is better for API/MCP usage
 
 real_ip:
-  x_for: 1               # Trust X-Forwarded-For from Nginx
+  x_for: 1               # kept for logging fidelity (real client IPs)
 
 search:
   formats:
@@ -66,9 +78,9 @@ search:
     - json                # Required for MCP / API usage
 ```
 
-### limiter.toml (required — at `core-config/limiter.toml`)
+### limiter.toml — only if the limiter is ever re-enabled
 
-The schema is STRICT — only keys from the built-in schema are allowed. Invalid keys cause `TypeError: schema of /etc/searxng/limiter.toml is invalid!` and the container crashes.
+Kept at `core-config/limiter.toml` (inert while `limiter: false`). The schema is STRICT — only keys from the built-in schema are allowed. Invalid keys cause `TypeError: schema of /etc/searxng/limiter.toml is invalid!` and the container crashes.
 
 **Valid keys only:**
 
@@ -125,8 +137,8 @@ Even with the limiter, upstream engines will suspend after too many requests:
 | `HTTP error 429` | Various | 180s | Spread load across engines |
 
 To reduce upstream rate limits:
-- Enable multiple engines (DuckDuckGo, Brave, Qwant, Google)
-- Avoid Startpage (aggressive CAPTCHAs)
+- Enable multiple engines (bing, google, mojeek, yandex)
+- Disable any engine that starts CAPTCHA'ing from your IP (startpage, brave, duckduckgo so far)
 - Add delay between MCP queries if the tool supports it
 
 ## Compose File (consolidated — shared valkey)
@@ -207,8 +219,8 @@ For a private instance used by MCP/API, enable 5+ engines to distribute load:
 
 | Engine | Default | Recommendation | Notes |
 |--------|---------|----------------|-------|
-| DuckDuckGo | ✅ active | Keep | Reliable, no CAPTCHA |
-| Brave | ✅ active | Keep | Good results |
+| DuckDuckGo | ✅ active | **DISABLED** | CAPTCHAs on every request from this IP — pure latency; re-test before re-enabling |
+| Brave | ✅ active | **DISABLED** | 429s after ~3 rapid MCP calls |
 | Qwant | ✅ active | Keep | European engine |
 | Google CSE | ✅ active | Keep | Limited results vs full Google |
 | Google | ❌ inactive | Enable (`inactive: false`) | Full Google results |
@@ -217,8 +229,7 @@ For a private instance used by MCP/API, enable 5+ engines to distribute load:
 | Yandex | ❌ disabled | Enable | Good for non-English |
 | Startpage | ✅ active | **DISABLE** | Aggressive CAPTCHAs, 1hr suspension |
 
-**Before:** DuckDuckGo + Startpage → Startpage CAPTCHA after ~10 queries
-**After:** DuckDuckGo + Bing + Google + Mojeek + Yandex + Brave + Qwant → sustainable
+**Engine sets are not permanent.** Residential/datacenter IPs get CAPTCHA'd or 429'd on different engines over time (Startpage, Brave, and DuckDuckGo all ended up disabled this way). When searches degrade, check `unresponsive_engines` in the JSON response and disable whatever is failing; current working set: bing + google (cse) + mojeek + yandex.
 
 ### Verify Engines Working
 
@@ -240,19 +251,17 @@ print('Engines:', sorted(engines))
 
 When SearXNG is used as an MCP backend (e.g., `mcp-searxng` npm package), the MCP tool connects from the **host machine** (Windows), not from the Docker network. This creates a routing problem:
 
-### The Problem
+### Routing rule
+
+Run MCP against the **Tailscale URL**, not the public URL:
 
 ```
-MCP (Windows) → search.panomete.com → Cloudflare → Nginx → SearXNG
-                                              ↓
-                                    External IPv6 (2405:9800:b500::/48)
-                                              ↓
-                                    SearXNG limiter → BLOCKED
+MCP (Windows) ── Tailscale ──► 100.73.143.25:7004 ──► SearXNG
 ```
 
-The limiter sees the request as coming from an external IPv6 address and blocks it after a few rapid requests. Internal Docker traffic (`172.20.0.1`) passes the passlist, but external traffic doesn't.
+All Hermes profiles set `SEARXNG_URL: http://100.73.143.25:7004`. This path skips Cloudflare entirely (faster, fewer edge hiccups) — and while the limiter was enabled it was the ONLY path that worked: public-URL requests resolved to real public IPs through the trusted proxy chain, and no passlist can cover those.
 
-### The Fix
+### The Fix (both steps required)
 
 1. **Bind SearXNG to `0.0.0.0`** (safe behind UFW + Tailscale):
    ```env
@@ -261,19 +270,14 @@ The limiter sees the request as coming from an external IPv6 address and blocks 
    ```
    UFW blocks public access to 7004 by default. Tailscale traffic bypasses UFW.
 
-2. **Point MCP at the Tailscale IP** (not the public URL):
+2. **Point MCP at the Tailscale IP**:
    ```
-   # ❌ Bad — goes through Cloudflare, hits rate limiter
-   SEARXNG_URL=https://search.panomete.com/
-
-   # ✅ Good — direct Tailscale, matches passlist
    SEARXNG_URL=http://100.73.143.25:7004
    ```
    Get the server's Tailscale IP: `tailscale status | grep <hostname>`
 
-3. **Configure MCP server** (Hermes educator profile example):
+3. **Configure the MCP server** (profile `config.yaml`):
    ```yaml
-   # In profile config.yaml
    mcp_servers:
      searxng:
        command: npx
@@ -284,7 +288,7 @@ The limiter sees the request as coming from an external IPv6 address and blocks 
 
 ### Why This Works
 
-Tailscale traffic arrives from the Docker gateway IP (`172.20.0.1`) which matches the `172.16.0.0/12` passlist in `limiter.toml`. The limiter sees it as internal traffic and passes it through unrestricted.
+Tailscale traffic reaches the container without a Cloudflare hop, from IPs the passlist could cover (Tailscale CGNAT / docker gateway). With the limiter now disabled the public URL works too — Tailscale stays primary because it is faster and independent of Cloudflare.
 
 ### Brave 429 Issue
 
@@ -302,7 +306,7 @@ engines:
     disabled: true
 ```
 
-Keep: DuckDuckGo, Bing, Google, Mojeek, Yandex, Qwant — these handle rapid MCP queries better.
+Keep: Bing, Google (cse), Mojeek, Yandex — verify each with a live search. DuckDuckGo later joined Brave/Startpage on the disabled list (per-IP CAPTCHAs).
 
 ## Common Log Errors (not our problem)
 

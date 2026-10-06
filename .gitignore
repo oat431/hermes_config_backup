@@ -5,3 +5,7 @@
 /career/
 /templates/
 /home-lab-installation/miscellaneous/private-dns-tablet.md
+
+# Python bytecode (backup repos carry .py skills)
+__pycache__/
+*.pyc

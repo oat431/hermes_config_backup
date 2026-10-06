@@ -25,6 +25,7 @@ This skill governs the Product Owner workflow for eliciting requirements from a 
 
 ### Phase 1: Requirements Elicitation (Grill Session)
 
+0. **Intake via Product Brief.** Every new project starts from `Product-Brief.md` (template library `01_Business_Analysis_and_strategy/`, tier 1 universal): the human's one-page seed (idea, why, users, core features, simple data, simple response shape, picked tech, constraints, success, open questions, tier guess). If the user hasn't written one, offer to fill it WITH them during the grill; keep it under two pages and preserve it as the provenance record of original intent. Grow it into Business Objectives → Stakeholder Needs → User Stories → ACs.
 1. **Load context.** Read the project README and any existing specs. Understand what already exists.
 2. **Read the templates.** Load the target template files from the template directory so you know exactly what fields need to be populated.
 3. **Grill one question at a time.** Use the `clarify` tool. Each question should:
@@ -330,6 +331,42 @@ When auditing a document_template or Essential Documents library against multipl
 
 The reusable audit method and evidence notes are in `references/essential-document-catalog-audit.md`.
 
+### Executing a Template-Library Restructure (post-audit)
+
+When the Founder approves the audit and asks to execute fixes, run it as a controlled rebuild, not ad-hoc edits:
+
+1. **Write a dated restructure plan doc** in the library root: verified current-state inventory (machine-counted), defect records with IDs (RC-XX), a Decisions table (D1 purge/rebuild scope, D2 categorization model, D3 example policy, D4 overlap resolution) with PO recommendation per row and an empty **Final** column for the Founder, execution phases with a Mermaid dependency flow, DoD, and risks.
+2. **When decisions come back, verify them against their cited sources before recording.** A decision may misstate its own detail (e.g., "5 levels" that lists 7 tiers) — read the referenced checklist/note, record the verified version, and note the discrepancy in the plan.
+3. **Record a PO review subsection** (§ decisions): each D → accepted + downstream consequences (e.g., purge-and-rebuild merges the strip and schema phases).
+4. **Execute sweeps as scripts with machine re-verification.** Every bulk fix (citation normalization, stale-path replacement, diagram conversion, date placeholder-ization) ends with a re-scan proving 0 remaining hits. Exclude historical audit/review docs from all sweeps — they are evidence records and must keep original text; the restructure plan doc itself must also be excluded from contamination worklists because it quotes the defects it tracks.
+5. **Fan out per-file editing to parallel subagents by category batches** (worklist JSON in scratch dir), then re-scan independently in the parent. Subagent self-reports miss residuals; the parent's scan is the acceptance gate.
+6. **After each phase, patch the plan doc in place**: flip RC statuses to ✅ with verification evidence, mark the phase complete, bump version + revision history. The plan is the living contract across sessions.
+7. **Close with a scripted quality gate + two-sided walkthrough.** Gate battery (all machine-checked): citation editions pinned, Mermaid hygiene (0 mindmaps, 0 hardcoded-era dates, balanced fences), strict-YAML schema conformance 100%, index totals == disk file count, contamination re-scan, vault-wide wikilink resolution (0 broken), tier-checklist row counts == frontmatter-derived expectations. Then walk BOTH ends of the tailoring system: the minimal path end-to-end (a POC should need only a handful of purpose-fit artifacts) and the maximal path through the full chain (needs → requirements → design → V&V → release → operation → retirement) — proving the tiers neither over-demand nor drop traceability. Write a dated gate report into the library and flip the plan's DoD checkboxes only from gate evidence.
+
+See `references/essential-document-catalog-audit.md` for the contamination-scan scoring method, the strip-vs-keep (method vs data) rules, and the standing rebuild decisions (D1–D4, 7-tier maturity model).
+
+## Template Library Conventions (swe-knowledge/document_template, schema v2)
+
+The vault template library at `F:\obsidian_note\document_template\` uses frontmatter `schema_version: 2` on all 363 templates: `canonical_name`, `doc_form` (heavy/light/record), `applicability` (universal/conditional/evidence/technique), `min_project_tier` (1-7), `tier_trigger`, `minimum_form`, plus overlap fields (`overlap_group`/`source_of_truth`/`overlap_note`).
+
+- **7-tier project maturity model** (Founder's categorization, source: `checklist/release-checklist/release.md` §Project Tier Scoping Matrix): 🧪 POC → 🔧 Prototype → 🏠 Internal → 🟢 Small-Prod → 🔵 Medium-Prod → 🟣 Prod-Grade → 🔴 Mission-Critical/Regulated. When tailoring docs for a project, first determine its tier, then take templates with `min_project_tier <= tier` whose trigger applies.
+- `00_Essential Document/7-Tier Applicability Matrix.md` is a GENERATED view over frontmatter — regenerate via script after any frontmatter change; never hand-edit.
+- House example policy (Founder decision D3): templates ship **placeholders only** — no worked fictional examples (concrete IDs, money, dates, named products). Examples are generated on demand. When instantiating a template for a real project, fill real data; never leave example-style fake data that AI personas could inherit.
+- Overlap resolution is alias-first (D4): RTM, risk, change-control, schedule, incident, requirements-spec groups have a declared `source_of_truth`; update the canonical file, treat others as views.
+- Master index is `TEMPLATE-INDEX.md` (library root), generated from disk; `23_Project_Size/` holds one generated checklist per tier (Tier-1…Tier-7, cumulative 1/6/21/228/321/342/360 artifacts); old TEMPLATE-CHECKLIST.md and Profile-Small/Medium/Large checklists live in `99_Archive/` — never cite their totals. After any frontmatter tier change or new template, regenerate TEMPLATE-INDEX, the 7-Tier Matrix, and the tier checklists together.
+- Tailoring a project's doc set: determine its tier via `release.md` §"Which Tier Am I?", take the matching tier checklist, skip rows whose trigger doesn't apply, and record omissions in the project's Tailoring-Justification.
+- Harvested from the Founder's senior project (Transmatter, `_governance/Transmatter Retrospective - 2026-09-25.md`): every template carries `standards_profile: "[ISO/IEC 29110 VSE | ISO/IEC/IEEE 12207 | none]"` (T1–T4 default 29110 VSE, T5+ consider 12207, T7 adds domain regs), and all heavy templates include a **Document History & Access** matrix (Status draft/review/release + Viewable/Editable/Responsible per revision) after their Revision History table.
+
+### Harvesting Improvements from a Real Project Document Set
+
+When the Founder supplies a real lifecycle document set (e.g., a senior-project PDF) to compare against the library:
+
+1. **Extract the text.** If `read_file` reports NeedsOcrError on a PDF, try `pdftotext file.pdf out.txt` (git-bash) first — the text layer often exists even when read_file's extractor gives up; reserve OCR for genuinely scanned pages.
+2. **Build a chapter→template comparison table.** Map every chapter/section of the real doc set to library templates with a coverage verdict. The usual finding: the library is a superset — say so plainly; do not invent gaps.
+3. **Harvest only patterns the library genuinely lacks** (e.g., per-revision access/approval matrices, project-level process-standard selectors). Confirm each harvest with `clarify()` before applying.
+4. **Record deliberate non-adoptions with reasons** — monolithic format, duplicated boilerplate, hand-maintained counts, draft-standard citations (WCAG 3.0 was never finalized; cite 2.2). The retrospective note is the provenance record; save it to `_governance/`.
+5. **Apply idempotently, then regenerate + verify.** Script the frontmatter/section injection (skip-if-present), re-read a sample to confirm placement, regenerate TEMPLATE-INDEX, and re-run the wikilink/fence/schema gates.
+
 ## Pitfalls
 
 - **Monolithic specs.** Do not put all stories in the platform-level document. Split into service-level docs and make the platform doc an umbrella.
@@ -352,3 +389,11 @@ The reusable audit method and evidence notes are in `references/essential-docume
 - **Forgetting to update the overview document.** After ANY significant spec change (new stories, topology change, AC rewrites, count changes), update the overview document (`external_overview/<project>.md` or `overview/`). The overview is the single-page summary stakeholders read — if it's stale, they lose trust in the docs. Update: counts, architecture diagram, integration table, sprint plan.
 - **Implementation plans without repo/branch strategy.** When creating an implementation plan for Dev, ALWAYS include: (1) repository names and what goes in each, (2) branch strategy (main/develop/feature branches), (3) branch naming convention, (4) PR workflow (squash merge to develop), (5) commit message convention. Devs need this before they start — asking later wastes a sprint.
 - **Assuming repo count.** When the user mentions repos, ALWAYS use `clarify()` to confirm the exact count and names before writing the implementation plan. Users may say "3 repos" then correct to "2 repos" — writing first wastes effort.
+- **Trusting subagent completion reports on file edits.** Always re-run the acceptance scan in the parent after fan-out batches finish — children miss residuals (e.g., named-example markers left inside placeholders) and their regex claims are self-graded. The parent's independent re-scan is the only gate.
+- **Letting a subagent over-engineer before writing.** When a child's transcript shows repeated script-refinement iterations with zero target files modified on disk (check with git status / find -newermt, and tail the live transcript), steer it with an explicit directive and time budget: apply now, fix residuals with targeted patches afterward. Diagnose from transcript + disk state together — transcript activity alone doesn't prove progress.
+- **Stripping method content as contamination.** When placeholder-izing templates, keep scoring weights, scale/threshold definitions, formulas, ID-format specifications, and `[e.g., ...]` guidance — only filled example data rows are contamination. Also quote Mermaid node labels that contain brackets (`["FR-[XXX]"]`) — unquoted brackets break the Mermaid parser.
+- **Patching a superseded index/checklist.** When the master index contradicts itself (multiple totals) and a new categorization model is decided, do not patch it — mark it superseded and regenerate from disk in the rebuild phase. Hand-maintained totals are the root defect.
+- **Nested-bracket placeholders create false wikilinks.** When stripping example data to placeholders, never leave nested brackets (`[[X]% faster]` parses as a broken `[[X]]` link in Obsidian) — flatten to one bracket pair (`[X% faster]`). After any bulk strip, run a vault-wide wikilink scan as an acceptance gate; fix hits by flattening, retargeting to the existing canonical doc, or de-linking ID placeholders (`[[MR-XXX]]` → plain `MR-[XXX]`).
+- **Strip code fences before scanning wikilinks.** Bash `[[ ... ]]` test operators inside code blocks parse as broken links — remove fenced blocks from the text before link resolution or the gate drowns in false positives.
+- **Verify insertion position after scripted block injection.** Regex-inserted sections can land between a heading and its table, silently mangling dozens of files — after any bulk inject, re-read representative samples and check block ordering, not just presence counts.
+- **Exclude generated views from library-wide frontmatter sweeps.** Tier checklists and the index are regenerated from templates; an injected frontmatter key pollutes them and vanishes on the next regeneration. Filter `23_Project_Size/`, `_governance/`, and archive dirs out of every sweep by default.

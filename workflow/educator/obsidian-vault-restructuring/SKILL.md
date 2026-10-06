@@ -182,8 +182,40 @@ source: CLRS Chapter N
 [Problems specific to this chapter]
 ```
 
+## Cross-Linking an Index and a Reference Tier
+
+Vaults often hold two kinds of `00-` notes: a **map/index** (short, opinionated, wired to guides — "which guide do I open?") and a **reference/theory** note (long, exhaustive — "the full model"). They are not duplicates; they serve different jobs.
+
+- **Name folders by function, not difficulty.** "fundamental vs advance" invites endless reclassification and breaks wikilinks every time a note moves. Prefer the stable axis: **guides/how-to** vs **theory/reference** — a note either shows how to do something or explains the underlying model, which never needs re-litigating.
+- **Wire both ways.** The index links *up* to the reference ("for the full model, see [[X-Reference]]"); the reference links *back down* to each matching guide with a `**Related guide:** [[guide]]` line under the relevant section. A reference tier with no link back from the guides is dead weight.
+- **Disambiguate duplicate titles.** When both tiers share a name (e.g. `00-Writing-Types.md` in each folder), rename the reference to `00-Writing-Types-Reference.md` (retitle H1 + frontmatter too) so the two stop reading as the same note.
+
+## Tiered Hub-and-Spoke Structure
+
+When a large reference note will expand into many topics, prefer a **tiered hub-and-spoke** layout over a flat dump:
+
+```
+vault/
+├── 00-Reference.md            ← master hub (links down into each tier)
+├── tier-1-<topic>/
+│   ├── overview.md            ← hub: table of leaves + up/down/sibling links
+│   ├── Leaf-A.md
+│   └── Leaf-B.md
+├── tier-2-<topic>/
+│   └── overview.md
+└── tier-3-<topic>/
+    └── overview.md
+```
+
+- **Each `overview.md` is a hub**, not a leaf: a table listing its leaves as `[[wikilinks]]`, cross-references to related fundamental guides, and a `## Status` line stating whether leaves are written or pending.
+- **Use unresolved `[[...]]` links as the roadmap.** The hub's table names leaves that don't exist yet; they resolve one at a time as each note lands, and `## Status` records progress. This makes the hub the plan of record — no separate TODO list needed.
+- **Master hub descends via path-qualified links** — `[[tier-1-modes/overview|Tier 1 · Modes]]` — so a reader can walk from the single reference into any tier.
+- **Leaves follow one consistent template** so the set reads as a set: purpose → when-to-use → characteristics → a Mermaid structure → key techniques → examples → pitfalls → quality criterion → related links → sources.
+
 ## Pitfalls
 
+- **Preserve line endings on in-place edits, not just on read.** When renaming + cross-linking an existing file in place (rather than rewriting it), detect the original EOL (`if '\r\n' in text`) and write back with the SAME EOL. Mixing EOLs turns the whole file into a diff and can break Obsidian rendering.
+- **Escape `[[` in search patterns.** `search_files` content patterns are regex; a literal `[[Note]]` needs escaping (`\\[\\[`) or it throws an "unclosed character class" error. Match on a distinct substring (the note title) instead of the full wikilink when possible.
 - **`read_file` dedup after modification.** If you read a file with `read_file`, then modify it, subsequent `read_file` calls return a dedup response. Use `terminal("cat '<path>'")` instead. Check `result.keys()` — if `content_returned` instead of `content`, you got deduped.
 - **Windows line endings.** Always normalize: `.replace("\r\n", "\n").replace("\r", "\n")`. MSYS `cat` may produce `\r\n`. Without normalization, header matching silently fails.
 - **YAML frontmatter indentation.** Tags must be indented under `tags:`:
@@ -198,6 +230,7 @@ source: CLRS Chapter N
 - **Exercise-to-chapter mismatch.** Track which exercise belongs to which chapter BEFORE writing. Don't append all exercises to all files.
 - **Assignment row completeness.** Verify all assignment table rows are accounted for after splitting. Use keyword matching, then assign uncategorized rows to the most relevant chapter.
 - **Empty folders.** Clean up any empty directories left after moving files.
+- **Duplicate note names across folders break wikilinks.** Obsidian resolves `[[...]]` by note *name*, not path. Multiple `overview.md` files (one per tier) make a bare `[[overview]]` ambiguous — Obsidian prompts the user to disambiguate. Fix by either (a) giving each hub a distinct name (`modes-overview.md`, `domains-overview.md`), or (b) using path-qualified links `[[tier-1-modes/overview|Label]]` for every cross-tier reference. Folder renames are free since links are name-based.
 
 ## Quality Checklist
 

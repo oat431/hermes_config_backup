@@ -66,10 +66,12 @@ One topic per file under `spoiler_cannon_story/<act>/`, built from the skeleton 
 
 ## Pitfalls
 
+- **Fandom HTML is Cloudflare-walled**: browser, curl, and searxng web_url_read all fail on page fetches. The `api.php` endpoint still works: `action=query&prop=revisions&rvprop=content&rvslots=main&titles=<title>&format=json` returns raw wikitext. Note Fandom lacks the TextExtracts extension (`prop=extracts` errors) — always use revisions.
 - **API path varies by host**: bg3.wiki serves it at `/w/api.php`; Fandom at `/api.php`. If one 404s, try the other, or ask `get-site-info`.
 - **`prop=extracts` returns ONE full extract per request** — pass multiple titles and every extract after the first comes back empty. Loop over titles individually.
 - **cargo-query needs auth on bg3.wiki** (anonymous = permissiondenied; wiki policy, not a bug). search + get-page covers most writing needs; Cargo's bonus (structured spell/dialogue tables) only unlocks with a wiki account.
 - **Fandom merges**: always sanity-check that the wiki you're querying actually covers the game you're asking about (search a character you know is in the game before trusting results).
+- **Fandom HTML is Cloudflare-walled but `/api.php` is not**: when browser/curl/web_url_read all fail on a fandom.com page, query the MediaWiki API directly. Fandom also lacks `prop=extracts` — pull raw wikitext via `prop=revisions&rvprop=content&rvslots=main` (details in `references/mediawiki-api-quirks.md`).
 
 ## Support Files
 

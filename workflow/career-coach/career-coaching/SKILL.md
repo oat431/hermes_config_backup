@@ -82,6 +82,27 @@ Use `/grill-me` skill to extract stories. Run 3 sessions minimum:
 
 Each session produces one polished STAR story. Add to Block 7 of master profile.
 
+## Personality & Values Assessment Coaching
+
+When the user takes, brings, or asks about personality/values tests — their own or employer-mandated:
+
+- **Recommendation tier list:** IPIP Big Five (OCEAN) = the only tier worth trusting for self-insight; Moral Foundations = values layer, recommend as the follow-up after OCEAN; MBTI / DISC / political-compass family = entertainment tier — vocabulary, never verdicts.
+- **Hard privacy rule:** assessment results never enter resume, LinkedIn, cover letters, or interview answers. Values data stays private entirely (Thai market conservatism makes signaling costly).
+- **Interpret from behavioral evidence, not percentiles:** cross-check each trait against the master profile; when behavior contradicts a score, state which reading to trust and why. Full protocol + vault layout: `references/assessment-interpretation.md`.
+- **High-stability narrators need injected stakes:** very high emotional stability produces failure/pressure STAR stories with zero emotional texture, which interviewers read as evasive; coach one honest stakes sentence (what was at risk, what was felt) before the Action section.
+- **Every spike trait gets a shadow row:** shadow + countermeasure in the analysis AND in the improvement tracker (e.g., stability spike → silent overload → weekly external load gauge).
+- **Verify test-site URLs live before recommending** (`curl -s -o /dev/null -w "%{http_code}" <url>`): assessment hosts and mirror paths rot without notice; never hand the user an unverified link.
+- **Company-mandated tests:** coach answer-honestly-but-consistently (these instruments carry lie scales; faking badly scores worse than ordinary), treat the hiring *process* as the culture signal rather than the test result, and give the flip question to ask in interviews: "how does the team actually use these results?"
+
+## Improvement TODO Tracker
+
+Maintain one living tracker at the career-folder root (`00-Improvement-TODO.md`) — career-level facts about the user, per the vault rule in `career-artifact-prep`:
+
+- Horizon bands: 🔴 Now (dated window) / 🟡 current-role window (probation, first months) / 🟢 long-horizon / ✅ Done.
+- **Done = artifact or evidence link, never intention.** Every open item wikilinks to the real vault artifact it will modify (STAR file, study base, relocation plan, assessment summary); no dangling TODOs.
+- Standing **hygiene item**: diff the master profile against reality each review (story counts, stale "to be developed" markers, last-updated dates) — the profile drifts after every prep session.
+- Cadence: weekly review (doubles as the load gauge) + monthly deep review; scheduled retests go in 🟢 with a target month.
+
 ## Thai Market Specifics
 
 See `references/thai-market.md` for salary ranges, job platforms, and conventions.

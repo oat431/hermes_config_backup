@@ -1,6 +1,6 @@
 ---
 name: checklist-audit
-description: Audit checklists against vault knowledge bases
+description: Use when auditing or applying a vault checklist.
 difficulty: senior
 created: 2026-08-06
 tags: [checklist, audit, review, vault, knowledge-base, gap-analysis]
@@ -16,6 +16,8 @@ tags: [checklist, audit, review, vault, knowledge-base, gap-analysis]
 - User wants to verify a document against their vault (SWEBOK, CyBOK, career paths, etc.)
 - User wants to identify gaps, missing items, or outdated guidance in a structured document
 - The document has sections, checklists, tier matrices, or sanity checks that need verification
+- User asks to **apply** a checklist TO a project ("check this checklist and apply it") — the
+  checklist is the standard, the repo/app is the target: use *Applying a Checklist to a Project* below
 
 ## Audit Workflow
 
@@ -162,8 +164,47 @@ Final items: write_file directly if subagents can't write
 | Database | `database.md` | Engine-specific (already populated) |
 | Web | `web.md` | Framework-specific (already populated) |
 
+## Applying a Checklist to a Project (compliance assessment)
+
+Trigger: "check this checklist and apply it" — the checklist is the standard, the repo/app is
+the target. (Auditing the checklist FILE itself is the workflow above.)
+
+### Workflow
+
+1. **Read the checklist completely first** — it is the scope authority; its own tier matrix
+   decides how much rigor fits the target.
+2. **Tier call before checkboxes.** Using the checklist's scoping matrix, state: the product's
+   risk tier, the repo's real posture (environment model, CI reality), the adopted level (often
+   "Tier N, adapted") and the deltas — which sections are N/A and WHY (e.g. no local webServer,
+   no mocking when the suite's purpose is integration evidence).
+3. **Assess section by section** with a fixed legend: ✅ done / 🟡 partial / ⬜ gap→planned /
+   ➖ not applicable + reason / 🔒 blocked on a named open question. Back every status with
+   evidence (command output, grep count, file:line) — no vibes.
+4. **Apply only safe quick wins now**: config defaults that remove observed flakiness, type-check
+   setup (`tsconfig.json` strict + `tsc --noEmit`), runbook/debug docs, guard clauses on tests
+   that hang when data is absent. Do NOT mass-refactor working code mid-flight (full POM rewrites
+   etc.) — backlog those with rationale and risk.
+5. **Re-verify each applied item with a real command** (`tsc --noEmit`, `--list`, smoke run) and
+   quote the result in the assessment.
+6. **Checklist-discovered gaps become NEW questions** in the project's question doc (next number;
+   update localized copies + stale counts too) — applying a checklist reliably surfaces scope
+   gaps nobody asked about yet.
+7. **Output shape**: `NN_<topic>_checklist_assessment.md` in the project's docs folder (next
+   number in the set), an index row, applied items logged in the decisions log, and sections for
+   "applied now", "backlog (unblocked)", "blocked on team answers".
+
+### Application pitfalls
+
+- **Never silently contradict a recorded team decision** (e.g. an evidence-capture policy). If
+  the checklist says X and the team decided Y, record a documented deviation with the decision
+  reference — do not quietly "comply" with the checklist.
+- A N/A status without a stated reason is noise — attach the reason every time.
+- ✅ requires verification in the repo (grep/count/run); "obviously fine" is not evidence.
+- After edits, re-check count-bearing text the doc set states elsewhere (N questions, N docs).
+
 ## Related Skills
 
+- `playwright-suite-health-review` — deep review/triage of E2E suites (a natural application target)
 - `dogfood` — Exploratory QA of live web apps (different: audits documents, not running systems)
 - `spec-driven-code-review` — Code review against specs (different: audits checklists, not code)
 - `requesting-code-review` — How to request reviews (different: performs audits, not requests them)

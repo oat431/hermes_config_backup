@@ -1,6 +1,6 @@
 ---
 name: project-launch-checklist
-description: Build and review two-tier production launch checklists — generic + framework-specific. Simplify verbose reference manuals into tickable checklists (ponytail pattern).
+description: Build and review two-tier production launch checklists — generic + framework-specific — and author vault reference checklists (ai-checklist family). Simplify verbose reference manuals into tickable checklists (ponytail pattern).
 ---
 
 # Project Launch Checklist — Two-Tier System
@@ -57,6 +57,26 @@ When reviewing existing verbose checklists:
 
 If a checklist item needs > 1 line of explanation, it belongs in the reference manual, not the launch checklist.
 
+## Reference Checklists (ai-checklist family — a second house style)
+
+`checklist/ai-checklist/` is not the tick-first launch family. Its files (`ai.md`, `claude-driven.md`, `general-agents-driven.md`, plus topic files added since) are **reference checklists**: deeper, explanation-carrying, still tickable. Same vault, different style — match the family you are writing into.
+
+House style of the reference family:
+- Filename: `lowercase-hyphen.md` (`loop-engineering.md`, never `Loop Engineering.md`)
+- H1: `# <Topic> Checklist`
+- Header blockquote: one-line purpose → `Siblings:` cross-links → `Last updated: YYYY-MM-DD (new file — <why>)`; bump the date on every later edit
+- Numbered sections (`## 1. …`), items as `- [ ] **Bold lead** — one-sentence explanation.` with inline `→ [[link]] §n` pointers
+- House-standard extras where they fit: a `Scoping` tier table adapted from the tier model in [[ai]] / [[general-agents-driven]], a `Quick Pre-Flight` minimum-bar list, and a `Sources` footer attributing each reference (`source — title (date): what it contributed`)
+- ⚠️ Emerging or contested topics: draw on several primary sources (canonical vendor engineering posts + practitioner write-ups), state plainly that the terminology is unsettled, and never present a new term as a settled standard
+
+Authoring workflow:
+1. Read 1–2 sibling files in the target folder first and match the living style — styles drift; the most recent file in the folder beats any written convention
+2. Cross-link consistently: siblings by `[[lowercase-hyphen]]`; cross-vault notes by path-style with alias (`[[career-path/…/03_Agent_Loops_and_Orchestration|Agent Loops and Orchestration]]`); never spaces in backlinks
+3. Verify before reporting done: every `[[wikilink]]` resolves, no ambiguous basenames → `obsidian-vault-maintenance` → `scripts/verify_files.py`
+4. `checklist/Overview.md` indexes only the original "improved" launch set — it does not list the ai-checklist family. Do not silently restructure it; offer the index update
+
+**"Repo or checklist?"** — when the user asks whether a topic deserves a repository, default to a vault checklist. A repository earns its existence only once executable artifacts exist (harness skeleton, example topologies, eval scripts); then the checklist becomes the repo's docs and the vault keeps a pointer.
+
 ## Cross-Referencing Rules
 
 - Generic → Framework: "For {framework} details, see [[framework-vX-api]]"
@@ -71,6 +91,45 @@ When reviewing checklists, always check for these commonly missing sections:
 - **OpenAPI/Swagger** (backend): auto-generated docs, annotations
 - **Secrets management**: never in source code, Vault/K8s/env vars
 - **Graceful shutdown**: drain connections, close DB on SIGTERM
+
+## Auditing Existing Checklists (Domain Specialist Review)
+
+When a user asks to "audit" or "review" an existing checklist for production readiness:
+
+### 1. Read ALL files in the checklist folder first
+Checklists are usually a collection: a general file + engine/topic-specific companions. Read every file in the folder before auditing — cross-file consistency matters (shared tier matrix format, shared wikilink targets, consistent section depth).
+
+### 2. Check for mandatory cross-cutting sections
+Every production-grade checklist (database, AI, infrastructure) should have these cross-cutting sections. If missing, flag as 🔴 critical:
+- **Privacy & Data Protection** — PII inventory, right to erasure, retention, anonymization, data subject requests
+- **Data Quality** — validation rules, profiling, drift monitoring, integrity checks
+- **Maintenance & Operations** — routine maintenance, vacuum/compaction, statistics freshness, deadlock detection
+
+These are the three sections most commonly missing from checklists written by application engineers — they think about "does it work" not "is the data correct/safe/maintainable over time."
+
+### 3. Engine-specific gap analysis
+Each engine has unique operational concerns that a general checklist can't cover. When auditing an engine-specific checklist, verify the engine's signature features are present (not just general DB principles). See `references/database-checklist-audit-domains.md` for the full per-engine gap list (PostgreSQL, MongoDB, Valkey, Elasticsearch, ClickHouse, SQLite, Cassandra, plus AI/LLM-specific sections).
+
+### 4. Tier matrix synchronization
+When you add or expand sections in a checklist:
+- The **tier scoping matrix table** must grow correspondingly — one row per section
+- The **Quick Sanity Check** must add launch-critical items from new sections
+- Re-verify: does every section in the checklist body have a row in the tier matrix?
+
+### 5. Honest scope warnings in tier matrices
+Add explicit warnings when a technology doesn't fit certain tiers:
+- SQLite: "⚠️ Typically not SQLite territory at Tier 5+ — consider migrating to PostgreSQL"
+- Cassandra: "⚠️ Overkill below Tier 4 — choose when you need >10K writes/sec or multi-DC active-active"
+This prevents the "golden hammer" problem where engineers scale a technology past its design intent.
+
+### 6. Section renumbering
+When adding sections to the middle of a checklist, renumber ALL subsequent sections and update ALL internal cross-references (e.g., "see §4"). A full `write_file` rewrite is cleaner than multiple fragile `patch` calls when renumbering changes most of the file.
+
+### 7. Update cross-references in companion files
+When a general checklist gains new engine companions (e.g., database.md now references elasticsearch.md), update the general file's header to list all companions. Keep wikilinks consistent across the collection.
+
+### 8. "Last updated" date
+Bump the date in the header blockquote on every file you modify.
 
 ## Framework Picks (Ponytail Default)
 

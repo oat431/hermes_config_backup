@@ -122,6 +122,39 @@ For each artifact:
 - Include **interview tips** and **watch out for** follow-up questions
 - Map each STAR story to the behavioral questions it can answer
 
+## Interview-Prep Vault Structure (multi-company)
+
+When the user has several concurrent interviews, organize the interview-prep vault on one rule:
+
+> `career/` = facts about YOU (true regardless of which company interviews you).
+> `<company>/` = facts about THEM + your application to them (changes per company).
+
+If a note is still true when walking into the NEXT company's interview → it belongs in `career/`. If it mentions the company's JD, panel, or date → it stays in the company folder and links UP to `career/` via wikilinks instead of duplicating.
+
+**Centralize in `career/` (reusable):**
+- Master profile (`<Name>.md`) — single source of truth
+- STAR story portfolio (one file; merge spoken versions in — never keep a second copy in a company folder)
+- Honesty/landmine scripts (e.g. Scripts A–F: "years of React?", "state management?", "why leaving?") — company flavor becomes a per-company variant note
+- Attribution rules (who did what — survives probing in EVERY interview)
+- Positioning / narrative spine
+- Confirmed-facts (verified during one company's prep: real years of X, never-used tech Y, test tools) — **must be written back into the master profile**, or the next prep session re-discovers them the hard way
+- Study content (React deep dive, testing, build tools) — reusable material; only the gap PRIORITIZATION is JD-specific
+- "Why I'm leaving current employer" private note — raw version stays private; only the public flip script leaves the vault
+
+**Keep in `<company>/` (company-specific):** battle card, JD fit assessment (line-by-line JD mapping), practice plan/day-of checklist, company research, post-interview retro, drill questions.
+
+**Recruiter emails:** store inside the company folder as `00_Recruiting_Email.md` — do NOT keep a shared `context/` folder. One folder per company must be self-contained.
+
+**Refactor mechanics (verified workflow):**
+1. Use `git mv` for every move — history survives, git detects renames
+2. Obsidian wikilinks resolve vault-wide by FILENAME: plain moves (folder change, same filename) don't break links; RENAMES do
+3. After any rename, grep the whole vault for stale links: `grep -rn --include='*.md' -E '\[\[(Old_Name|Other_Old_Name)\]\]' .` — check ALL subfolders (study notes, answer cards, drills are the usual stragglers), not just the files you think reference it
+4. Also grep absolute path references (`F:\...\old\folder\...`)
+5. A "broken" wikilink may point to a file at the vault ROOT (misplaced, not missing) — search the whole vault for the target name before declaring it broken
+6. When patching markdown tables, keep the full row in BOTH old_string and new_string — a partial-row patch can silently swallow an adjacent row (caught this live: a JD-mapping table row got deleted and had to be restored)
+
+Full worked example (MISUMI prep → central `career/`): `references/interview-prep-vault-structure.md`
+
 ## Key Principles
 
 ### Resume Length: 1-Page Resume vs Multi-Page CV

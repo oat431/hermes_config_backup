@@ -8,6 +8,8 @@ triggers:
   - "build knowledge area overview"
   - "curriculum structure for vault"
   - "bok overview"
+  - "continue vault from another agent"
+  - "upgrade stub notes to deep notes"
 ---
 
 # Curriculum-to-Vault Authoring
@@ -60,6 +62,49 @@ See `references/thai-career-technology-curriculum.md` for the nine-topic Home Ec
 **Pitfall:** Don't assume topic distribution — always verify against official curriculum docs. Thai curriculum uses "ค" prefix for math, "ว" prefix for science, "ท" for Thai language, with 1xx=primary, 2xx=lower secondary, 3xx=upper secondary. Math-science is governed by IPST (สสวท.); Thai language is governed by OBEC (สพฐ.).
 
 **Pitfall — source access and evidence:** Do not infer that a curriculum source is unavailable from a poor search result or one failed fetch. Open the official landing page, inspect its linked document titles and direct URLs, and use an alternate official HTML/PDF representation when needed. For Thai Career & Technology, use the OBEC hub and Order 921/2561 before relying on training knowledge or Wikipedia. Wikipedia is a contextual fallback, not primary evidence for curriculum status. Do not repeat identical failed searches; change the source or retrieval method and record what the source actually supports.
+
+## Step 2b — Professional, Scientific, and Cross-Vault BOK Frameworks
+
+Use this branch when the requested domain is broader than one national curriculum or when the user wants to organize Computer Science or science knowledge like SWEBOK.
+
+### Classify the source before choosing the vault structure
+
+| Source type | Examples | Use it for |
+|---|---|---|
+| **Professional BOK / standard** | SWEBOK, SEBoK, CyBOK, DMBOK, BABOK, PMBOK | Practice-oriented knowledge areas, professional roles, processes, and competencies |
+| **Academic curriculum framework** | CS2023, Computer Engineering Curricula, IT curricula, Data Science competencies | University-level learning areas, knowledge units, and progression |
+| **Taxonomy / classification** | ACM CCS, MSC2020, PhySH | Indexing, search, and grouping; not a complete learning sequence by itself |
+| **Core-concept / literacy framework** | Vision and Change/BioCore, Earth Science Literacy Principles | Scientific ideas, competencies, and big-picture understanding |
+
+Do not call every taxonomy or curriculum a formal BOK. Name the source type in the overview and explain how the vault adapts it.
+
+### Procedure
+
+1. **Inventory before creating a new vault or root.** Read the existing master indexes and relevant overviews, then list current folders and notes. On the user's `F:` vaults, use `terminal` with `find` for discovery because file-tool filename searches may return empty results on that drive.
+2. **Choose one structural spine.** Select the source with explicit knowledge areas or core concepts. Use a professional BOK for professional practice, a curriculum framework for academic Computer Science, a taxonomy for classification only, and a literacy framework for science understanding.
+3. **Build a mapping matrix before writing files:**
+
+   ```markdown
+   | Framework area | Existing note or folder | Reuse / split / create | Cross-BOK links |
+   |---|---|---|---|
+   ```
+
+   This exposes duplication and gaps before content creation.
+4. **Reuse existing content first.** Keep the BOK overview/index under `body-of-knowledge/` and keep detailed topic notes in the established content root outside it, unless the user explicitly approves a separate vault. Link existing notes into the new spine instead of copying them.
+5. **For academic Computer Science, use the official CS2023 Body of Knowledge as the main spine.** Use the final report's Body of Knowledge and knowledge-model materials, and record the official URL in the overview. Model the hierarchy as `Knowledge Area → Knowledge Unit → Topic + learning outcomes`; preserve `CS Core`, `KA Core`, `Non-core`, and professional dispositions. Treat SWEBOK, SEBoK, CyBOK, and DMBOK as complementary professional overlays, not as replacements for CS2023 and not as one merged list. Preserve the distinction between the Thai upper-secondary `วิทยาการคำนวณ` overview and a university-level Computer Science BOK.
+6. **Choose vault boundaries before mapping content.** When the user wants low coupling, keep Computer Science, Data, Computer Engineering, and AI/ML as separate vaults, each with its own BOK overview, content root, projects, references, and version history. Give each topic one canonical home and connect vaults with stable external links or explicit bridge notes; do not duplicate full topic notes merely to make local links convenient.
+7. **For science, combine the domain framework with a learning progression.** A physics classification, chemistry degree guideline, biology core-concept framework, or Earth-science literacy framework may organize the domain, but it does not automatically define one universal curriculum. Label extensions and local sequencing as adaptations.
+7. **Research official sources narrowly.** Search the issuing association or governing body first, record the direct landing page or PDF URL, and use search snippets only for claims they literally state. If extraction is unavailable, use the official landing page or indexed metadata and narrow the claim; do not repeat identical failed retrievals or fill an unverified framework list from memory.
+8. **Verify the contract before reporting.** Compare the overview's area count and names with the authoritative source, resolve wikilinks against actual filenames, and mark each area as complete, mapped, partial, or pending. A framework overview is not evidence that all topic notes exist.
+
+### Reusable pitfalls
+
+- **Do not open a new Computer Science vault before the inventory and mapping matrix.** Existing computing-foundation notes may already cover most areas, and a new root can create duplicate authority.
+- **Do not present CS2023, MSC2020, ACM CCS, or PhySH as interchangeable BOKs.** Their roles differ: curriculum, classification, and professional knowledge require different overview language.
+- **Do not collapse SWEBOK into Computer Science.** Software engineering, Computer Science, Systems Engineering, cybersecurity, and data management overlap but answer different questions; connect them with wikilinks and overlays.
+- **Do not claim a science framework is an official national course sequence unless the source actually defines one.** Big ideas and professional guidelines need an explicit local progression when used for a vault.
+
+See `references/computing-and-science-bok-frameworks.md` for the CS2023 knowledge-area map, existing-vault mapping pattern, framework decision table, and recommended build order.
 
 ## Step 3 — Choose Organization Strategy
 
@@ -229,6 +274,8 @@ When using the SearXNG MCP (`mcp__searxng__searxng_web_search`) for curriculum r
 
 **When SearXNG is unavailable entirely (403/connection error):** Fall back fully to the two-pass pattern (produce from knowledge, verify against Wikipedia which loads reliably).
 
+**Failure mode 2 — subprocess death (seen 2026-08-28, distinct from 429):** every `mcp__searxng__searxng_web_search` call fails fast with `TimeoutError: MCP stdio subprocess for 'searxng' has exited`. No call succeeds, not even spaced out — this is a dead server, not a throttle. Do not keep retrying the MCP (loop warning fires at 3 failures). Fallback that works: the built-in `web_search` tool (SearXNG-backed) — run 1–2 verification searches for the most load-bearing facts (e.g., English มาตรฐาน codes อ1.1–อ4.2, course code อ21101), then build the rest from model knowledge. Never block note creation on search tooling when the curriculum structure is already known.
+
 ### Pitfall — File Truncation in `write_file`
 
 When batch-creating multiple large files (8KB+), occasionally a `write_file` call returns success but the file is truncated (e.g., 2,385 bytes instead of the expected ~11KB). The tool reports `bytes_written` in its result.
@@ -237,6 +284,10 @@ When batch-creating multiple large files (8KB+), occasionally a `write_file` cal
 - After batch writes, scan the `bytes_written` values. Any file significantly smaller than siblings (e.g., < 4KB when siblings are 7-12KB) is likely truncated.
 - For truncated files, rewrite with `write_file` using the full content.
 - Do NOT patch truncated files piecemeal — rewrite the whole file.
+
+**Observed variants (2026-08-28, glm model):** truncation is not the only failure shape.
+- **Silent path typo = junk root.** A single-char path typo (`obsidian_note` → `obsian_note`) made `write_file` create the full directory tree in a NEW junk root with `dirs_created: true` and `verified: true`. The corrupt file hid there while the real vault stayed clean. After any batch, `ls` the vault root for unexpected directories; delete junk roots explicitly (user-approved `rm -rf`).
+- **Garbage tail at full length.** One file arrived at expected size (7,005 bytes) with the last sections replaced by duplicated/garbled fragments (repeated headings, `. Use the...` fragments). Size checks alone do not catch this — tail-check the final 10–15 lines of a sample of files, or grep for repeated heading strings.
 
 ### Pitfall — Thai Text Corruption in YAML Frontmatter and Body Text
 
@@ -259,6 +310,18 @@ for old, new in fixes:
     terminal(cmd)
 ```
 Run `grep -rn '[ไ-ฮ][A-Za-z]' *.md` FIRST to discover all patterns, build the fixes list, apply sed, then verify with a final grep.
+
+**Pitfall — self-correction leakage and foreign-script slips in long English notes (proven 2026-09-08, 14/20 files needed cleanup):** when authoring many dense knowledge notes in sequence, the drafting voice leaks into the final text, even in English-only domains. Four shapes seen:
+- Self-correction phrases left in body text: `... no: X`, `(corrected below)`, `(keep only documented)`, `(replace)`, `PLACEHOLDER`, and whole duplicated blocks (broken section + meta-comment line + fixed copy).
+- Foreign-script slips inside English text: CJK in an English phrase, Devanagari in romanized transliteration (एक in a Thai parenthetical), Vietnamese tone marks in Thai context.
+- Mermaid `timeline` lines with a stray trailing `|` (breaks rendering silently in Obsidian — happened twice).
+- Unbalanced quotes/brackets in mermaid node labels.
+
+**Prevention rule:** compose final sentences only — if a correction thought occurs mid-sentence, rewrite the whole sentence; never write the wrong clause and append `... no: fix`.
+
+**Detection gate after every batch, before starting the next:** scan all files in `execute_code` for `[r"\.\.\.\s*(no|keep|replace|corrected)", r"\(corrected", r"\(keep ", r"\(replace", "PLACEHOLDER"]` plus CJK `[\u4e00-\u9fff]`, Devanagari `[\u0900-\u097f]`, Vietnamese `[\u1e00-\u1eff]`, a per-line quote/bracket parity scan, and a mermaid check (fence closed, valid diagram-type first line, no trailing `|` on timeline lines).
+
+**Repair rule:** fix artifacts with exact-string Python `s.replace` wrapped in `assert old in s` — the `patch` tool's fuzzy matcher can match the wrong duplicate occurrence and return `no_change` ("already applied") while the artifact is still on disk. Verify every text fix with grep, never with the tool's success flag.
 
 ```
 Before (flat):                    After (grouped):
@@ -300,7 +363,7 @@ Each file contains:
 
 ### Pitfall
 - **Don't create 00_overview.md before topic notes exist.** Create topic notes first, then the overview tracks what's done vs pending.
-- **Each folder has its own 01, 02, 03 numbering.** Don't continue numbering from another folder.
+- **Numbering convention varies by subject — CONFIRM the existing content root's convention before creating any file.** Two proven layouts in this vault: per-folder numbering restarting at 01 (Social Studies, Student Development, Health-PE) vs CONTINUOUS numbering across the whole subject (English Curriculum: strands hold 01–06, 07–12, 13–18, 19–24; Career & Technology: 01–22 across 5 strand folders). Derive it from the closest sibling content root, or ask. Creating files before the scheme is locked caused a 3-file rename + 7-link repair on 2026-08-28.
 
 ## Step 9c — Continuing Work From Other Agents
 
@@ -315,6 +378,26 @@ When a progress tracker shows ❌ Pending items, another educator agent can pick
 **Pitfall — Cross-link filenames diverge from actual files.** When one agent plans the overview with placeholder wikilinks and another agent creates the actual files, the filenames often differ (planned `02_Rights_and_Duties` vs actual `04_Rights_Duties_and_Laws`). Always verify cross-links match real filenames after continuing work. Use `find` via `terminal` (NOT `search_files` — see Step 8 pitfall) to get the actual file list, then patch broken links.
 
 **Tip — `read_file` returns `similar_files` on path mismatch.** When `read_file` can't find the exact path (e.g., you guessed `Fundamental Mathematics - Overview.md` but the actual file is `00_Fundamental Mathematics - Overview.md`), the tool returns a `similar_files` array with the correct path. This is the fastest way to discover the actual filename when you know the approximate name but not the exact prefix/numbering. Use it before falling back to `find` or `ls`.
+
+## Step 9c-2 — Continuing a Vault Built by a Non-Educator AI Agent (Foreign-Spec Continuation)
+
+When the vault was built by a different AI agent (Claude, Codex, etc.) that shipped its **own authoring spec file** at the vault root (commonly `CLAUDE.md`, `AGENTS.md`, `.cursorrules`), that file is the authority for the vault — NOT the educator SOUL's lesson format. This is a distinct case from Step 9c (continuing another *educator* agent's work via `00_overview.md` trackers).
+
+### Procedure
+
+1. **Read the foreign spec file first** — before reading any notes. It defines the vault's note model (reference vs lesson), quality gates, templates, and textbook mapping. Obey it; do not impose the SOUL's `lesson_type`/`audience_level` frontmatter or hands-on-project format unless the spec calls for it.
+2. **Read the roadmap/tracker and trust its status field.** A roadmap row saying "0 deep notes" can be accurate even when N note files exist on disk — the spec's quality gate defines what counts as a "deep note," and stubs that fail it are not counted. Do not "fix" the count by reclassifying stubs as done.
+3. **Diagnose stubs against the spec's quality gate, not against content volume.** A 4 KB stub with concepts, tables, and code can still fail a spec that requires a named-textbook `source:` in frontmatter. List the specific deltas between stub and spec (missing frontmatter fields, missing sections, wrong H1 format) — these become the upgrade work items.
+4. **Upgrade in place, do not recreate.** Overwrite stubs at their existing paths with upgraded content that closes each delta. Preserve the stub's good content (concepts, tables, code, cross-links); add what the spec requires around it.
+5. **Reconcile the working tree before starting.** Run `git diff HEAD` (not just `git status`) to distinguish real content changes from line-ending normalization noise — on Windows, `git status` can flag files as modified when only CRLF/LF differs. If the diff is empty, the tree is clean; do not commit phantom changes.
+6. **For 15+ stub upgrades, use the build-spec-then-dispatch-4-subagents pattern from Step 9e (World Literature Build).** It works for any BOK vault. Write the KA overview yourself while the subagents run — it does not depend on the deep-note contents.
+7. **Batch one KA per session.** The user prefers one knowledge area per session: deep notes + KA overview + roadmap update + commit, then stop for review. Use `clarify` at the start to confirm which KA and the batching. After the user reviews and you flip 🟨 → ✅, stop and wait for the go-ahead before starting the next KA.
+
+**Pitfall — content-rich stubs that fail the spec's quality gate**
+
+A stub with real prose, tables, and code is easy to mistake for a finished deep note. The spec's quality gate is the only test that matters: if the spec requires `source: "Textbook, Ch N"` in frontmatter and the stub has only `tags: [...]`, the stub is a draft (🟨), not done (✅), regardless of how much content it carries. Expanding the BOK paragraph into prose yields "a glossary, not a note" — the named textbook is the content source; the BOK is only the coverage map.
+
+See `references/stub-upgrade-build-spec-pattern.md` for the full procedure: diagnosing deltas, writing the build spec, dispatching 4 parallel subagents, the QA gate (including em-dash calibration against the gold-standard pilot), subagent sizing rules, and the **cross-vault bridge note pattern** (when a sibling vault like swe-knowledge already holds the deep SWEBOK content, write CS2023-framed bridge notes that point there instead of duplicating).
 
 ## Step 9d — Completing a Strand from Partial Coverage
 
@@ -401,6 +484,31 @@ For this component, search the official OBEC curriculum hub and Guidance Develop
 
 Place the BOK overview at `body-of-knowledge/Student Development Activities/`, separate from academic subject BOKs. Keep detailed implementation or future topic notes in the corresponding non-BOK content root if the user later requests them. Do not put Scout or Guidance notes inside Social Studies merely because both concern citizenship or development; use cross-links instead.
 
+### World Literature Build (proven 2026-09-06, 22/22 notes)
+
+Building a beyond-curriculum humanities domain (Philosophy 22/22 2026-09-05, World Literature 22/22 2026-09-06) follows one recipe:
+
+1. **Write a shared build spec into `Audit/`** (e.g. `world-literature-build-spec-20260906.md`): full note template with exact section order, hard formatting rules (colons not em-dashes, mermaid label safety, wikilink discipline), a VERIFIED TARGET LIST of cross-vault links checked against disk before dispatch, per-topic briefs for all N notes, and the quality bar (8-15 KB). Children read ONLY the spec — it makes their work consistent.
+2. **Adapt the domain's natural format.** For literature, cherry-pick from the musical-note format the user points to (oralita_md musicals): About-the-Work Detail/Info table, act/part-structured plot summary with a spoiler flag line, Key Passages blockquotes (EN + Thai rendering), era timeline Mermaid, Sources. Merge onto the Philosophy 8-section body.
+3. **Dispatch 4 parallel subagents (5-6 notes each), all in one `delegate_task` call, grouped** so they report together. Also write `00_overview.md` yourself while they run.
+4. **Pitfall — slow-model subagents stall before the first write.** On deepseek-class reasoning models the children may spend 10-15+ minutes exploring the vault and composing before any `write_file` hits disk (transcripts show only their last tool call). They are NOT hung. Steer each with: "Write each note to disk IMMEDIATELY when complete, one write_file call per note. Do not compose all notes before writing the first." Files land within minutes after the steer.
+5. **QA gate:** Thai-Latin corruption grep, CJK grep, self-correction-trace grep (see the leakage pitfall under Thai corruption), em-dash-in-prose grep (calibrated: exclude frontmatter, blockquote citations, code blocks, and Related link descriptions — the user's approved AL pilot averages ~14.5 em-dash lines/note in those structural contexts, so a blanket grep produces false positives), ASCII-box grep, frontmatter presence, section-completeness check (all 8 sections + Related + mermaid + opening quote), mermaid label safety scan, and a Python wikilink resolver (basenames + relpaths on disk, plus a whitelist for planned forward-contract filenames of domains not yet built).
+6. **Close the BOK contract:** patch the domain BOK (status line, content-root line, all tracker rows ❌→✅ with real filenames, completion count) and the parent index (status line, domain table row, build-status table, topic-count line). Mirror how the Philosophy BOK was closed (content root line format: `Philosophy/` in the general-knowledge vault...).
+
+## Step 9f — Closing an Audit-Flagged Partial BOK Subject (Supplementary-Root Pattern)
+
+When a vault audit flags a subject 🟡 Partial because only a *supplementary* root exists (e.g., `English Skill/` teaching-ordered notes) while the BOK's own curriculum strands have zero content notes, do NOT expand the supplementary root. Proven 2026-08-28 for English: created `English Curriculum/` (28 files) to close the finding "4-strand curriculum notes still absent".
+
+1. **Read the audit finding and the BOK overview first.** The BOK's topic tables are the contract — build exactly one note per enumerated concept area (24 for English), not a list from memory.
+2. **Keep the supplementary root untouched** as a sibling content root; create a NEW root named after the subject (`English Curriculum/`), one folder per strand.
+3. **Cross-link bidirectionally into the supplementary notes** (curriculum note ↔ skill deep-dive by FILE name). The two systems interlink instead of duplicating.
+4. **Decide the numbering scheme BEFORE the first write** — see the Step 9b numbering pitfall. Mirror the closest sibling content root.
+5. **Topic note shape:** YAML with strand + มาตรฐาน codes (อ1.1–อ4.2 for English), grade-band table (ป.1–3 → ม.4–6), Mermaid progression, Thai-speaker difficulty section, Thai terminology, cross-links. English subject → English text.
+6. **Write 00_overview.md trackers LAST**, then wire the BOK overview: a "Curriculum Content Notes" wikilink table under each strand section + strand-overview links in Related. NEVER reference content as inline-code paths — audits flag link-graph orphans (their finding N1); use path-qualified links for ambiguous basenames like `00_overview` (finding N2's own recommendation).
+7. **QA gate before reporting closure:** file count vs BOK concept-area count, size scan (3.9–7.3 KB per note here), Thai-Latin + CJK artifact greps, and a full wikilink resolution check — see `scripts/verify_vault_links.py`.
+
+**Pitfall — numbering drift mid-build:** creating files before locking the numbering plan forced a rename of 3 strand-3 files (19–21 → 13–18) and fixing 7 broken links on 2026-08-28. Lock the scheme first.
+
 ## Step 10 — What Comes Next (Topic Note Filling)
 
 After the user approves the overview structure, they may ask to fill in the individual topic files behind each `[[wikilink]]`. This is handled by `educational-content-authoring` (see "BOK Topic Note Filling" workflow variant).
@@ -427,9 +535,9 @@ Science/Advance/
 └── Computer_Science/  ← 12 notes, ม.4-ม.6 ว331-ว333
 ```
   The BOK overviews continue to use **short wikilinks** (`[[01_Measurement_and_Scientific_Method]]`, NOT `[[Advance/physic/01_Measurement_and_Scientific_Method]]`) because Obsidian resolves wikilinks by filename. Long paths add visual noise without functional benefit. **Pitfall:** When patching BOK overview wikilinks in Phase 3, the first `execute_code` attempt's `hermes_tools.write_file` calls can silently fail due to the dedup cache (the file was read earlier in the session). Symptom: script exits 0, but `grep` shows the original short links unchanged. **Fix:** use direct Python `open()/read()/write()` in `execute_code` for batch wikilink patching — that bypasses the dedup cache. Always verify with `grep -c 'Fundamental/'` (or `Advance/`) afterward.
-- **Fundamental/Advance split may NOT be subject-grouped.** When the user says "the fundamental can be there, in case student want to read up to ม3, so not restructuring" — keep fundamental as a single flat folder of integrated content (covering all subjects) for the integrated ป.1-ม.3 curriculum. Only the **Advance** folder needs subject grouping. The BOK `00_Fundamental Science - Overview.md` links to flat `[[Fundamental/01_Scientific_Method]]` and the user keeps this. Don't second-guess — when the user says "leave it," leave it.
+- **Fundamental/Advance split may NOT be subject-grouped.** When the user says "the fundamental can be there, in case student want to read up to ม3, so not restructuring" — keep fundamental as a single flat folder of integrated content (covering all subjects) for the integrated ป.1-ม.3 curriculum. Only the **Advance** folder needs subject grouping. The BOK `00_Fundamental Science - Overview.md` links to flat `[[Fundamental/01_Scientific_Method]]`-style paths and the user keeps the flat folder (don't split it), but those path-prefixed links are broken — no root-level `Fundamental/` exists. Keep the folders as the user said; when remediation runs, convert the links to bare basenames `[[01_Scientific_Method]]`.
 - **For 20+ advanced science notes, use 3 parallel `delegate_task` subagents instead of `execute_code`.** When creating 20+ notes that require accurate physics/chemistry/biology content (not just template-filling from model knowledge of simple math), dispatch 3 parallel subagents via `delegate_task` with `tasks` array. Each subagent gets 6-8 topics, the 5-section template, and a topic content guide. Proven across ALL 5 subjects (2026-07-30): Physics (23 notes ว301-ว303, ~3 min), Chemistry (20 notes ว311-ว313), Biology (20 notes ว321-ว323), Earth Science (10 notes ว341, 2 subagents), Computer Science (12 notes ว331-ว333, 2 subagents). For 10-note batches use 2 subagents (5+5) not 3. See `references/advanced-science-note-pattern.md` for the complete template, all 5 subject topic distributions, subagent sizing rules, and the English-narrative-with-Thai-in-parens style guide.
-- **Reorganize vault into Fundamental/Advance folders when expanding from ป.1-ม.3 to ม.4-ม.6.** When the user asks to expand a subject from fundamental (ป.1-ม.3) to advanced (ม.4-ม.6) coverage, split the flat folder into `Fundamental/` and `Advance/` subfolders (mirroring the Mathematics structure). Move existing notes with `mv` in one batch, then create new advanced notes in `Advance/`. After moving, update BOK overview wikilinks with path prefixes (`[[Fundamental/01_Topic]]`, `[[Advance/01_Topic]]`). Use `execute_code` with direct Python file I/O (not `hermes_tools.write_file`) for batch wikilink patching — the dedup cache can block writes to files read earlier in the session. See `references/advanced-science-note-pattern.md` for the batch patching script and verification pattern.
+- **Reorganize vault into Fundamental/Advance folders when expanding from ป.1-ม.3 to ม.4-ม.6.** When the user asks to expand a subject from fundamental (ป.1-ม.3) to advanced (ม.4-ม.6) coverage, split the flat folder into `Fundamental/` and `Advance/` subfolders (mirroring the Mathematics structure). Move existing notes with `mv` in one batch, then create new advanced notes in `Advance/`. After moving, **fix BOK overview wikilinks to bare basenames** (`[[01_Topic]]`) or full subject-rooted paths (`[[Science/Fundamental/01_Topic]]`). Path prefixes like `[[Fundamental/01_Topic]]` do NOT resolve from BOK overviews or other subjects' notes: the vault has no root-level `Fundamental/` or `Advance/` folder, so both relative-to-note and vault-root resolution fail (link-checker verified). Use `execute_code` with direct Python file I/O (not `hermes_tools.write_file`) for batch wikilink patching — the dedup cache can block writes to files read earlier in the session. See `references/advanced-science-note-pattern.md` for the batch patching script and verification pattern.
 
 ## Pitfalls
 
@@ -545,12 +653,14 @@ See `references/career-path-overlay-pattern.md` for the career-path overlay note
 
 ### Workflow
 - **Two-pass pattern:** When research is slow (2+ min), create initial overviews from your knowledge FIRST, then update when research returns. The user gets something to review immediately. For Thai curriculum, do not assume that search failure means the official source is unavailable: open the governing body's landing page, inspect its direct PDF/HTML links, and use direct retrieval when needed. For IPST Computing Science, start at `https://www.ipst.ac.th/cs`, which exposes the official course descriptions, teacher guide, textbooks, and grade resources. Use Wikipedia only as contextual fallback, never as primary evidence for curriculum status. If an extraction backend reports search-only, switch retrieval method rather than repeating the same search; record what the official source actually supports.
+- **`write_file` requires a prior `read_file` on the SAME file before overwriting.** Reading a file via `terminal` (`cat`, `head`, `tail`) or seeing its content in another tool's output does NOT satisfy the guard — `write_file` returns `stale_write_blocked: true` and leaves the file untouched. Before overwriting any existing `.md` file, call `read_file` on it (every page if it needs offset/limit) in the same task, then retry `write_file`. For targeted edits to a file you have not `read_file`-loaded, use `patch` instead — it does not require a prior full read.
 - **Book checklists come after overviews:** Don't skip the book checklist step — the user uses it to find books for future summarizing.
 - **Use `delegate_task` for research:** Curriculum research (topic lists, course codes, grade bands) is reasoning-heavy and benefits from subagent isolation.
 - **For topic-filling (Step 9):** Use 2 parallel subagents to research ~10 topics each. Write files in swe-knowledge style (detailed, source-cited) for math-sci content. Put topic files in the user's specified destination (e.g., `Mathematics/`, NOT inside `body-of-knowledge/`). Confirm format preference BEFORE writing — the user may want swe-knowledge style (YAML frontmatter with source, hierarchical, professional) or English Skill style (concise, table-heavy, Thai terminology).
 
 ## References
 
+- See `references/computing-and-science-bok-frameworks.md` for the professional-vs-curriculum-vs-taxonomy decision table, CS2023 mapping pattern, science-framework choices, and recommended build order.
 - Thai IPST curriculum: [ipst.ac.th](https://www.ipst.ac.th) (free textbooks)
 - Thai course code system: ค=Math, ว=Science, ท=Thai Language, อ=English, ส=Social Studies; 1xx=primary, 2xx=lower secondary, 3xx=upper secondary
 - See `references/thai-curriculum-structure.md` for detailed Thai curriculum cross-reference with AP/IB/A-Level
@@ -573,6 +683,8 @@ See `references/career-path-overlay-pattern.md` for the career-path overlay note
 - See `references/thai-history-strand-reference.md` for the History strand (สาระที่ 4) curriculum: 15 concept areas, seven มหาราช kings, key historical dates (พ.ศ./CE), calendar conversion formula, Mermaid patterns for timelines/dynasties, and cross-strand connections.
 - See `references/thai-geography-strand-reference.md` for the Geography strand (สาระที่ 5) curriculum: 14 concept areas, six regions of Thailand, key geographic features, three seasons, climate change impacts, Mermaid patterns for geographic processes, and cross-strand connections.
 - See `references/thai-english-curriculum.md` for the English BOK structure: 4 strands, grade bands with hour allocations, language choice rule (English overviews must be in English — user correction from session), exam structure (O-NET, A-Level, TOEFL, IELTS, TOEIC, CU-TEP, TU-GET).
+- See `references/vault-link-verification.md` for the post-creation QA gate: reusable wikilink resolution checker (execute_code, handles `[[note\|alias]]` table escapes and vault-root-relative path links), artifact grep set, false-positive notes, and the 2026-08-28 English Curriculum closure log (28 files, 249 links).
+- See `references/stub-upgrade-build-spec-pattern.md` for the stub-to-deep-note upgrade procedure when continuing a vault built by a non-educator AI agent: diagnosing deltas against the spec's quality gate, the 5-delta upgrade (source frontmatter, H1 renumbering, Source blockquote, numbered sections, Key Takeaways + Related), the build-spec-then-dispatch-4-subagents pattern, the QA gate with em-dash calibration, and subagent sizing rules.
 - See `references/thai-math-strand-overview-pattern.md` for the proven strand sub-overview template used across 10 Mathematics files: per-sub-strand structure with grade bands, Thai terminology, misconceptions, real-life connections, exam relevance, and IPST references. Copy this when creating strand-level sub-overviews for any subject.
 - **Thai language domain — write overviews in Thai.** When the curriculum IS Thai language (ภาษาไทย), write all overviews and topic files in Thai. When the curriculum is math-sci for Thai students, write in English with Thai terminology as needed.
 - **English language domain — write overviews in English.** When the curriculum IS English (ภาษาอังกฤษ), write all overviews in English — even when the user is Thai and the audience is Thai students. The user corrected this explicitly. Thai language overviews = Thai. English language overviews = English. Math-sci = English with Thai terminology as needed.

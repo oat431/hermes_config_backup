@@ -1,6 +1,6 @@
 # Home Gym Programming — Phase 3+ (post-2026-08-23)
 
-Gym membership ended 2026-08-23 → training is home-based from Phase 3. This reference holds the design decisions so future phases don't re-derive them.
+**Status 2026-08-31:** monthly gym membership REINSTATED — the home-first arrangement lasted one week (W9 lost to flu-A; user judged home gym insufficient). Gym day notes are primary; home notes are storm/gym-closed backup. Keep the design decisions below for backup days and any future home phase.
 
 ## Equipment reality
 
@@ -41,3 +41,11 @@ Home cannot load squat 42.5 / bench 45 / DL 70. Barbell lifts are MAINTAINED, no
 - Treadmill: user must NOT hold the handles — grip kills wrist-HR accuracy; distance from the console.
 - No daily run-walk at 120+ kg — dose control; extra movement = walking (steps column).
 - Day notes split `daily-workouts/home/` (numbered 1_Monday..5_Sunday) vs `daily-workouts/gym/` — user requested the two-folder structure for day-pass gym days.
+
+## Flipping gym↔home priority (2026-08-31 pattern)
+
+When the user re-gains gym access and home becomes backup:
+1. Write full per-day GYM notes (`daily-workouts/gym/1_Monday..4_Saturday`) with barbell ladders + form GIFs; delete any single "gym-day swap" note it supersedes and grep for references to it.
+2. Demote every home note with a banner directly under the title: `> ⚠️ **Backup note.** Gym is primary — use this only when the gym is closed / storm. Gym version: [[daily-workouts/gym/N_Day]]`.
+3. Rewrite the program overview: purpose, schedule table, a backup rule (one backup day fine; 2+ forced-home days in a row → message the coach), and re-label the shopping list as backup-only/optional.
+4. Log convention flips: gym sessions need no tag (default again); home backup sessions get a "(home)" note.

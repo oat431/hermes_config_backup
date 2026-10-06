@@ -29,6 +29,19 @@ decoration, layout, visual hierarchy — while `powerpoint` covers the
 
 ## Pitfalls
 
+### ⚠️ Brand CI Compliance: Strict Override
+
+When the user provides a brand CI (corporate identity) or style guide, use it **exclusively**. Do not fall back to generic palettes or invent "nice" colors. This overrides all semantic color mapping examples below.
+
+**Checklist before applying colors:**
+- [ ] Read the user's brand CI file (usually `02_visual-identity.md` or similar)
+- [ ] Extract exact hex values for primary, secondary, accent, info, warning, error, neutral
+- [ ] Map sections to brand colors by semantic role (e.g., "core work" → primary, "supporting" → secondary)
+- [ ] Use brand color **names** in outlines (e.g., "Primary `#1FB854`"), not generic names (e.g., "Navy `#1B2A4A`")
+- [ ] Verify section headers, slide backgrounds, and accent shapes all use brand tokens
+
+**If you're unsure:** Ask which brand CI to use before generating the deck. Never assume generic palettes are acceptable when the user has a defined brand.
+
 ### ⚠️ Units: Inches, Not Points
 
 `pptx_create.py` uses `Inches()` for ALL shape positions and sizes.
@@ -66,6 +79,45 @@ for slide in prs.slides:
 When using decorative shapes and custom backgrounds, use `"layout": "blank"`.
 Title and title_content layouts have placeholders that may overlap with
 your decorations. For section divider slides, always use blank.
+
+### ⚠️ Inches Arithmetic: Float First, Wrap Last
+
+**`Inches(a) * Inches(b)` produces an `Emu`, not `Inches`.**
+`Emu` objects have no `.inches` property — calling `total_w.inches`
+where `total_w = Inches(3) * Inches(2.5)` raises `AttributeError`.
+
+**The fix:** Do all arithmetic with plain floats, then wrap the final
+result in `Inches()` at the call site. Never chain `Inches()` through
+multiplication or addition.
+
+```python
+# ❌ BROKEN — Inches * Inches = Emu, no .inches property
+layer_w = Inches(2.5)
+gap = Inches(0.3)
+total_w = Inches(3) * layer_w + Inches(2) * gap
+x0 = Inches((13.333 - total_w.inches) / 2)  # AttributeError!
+
+# ✅ CORRECT — plain floats, Inches() only at final position/size calls
+layer_w = 2.5
+gap = 0.3
+total_w = 3 * layer_w + 2 * gap
+x0 = (13.333 - total_w) / 2
+rounded(slide, x0, y, layer_w, layer_h, WHITE)  # I() helper wraps each call
+```
+
+**Recommended:** Use a shorthand `I = Inches` or `def I(v): return Inches(v)`
+and keep all layout math as plain floats. This avoids the trap entirely
+and makes the code cleaner.
+
+### ⚠️ Custom Script vs JSON Spec: When to Go Raw
+
+`pptx_create.py` with a JSON spec is great for straightforward decks, but
+when you need **complex visual components** (cards with accent strips,
+numbered badges inside ovals, flow diagrams with arrows, code-file trees,
+multi-row stat cards), the JSON spec becomes unwieldy. For decks with 5+
+slides that each need custom component layouts, write a **raw python-pptx
+script** instead. See `references/custom-pptx-patterns.md` for the helper
+library and slide-builder patterns used in production.
 
 ## Design Patterns
 
@@ -167,3 +219,32 @@ same "home base" color at the end.
 | Left sidebar | 0 | 0 | 0.15 | 7.5 |
 
 All values in inches. For 4:3 slides, use 10.0 × 7.5 instead of 13.333 × 7.5.
+
+## Visual Component Library
+
+The user prefers **visually rich, component-based layouts** over plain text and bullets. Every slide should use at least one visual component: cards, tables, flows, badges, panels, or chip rows.
+
+For the complete component catalog with examples, patterns, and implementation details, see [`references/visual-components.md`](references/visual-components.md).
+
+**Quick reference:**
+- **Cards** (2-col, 3-col, 4-col): Comparing concepts, showing options
+- **Styled tables**: Exact values, structured data
+- **Flow diagrams**: Processes, lifecycles, sequences
+- **Badges/chips**: Numbering, categorization, status
+- **Code blocks**: Technical examples, formulas
+- **Concept panels**: Explaining a single idea
+- **Banners**: Key takeaways, warnings, calls to action
+- **Section dividers with ghost numbers**: Major transitions
+
+**Rule:** Never use plain bullet lists. Always use a visual component to structure information.
+
+## Large Deck Generation
+
+For presentations with 100+ slides, use the split-merge-style workflow described in [`references/merge-style-technique.md`](references/merge-style-technique.md). This avoids JSON size limits and ensures consistent brand CI styling across all slides.
+
+## Custom python-pptx Scripts (Raw API)
+
+When the JSON spec approach is too limiting for complex visual components,
+write a raw python-pptx script. See [`references/custom-pptx-patterns.md`](references/custom-pptx-patterns.md)
+for the complete helper library, component builders, and slide-builder
+patterns proven across multiple production decks.

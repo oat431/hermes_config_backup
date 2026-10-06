@@ -16,6 +16,9 @@ triggers:
   - SearXNG configuration or rate limiting
   - MCP server pointing at homelab services
   - Tailscale routing for local development tools
+  - AdGuard Home DNS filtering / blocklist auditing
+  - DNS filtering coverage — devices bypassing the filter
+  - router-side IPv6 DNS (RDNSS / DHCPv6) — make the router hand out the homelab DNS, then verify it
 ---
 
 # Homelab Microservice Deployment
@@ -109,9 +112,35 @@ Override with `test: ["CMD-SHELL", "exit 0"]` or remove healthcheck entirely.
 
 Never put passwords in compose YAML. Use `.env` file at `~/platform/.env` (chmod 600). Compose references with `${VAR_NAME}` or `${VAR_NAME:-default}`.
 
+**Pitfall: `docker compose restart` does NOT reload `.env` changes.** Compose reads `.env` at creation time, not on restart. After editing `.env`, always do a full down/up cycle:
+```bash
+docker compose down && docker compose up -d
+```
+`docker compose restart` or `docker compose stop && docker compose start` will use the old values. This is a common source of "I updated the config but nothing changed" confusion.
+
 ### 6. Compose YAML Structure Pitfall
 
 When appending a new service to an existing compose file, Python/yaml.dump is safer than shell heredoc append — heredoc append can nest the new service under the wrong key (e.g., under `networks:` instead of `services:`).
+
+### 7. Dockerizing pnpm Monorepos (Workspace + Turborepo)
+
+pnpm workspace monorepos use symlinks between packages. A naive multi-stage Dockerfile that copies packages individually breaks module resolution at runtime (`ERR_MODULE_NOT_FOUND`).
+
+**Working pattern** — use `pnpm deploy` to flatten the workspace:
+
+```dockerfile
+# Build: install, build shared packages, then deploy to flat bundle
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter @scope/shared-pkg build
+RUN pnpm --filter ./apps/backend/ --legacy deploy ./deployment/
+
+# Run: just copy the flat deployment bundle
+COPY --from=builder /app/deployment ./deployment
+```
+
+**Pitfall: `--prod` strips runtime deps.** `pnpm deploy --prod` excludes `devDependencies`, but some apps list runtime-critical packages (like `express`) under `devDependencies`. If the app crashes with `Cannot find package 'express'`, remove `--prod` from the deploy command. The project's own `vercel.json` uses `--prod` but pairs it with a `vercel-preparation.sh` script that does additional setup — Docker doesn't have that.
+
+**Pitfall: symlinks don't survive COPY.** Never try to manually copy `packages/core/build` + `node_modules` to the runner stage. pnpm's `node_modules/.pnpm` structure uses symlinks that Docker COPY doesn't preserve correctly. Always use `pnpm deploy` to produce a flat, self-contained bundle.
 
 ## Keycloak 26+ Pitfalls
 
@@ -248,17 +277,26 @@ Everything else (container lifecycle, DB provisioning, Nginx configs, realm JSON
 
 ## Obsidian Documentation Pattern
 
-Operational knowledge lives in Obsidian at `F:\obsidian_note\oralita_md\home-lab-installation\`, NOT in the spec folder. Structure:
+Operational knowledge lives in Obsidian at `F:\obsidian_note\oralita_md\`, NOT in the spec folder and NOT on the homelab server. **The vault gets reorganized between sessions — always verify the current structure with a quick `ls` before writing docs** (paths below changed once already: `home-lab-installation/` → `home-lab/`, and Quick Note guides moved into `home-lab/obsidian-livesync/`).
+
+Structure (as of 2026-08):
 
 ```
-home-lab-installation/
-├── database_component/     # PostgreSQL, Valkey, MongoDB
-├── microservice_component/ # Keycloak, Discovery, Gateway
-├── deployment/             # CI/CD, Tailscale setup
-└── essential_component/    # Nginx, Cloudflare, Tailscale
+oralita_md/
+├── home-lab/
+│   ├── audit/                 # dated audit/deployment logs
+│   ├── database_component/    # PostgreSQL, Valkey, MongoDB, CouchDB
+│   ├── microservice_component/# Keycloak, Discovery, Gateway
+│   ├── deployment/            # CI/CD, backup automation
+│   ├── essential_component/   # Nginx, Cloudflare, Tailscale
+│   ├── miscellaneous/         # db-network-integration-guide.md, etc.
+│   └── obsidian-livesync/     # 01-full-setup, 02-connection-guide, 03-couchdb-user-management
+└── Quick Note/                # user's scratch notes (Home Lab App.md port table lives here)
 ```
 
 Each service gets a full-detail self-contained note with: What & Why, Setup, Deploy, Access, Common Commands, Configuration, Troubleshooting, Project Structure, Related.
+
+**Doc handoff convention:** the user explicitly corrected server-side doc placement — write guides to the LOCAL Obsidian vault, never to `~/application/misc/` on the homelab (a stray copy landed there once and was ignored).
 
 ## Deployment Order
 
@@ -427,7 +465,7 @@ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:PORT/
 
 ### Documentation Workflow
 
-When consolidating services, create a running guide in the user's **Obsidian vault** at `F:\obsidian_note\oralita_md\home-lab-installation\miscellaneous\`, NOT on the homelab server. The user reviews and edits docs locally in Obsidian — server-side docs get ignored.
+When consolidating services, create a running guide in the user's **Obsidian vault** (`F:\obsidian_note\oralita_md\home-lab\miscellaneous\` — verify the path first; the vault gets reorganized). The user reviews and edits docs locally in Obsidian — server-side docs get ignored.
 
 Also update the port reference in `F:\obsidian_note\oralita_md\Quick Note\Home Lab App.md` when ports change.
 
@@ -465,6 +503,7 @@ Known port allocations on the Panomete homelab:
 | 7007 | StirlingPDF |
 | 7008 | ByteStash |
 | 7009 | Penpot |
+| 7010 | GitHub Stats Extended |
 | 8000 | Spring Cloud Gateway |
 | 8001 | Keycloak |
 | 8999 | Eureka |
@@ -542,5 +581,5 @@ See `references/backup-automation.md` for the full pg_dumpall + rclone + cron pa
 
 ## Related
 
-- References: `references/keycloak-pitfalls.md`, `references/docker-compose-patterns.md`, `references/tailscale-cicd-bridge.md`, `references/searxng.md`, `references/infisical.md`, `references/ots.md`, `references/bytestash.md`, `references/penpot.md`, `references/couchdb.md`, `references/observability-stack.md`, `references/backup-automation.md`
+- References: `references/keycloak-pitfalls.md`, `references/docker-compose-patterns.md`, `references/tailscale-cicd-bridge.md`, `references/searxng.md`, `references/infisical.md`, `references/ots.md`, `references/bytestash.md`, `references/penpot.md`, `references/couchdb.md`, `references/adguard-dns-filtering.md`, `references/observability-stack.md`, `references/backup-automation.md`; scripts `scripts/adguard-qlog-stats.py` (AdGuard query-log stats), `scripts/verify-router-dns.sh` (verify router-side IPv6 DNS hand-out)
 - See also: `homelab-infra-audit` for server auditing before deployment

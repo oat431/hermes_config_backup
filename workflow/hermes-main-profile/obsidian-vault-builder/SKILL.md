@@ -116,12 +116,9 @@ If the vault has a root-level content index file (e.g. `Programming Note Content
 
 ### 5. Verify
 
-After all writes, verify with a temp Python script that:
-- All expected files exist
-- Minimum file size (>500 bytes)
-- Mermaid blocks don't contain broken content
-- Sources sections present
-- Overview has updated wikilinks
+Run the bundled checker — `scripts/verify_vault_fill.py <vault_root> <path_rel> [files_per_area] [baseline.json]` — instead of hand-writing one each session. It covers: per-area file counts, size floors (overviews ≥4 KB, topic notes ≥5 KB), frontmatter `role`, mermaid arrow syntax, wikilink resolution under Obsidian semantics (case-insensitive; bare-name uniqueness with same-folder preference; path suffix match; `../` relatives resolved against the linking folder; escaped-pipe table links), and optional baseline size comparison to catch damage to earlier paths from later waves.
+
+Hand-rolled checkers repeatedly false-FAIL on: exact-path-only matching (missing suffix semantics), case-sensitive comparison (Windows vaults are case-insensitive), unhandled escaped pipes in table links, `../` links treated as literal strings, indexing only the folder being built while links point across the whole vault, and applying topic-note size floors to leaner area overviews. When a sweep reports failures, validate the resolver against known-good links first — treat FAILs as a checker bug until suffix/case/escape/relative/index-scope handling is ruled out — then classify real unresolved links by owning path (fix what this session wrote; report pre-existing debt with counts instead of mass-editing other authors' paths). After a verified fill, save the report's `sizes` map as the baseline for the next damage check.
 
 ### ASCII → Mermaid Conversion Rules
 
@@ -197,9 +194,47 @@ For book-level depth on each pattern, see the **Design Pattern** section in `sof
 
 Also update the parent index (`Programming Note Content.md`) with a table row for each new section.
 
+### Wikilink verification semantics (avoid false FAILs)
+When programmatically verifying `[[wikilinks]]` against the vault tree, use Obsidian's actual resolution rules — not exact-path matching:
+- Bare-name links (`[[Note Name]]`) resolve if the FILENAME is unique vault-wide, **or a same-named file sits in the linking file's own folder** — same-folder wins ties when duplicate basenames exist across folders (two paths can each legitimately own e.g. `04_Managing_Stakeholder_Expectations.md`). Only flag a bare link that is neither same-folder nor globally unique
+- Path-style links (`[[folder/sub/Note]]`) resolve by EQUALITY **or SUFFIX MATCH** — a link written relative to one folder still resolves if any vault path ends with `/folder/sub/Note`. Sibling-area links like `[[03_Area_Name/00_overview]]` written from a different area are valid
+- An exact-path-only checker will false-flag dozens of valid links and send you "fixing" correct files. **Validate the checker on known-good links FIRST** — until suffix/case/escape/relative/index-scope handling is ruled out, treat every FAIL as a checker bug before touching a note
+- **Classify unresolved links by owning path before fixing anything:** broken links in files the current session wrote get fixed now; broken links in paths built by earlier sessions are pre-existing debt — report them with counts and a remediation offer rather than silently mass-editing another session's notes
+- Strip `#heading` anchors, plain display aliases (`[[target|alias]]`), and **escaped-pipe aliases** (`[[target\|alias]]`, the correct Obsidian form inside markdown tables — splitting on the plain pipe first keeps the trailing backslash on the target) before resolving
+- Relative links (`[[../folder/note]]`) resolve against the LINKING FILE's folder — normalize with the containing dir before checking, or every such link false-flags
+- **Index the WHOLE vault, not just the folder being built** — notes legitimately link into sibling vault areas (`software-engineering-note/`, `body-of-knowledge/`, ...), and a scope-limited index false-flags every cross-area link
+- **Case-insensitive comparison is required on Windows** — Obsidian's Windows filesystem is case-insensitive, so a link whose spelling differs only in letter-case from the real file (e.g. `[[DMBOK v2 - Overview]]` → `DMBoK v2 - Overview.md`) is valid. An exact‑case checker will false‑flag pre‑existing vault‑convention links. Lowercase BOTH the indexed paths and the link text before comparing.
+- **Reuse ONE resolver implementation for the whole session** — invoke the bundled `scripts/verify_vault_fill.py`, or paste the full-semantics function verbatim into every ad-hoc check. Ad-hoc copies that trim a branch (the `../` normalizer, the escaped-pipe `\|` split, the whole-vault index) fabricate FAILs that read as real regressions, and the mistake recurs because a reduced copy still looks correct. When a sweep regresses right after an edit, enumerate the newly unresolved links and match them against a predicted set (for example, a fresh area contract's topic-table links = areas × topics, expected until its writers return) before touching any file.
+
+### Bulk link remediation (fixing pre-existing broken links)
+When a sweep reports broken links (in earlier-session paths), fix them in one bounded pass:
+1. **Group unresolved links by DISTINCT target string, not by occurrence** — dozens of occurrences usually collapse to ~60 distinct targets; make one mapping decision per target and it fixes all its occurrences at once.
+2. **Inventory the real vault to find each target's nearest existing file** before deciding. Typical mapping families:
+   - Old path numbering → new (`04_Engineering_Manager` → `11_Engineering_Manager`, `06_Product_Manager` → `14_Product_Manager`)
+   - Renamed capability areas (`../02_System_Design` → `../03_Architecture_and_Design_Judgment`) — map semantically, not by position number
+   - Folder-numbering drift in sibling vaults (`13_Software_Engineering_Economics` → `15_...`; `10_..._Management` → `09_...`)
+   - BOK renames (`SWEBOK - Overview` → `SWEBOK v4 - Overview`; `CyBOK - Overview` → `CyBOK v1 - Overview`; BABOK sub-numbers: `07_Requirements_Life_Cycle_Management` → `03_...`)
+   - Never-written subnote → closest real note (metrics→metrics file, reviews→reviews file, non-functional testing targets); when no clear counterpart exists, point at the folder's `... Overview.md`. Never invent a new note just to satisfy a link.
+   - Folder-style links (`[[Design Pattern]]`) → the folder's `Overview.md` file inside it
+3. **Apply with `text.replace("[[" + old, "[[" + new)`** across all files, log every replacement (file, old→new, count), and re-run the full resolver to prove 0 unresolved.
+4. **Pitfall — mappings whose `old` string already includes `[[`:** the `"[[" + old` concat then searches for `[[[[...` and silently no-ops. Keep mapping keys bracket-free; for bare-path links (`[[Note]]` / [[Note|`) and anchor links (`[[Note#Heading|`) use explicit delimiter-aware variants (`]]`, `|`, `#`) instead of the generic concat.
+5. **Anchor links (`[[Note#Heading|alias]]`) need the same treatment as pipe links** — a replace targeting only `[[Note|` misses `[[Note#` entirely. After any bulk pass, re-run the resolver so silent misses surface as residual counts instead of false confidence.
+
+### career-path vault fill pattern (proven 2026-08, 05_Tech_Lead: 57 files)
+For career-path vaults under `career-path/NN_Path_Name/`:
+1. Write area `00_overview.md` files FIRST yourself — each contains: frontmatter (role/capability_area/status/tags), topic table locking every note's filename + core skill, one mermaid, a 'what changes' comparison table (role vs previous level), **a `## Practical Applications` checklist**, pitfalls, success indicators. These are contracts for delegated writers.
+    - **Topic-table wikilink-filename trap:** the overview is written BEFORE topic files exist, so the wikilinks in the topic table are speculative. After all topic notes are written, verify that EVERY wikilink in the area overview's topic table resolves to an actual file in that area's directory. Use the EXACT file basename without `.md` — not a human-readable variant with commas, articles, or alternate wordings. A `[[03_Availability_Resilience_Reliability]]` link will break if the overview table reads `[[03_Availability,_Resilience,_and_Reliability]]`.
+2. Patch the path-level `00_overview.md` capability table to link the new areas
+2b. **Register the new path in the vault root index** (e.g. `career-path/00_Career_Path_Overview.md`): add a row to the career-families table using the escaped form `[[path\|alias]]` (a plain `|` inside a table cell splits the cell and silently breaks the link), and add a node to the relationship mermaid. Check the surrounding rows for pre-existing malformed cells (unescaped pipes, stray `]]`) while you are there — index tables written across many sessions drift in exactly these ways.
+3. Delegate topic notes in parallel waves (~7 notes/writer) with an exact style contract: frontmatter schema, `> **Core skill:**` line, Why This Matters (2-3 paras), heavy tables, ONE mermaid (labels double-quoted, `-->` only, no parens/colons in labels), Practical Applications (checklist and/or fenced template), 3-column pitfall table (4-7 rows), 4-6 success bullets, 3-5 Related Topics, one-para Summary, 6-13 KB
+4. Give writers an ALLOWED WIKILINK WHITELIST (exact targets + display names) — no invented links
+5. Design rule that keeps vaults non-redundant: the Senior path (02) owns personal-skill angles; the new path's notes take the leadership angle and LINK to the Senior note instead of duplicating it
+6. Verify independently by running `scripts/verify_vault_fill.py` (file counts per area, size floors, mermaid arrow syntax, frontmatter, wikilinks with Obsidian suffix semantics, baseline damage check). Subagent self-reports are not verification; re-check neighboring completed paths' counts and spot byte-sizes — writers occasionally touch files outside their assignment even when told not to.
+
 ## Batch Delegation Pitfalls
 
 When dispatching parallel subagent batches for file creation/conversion:
+- **Dispatch in the same turn you announce it.** Never end a turn claiming writers are running ("firing off the waves now") without the `delegate_task` call in that same turn — the area contracts then sit as orphaned overviews whose topic-table links point at files that do not exist, and the user will spot it from the filesystem. A turn that wrote contracts is not finished until the dispatch call happened.
 - **Verify before re-dispatching.** If you dispatch a re-run because you think the first batch failed, check the actual file state first (search for mermaid blocks, read file headers). A batch that appears to "fail" in its report may have actually succeeded — patches fail because the old text is already gone.
 - **Don't dispatch 3 batches when 2 suffice.** If batch 1 is slow, wait for it before dispatching a replacement. Running in parallel means the replacement will also fail (file already modified).
 - **Patch vs full rewrite.** Patches are faster but fragile with special characters (ASCII art, Unicode arrows). If patches fail on the first attempt, fall back to read-full-file → write-full-file immediately — don't retry patches.

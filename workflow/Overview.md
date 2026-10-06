@@ -6,7 +6,7 @@
 
 ---
 
-## Skills Map (22 Main + 8 shared + 82 Profile-Specific = 112)
+## Skills Map (22 Main + 8 shared + 83 Profile-Specific = 113)
 
 ### 📚 PDF & Book Summarization _(in `hermes-main-profile/`)_
 
@@ -72,7 +72,7 @@ Skills created inside individual specialist profiles (not in the main library). 
 | Profile folder | # Skills | New since 2026-08-24 marked ★ |
 |---------|----------|-------|
 | product-owner | 13 | po-requirements-elicitation, go-hexagonal-api, go-backend-api/service, spec-document-elicitation, grill-me-requirements, requirements-to-backlog, project-spec-authoring, knowledge-base-quality-audit, evidence-based-document-audit, privacy-regulatory-research, go-fiber-backend-development, vault-restructuring ★ |
-| full-stack | 14 | go-fiber-api-server, go-background-scheduler-api-poller, react-vite-spa, spec-driven-design, full-stack-repository-bootstrap, construction-docs, checklist-review, github-pr-qa-followup, interview-prep-coaching, interview-answer-cards, web-research, ai-chatbot-grounded-retrieval ★, job-hunting-loop-repo ★, obsidian-decision-note ★ |
+| full-stack | 15 | go-fiber-api-server, go-background-scheduler-api-poller, react-vite-spa, spec-driven-design, full-stack-repository-bootstrap, construction-docs, checklist-review, github-pr-qa-followup, interview-prep-coaching, interview-answer-cards, web-research, ai-chatbot-grounded-retrieval ★, job-hunting-loop-repo ★, obsidian-decision-note ★, drawio-diagrams ★ |
 | educator | 11 | curriculum-vault-authoring, educational-content-authoring, career-guidance-authoring, career-path-overlay-authoring, educational-notes-bilingual, multilingual-note-conversion, obsidian-note-authoring, obsidian-vault-restructuring, exercise-authoring, iso-standards-compliance-review, self-learning-course-authoring ★ |
 | devops | 9 | homelab-infra-audit, homelab-microservice-deployment, keycloak-deployment, keycloak-docker, devops-doc-authoring, release-readiness-audit, windows-pc-audit ★, windows-pc-ops ★, knowledge-vault-curation ★ |
 | qa | 9 | spec-driven-qa-authoring, spec-driven-code-review, github-pr-follow-up-review, checklist-audit, knowledge-vault-audit, obsidian-vault-audit, knowledge-vault-scaffolding ★, doc-localization ★, playwright-suite-health-review ★ |

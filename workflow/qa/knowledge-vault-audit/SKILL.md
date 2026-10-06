@@ -125,5 +125,6 @@ A naive match on raw link text produced 363 "unresolved"; normalization dropped 
 
 ## Related Skills
 
+- `knowledge-vault-scaffolding` — the INVERSE task: generating the folder tree + tracker overviews FROM a finished BOK (parse its Knowledge Units, emit per-KA `00_overview.md` trackers, then run the coverage audit on the result).
 - `checklist-audit` — audits *a checklist/document* against a vault KB (narrower, different target). The two overlap on the findings-register + severity formatting; consolidation candidate.
 - `obsidian` — reading/searching/editing notes in the vault (the raw file primitives this audit builds on).

@@ -155,3 +155,67 @@ penpot.viewport.zoomIntoView(boards);
 ## Delivery rhythm that worked
 
 1. Inspect file (pages, existing boards) → 2. query API types as needed → 3. setup call (palette + page + helpers in storage) → 4. one board per call (desktop, mobile, each state) → 5. export all as PNG → 6. present inline previews + offer refinement.
+
+## Stale shape references across execute_code calls (CRITICAL)
+
+`penpotUtils.findShape()`, `findShapeById()`, and `findShapes()` return **snapshot objects**, not live DOM references. If you obtain a board reference in call #1 and try `board.appendChild(child)` in call #2, the call **silently no-ops** — the child is created but lands on `penpot.root` (the page root), not inside the board. No error is thrown; `board.children.length` doesn't increase. `findShapes(s => true, board)` in a later call WILL find them at root level, with `parent.name === 'Root Frame'`.
+
+**Root cause:** the Penpot plugin API returns serializable snapshots across the MCP boundary. Mutations on snapshots don't propagate back. Only the original variable from `createBoard()` / `createRectangle()` / `createText()` in the SAME call is a live reference that accepts `appendChild`.
+
+**Fix — build board + ALL children in one call:**
+```js
+// ALL in one execute_code call:
+const board = penpot.createBoard();
+board.resize(480, 340); board.x = 100; board.y = 100;
+board.fills = [{ fillColor: '#1B1717', fillOpacity: 1 }];
+penpot.root.appendChild(board);
+
+const t = penpot.createText('Flowero Discover');
+t.resize(400, 32); t.x = 24; t.y = 24; t.growType = 'auto-height';
+t.fontSize = '21'; t.fills = [{ fillColor: '#CAC9C9', fillOpacity: 1 }];
+board.appendChild(t);  // ← works: same call, live reference
+```
+
+**Fix — reparent orphans from root to board (when board already exists):**
+```js
+const root = penpot.root;
+const board = root.children.find(c => c.name === 'Service Status Card' && c.type === 'board');
+const orphans = root.children.filter(c => c !== board);
+for (const child of orphans) {
+  const absX = child.x, absY = child.y;
+  board.appendChild(child);              // preserves absolute position
+  penpotUtils.setParentXY(child, absX - board.x, absY - board.y);  // fix relative
+}
+```
+
+## `storage` helper functions silently fail (stale closure)
+
+Helper functions stored in `storage` (e.g. `storage.txt = (parent, chars, x, y, ...) => { ... }`) may fail when called in a LATER `execute_code` call — not because `storage` is cleared (it persists within a page), but because the helper captures `storage.sarabun` / `storage.jbm` by closure reference, and these may be stale or undefined after a page-switch re-init that didn't re-run. The call throws `[PENPOT PLUGIN] Value not valid: <number>. Code: :createText` — the `<number>` is the ASCII code of the first character of the font variant ID being passed (e.g. `38` = `'n'` from `'normal-600'`).
+
+**Fix:** don't use `storage`-stored helper functions for text creation across calls. Build text inline in each call, or re-define the helper at the top of every call that uses it.
+
+## `addTheme()` signature — object, not positional args
+
+The high-level overview documents `addTheme(group: { group: string; name: string })`. At runtime, calling `tok.addTheme('Color theme', 'Forest')` (two positional strings) fails with `Value not valid: <first-char-of-second-arg>`. The correct call is:
+
+```js
+const theme = tok.addTheme({group: 'Color theme', name: 'Forest'});
+// NOT: tok.addTheme('Color theme', 'Forest')  ← fails
+```
+
+## Verifying color changes without PNG export
+
+When `export_shape` times out (heavy files with 700+ components), verify that library color changes cascaded to components by reading a component's fill directly:
+
+```js
+const lib = penpot.library.local;
+const btn = lib.components.find(c => c.path === 'Dark / Button / Primary / Text' && c.name === 'Default');
+const main = btn.mainInstance();
+const shapes = penpotUtils.findShapes(s => true, main);
+return shapes.filter(s => s.fills?.length > 0).map(s => ({
+  name: s.name, fill: s.fills[0]?.fillColor
+}));
+// Confirm: fill === '#1FB854' (your forest primary)
+```
+
+This is the programmatic QA gate when visual export isn't available.

@@ -26,7 +26,7 @@ live under `home-lab/audit/server`; PC notes under `home-lab/audit/personal-comp
 | CPU/RAM/GPU | Ryzen 5 6600H 6C/12T, 32 GB DDR5, RTX 3050 6GB + Radeon 660M |
 | Disks | Samsung 512 GB NVMe (C:), WD SN770 1 TB (E: + F:, vault on F:) |
 | Network | Ethernet 192.168.1.123, GW 192.168.1.1; Tailscale 100.90.67.14 -> homelab 100.73.143.25 |
-| DNS | AdGuard public 94.140.14.49/.59 BY DESIGN. Homelab AdGuard (192.168.1.121) blocks google.com (0.0.0.0, direct-verified) - INTENTIONAL user-side Google block; laptop stays on public AdGuard. Re-pointing = 1 elevated Set-DnsClientServerAddress |
+| DNS | Homelab AdGuard by design (re-pointed): Ethernet static IPv4 `192.168.1.121` + `1.1.1.1` fallback; static IPv6 `2405:9800:b500:9736:692:26ff:fe01:ecaf`; on-PC blocking verified (`doubleclick.net`/`ads.google.com` -> `::`/`0.0.0.0`). Replaced the old public-AdGuard 94.140.14.49/.59 config. Pending: server-side UFW allow for LAN IPv6 :53; router RA still advertises ISP IPv6 DNS (other devices can bypass). Homelab AdGuard blocks `google.com` ("No Google" list) - intentional |
 | Security | Defender on, tamper on; firewall enabled; BitLocker/Device Encryption ON for all volumes (user enabled 2026-09-03, verified elevated) |
 
 ## Vault output conventions (mirror the server audits)
@@ -70,6 +70,18 @@ live under `home-lab/audit/server`; PC notes under `home-lab/audit/personal-comp
   Backups: %TEMP%\PATH-backup-*.txt.
 - node via nvm4w (C:\nvm4w\nodejs; hermes-bundled node dir is earlier on PATH); kubectl = Docker
   Desktop bundled (v1.36); java = GraalVM 25; Go 1.25.3; scoop holds only pipx; no VS Code.
+
+## DNS re-pointing & verification (client side)
+
+- **Windows prefers IPv6 DNS learned from the router (RA/RDNSS) over static IPv4 DNS.** A "correct-looking" static IPv4 config can sit unused while the system resolves via the ISP's IPv6 servers. Always read BOTH: `netsh interface ipv4 show dnsservers` and `netsh interface ipv6 show dnsservers`.
+- `nslookup <domain>` tests only the first configured server — misleading for actual system behavior. Use PowerShell `Resolve-DnsName <domain>`: it exercises the real resolver stack (parallel attempts + fallback). Blocked answers are `::` / `0.0.0.0`; wrap in `Measure-Command` to expose dead-server fallback latency.
+- netsh DNS changes require elevation. Working pattern: write a `.bat` (one command per line, each appending output to a log file), then run
+  `powershell.exe -Command "Start-Process -FilePath '<bat>' -Verb RunAs -Wait"` — the user gets one UAC prompt; verify by reading the log (missing log = UAC declined or script failed).
+- Commands (interface is `Ethernet` on this machine):
+  - IPv4 static: `netsh interface ipv4 set dnsservers name="Ethernet" source=static address=<ip1> register=primary validate=no` then `add dnsservers name="Ethernet" address=<ip2> index=2 validate=no`
+  - IPv6 static: `netsh interface ipv6 set dnsservers name="Ethernet" source=static address=<v6> register=primary validate=no` — revert with `source=dhcp`
+  - Finish with `ipconfig /flushdns`.
+- After any re-point, verify end-to-end from the PC: a known-blocked domain resolves to `::`/`0.0.0.0` via `Resolve-DnsName`, and a control domain returns real IPs.
 
 ## Software state & cooling notes (updated 2026-09-03)
 

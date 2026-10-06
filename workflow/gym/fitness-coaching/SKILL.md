@@ -45,6 +45,7 @@ For untrained individuals at BMI >30: start at TDEE minus 800-1000 kcal. Protein
 - **Write to phase subdirectories.** Use `fitness/phase_N/` for phase-specific files, `fitness/00_gym_knowledge/` for reference materials. Never write phase files flat in `fitness/`.
 - **Obsidian reformats tables.** Opening/saving a note in Obsidian can auto-align table columns with padding whitespace, which breaks exact-string patches on tables (observed: a V4A multi-hunk patch failed wholesale on padded tables). Re-read the file immediately before patching program/log tables, and if a hunk fails, re-read and retry with the exact current text — never re-issue the same patch blind.
 - **Obsidian renames don't auto-update agent-written wikilinks.** Panomete renamed day notes to `1_Monday.md`…`4_Saturday.md` mid-session; every `[[daily-workouts/Monday]]`-style link stayed stale. After any user-side rename, grep the vault for the old link names and patch all referencing files.
+- **Another Hermes session operates on the same vault.** Files can move or vanish between sessions (observed: the `fitness/template/` folder was MOVED to the global Obsidian templates folder `F:/obsidian_note/oralita_md/templates/fitness/` by the other coach session — a later patch failed with "Failed to read file"). If a read/patch fails, `search_files` for the note name before assuming anything was deleted; then repatch references in place.
 
 ## Program Design Workflow
 
@@ -75,6 +76,23 @@ When the user's available days don't match the default spread, apply these rules
 | Only 2-3 days available | Drop to Full Body each session. Cardio as separate low-impact sessions or post-lift finishers. |
 
 Design principle: **no objective breaks, no objective explodes.** When consecutive days are forced, the middle day must carry the lowest CNS/fatigue load. Small muscle groups (arms, lateral delts, core) recover in ~24h and are safe on consecutive days. Heavy compounds need 48-72h between sessions for the same movement pattern.
+
+## Illness / Skipped-Week Re-Entry Protocol
+
+When a week is lost to illness (flu, COVID, etc.), rebuild deliberately — never revenge-train:
+
+| Signal | Action |
+|--------|--------|
+| Week lost to illness | Annotate the log honestly: `## Week N — SKIPPED (illness)`. No fabricated metrics, no check-in table. A sick week is a data point, not a failure — say so to the user. |
+| ≥2 weeks off, or respiratory illness | Re-entry barbell weights = −5% of last EARNED finals; rebuild +2.5 kg/week toward them |
+| Re-entry week intensity | RPE gate: every working set Medium or easier. Hard = repeat next week, not a failure |
+| Respiratory illness | Walk-first cardio for the first week back (no intervals); breathing gate: chest tightness / abnormal shortness → stop + report |
+| Post-illness RHR | Expect 65–75 bpm for 1–2 weeks — recovery, not danger; don't cut training on RHR alone |
+| Baseline-week schedules | Reschedule measurement baselines that fell in the sick week (e.g., BP baseline week slides to the return week) |
+| Nutrition | Hold kcal; protein becomes THE priority if appetite is still suppressed (hit 160 g even if kcal lands under) |
+| Missed week mentality | State "no make-up volume" explicitly — no extra sets, no double sessions, no bonus running |
+
+Full playbook with the W10 flu-A worked example: `references/illness-reentry-protocol.md`.
 
 ## Week Review Workflow
 
@@ -180,35 +198,34 @@ Do not duplicate the tracking table inside the program file.
 
 ## Vault Structure Convention
 
-Panomete organizes by phase with a shared knowledge directory:
+Panomete organizes by phase. **v2 convention (from 2026-08-23):** cross-phase records live at the vault ROOT; phase folders hold the active program only.
 
 ```
 fitness/
-├── 00_gym_knowledge/          ← Reference materials (shared across phases)
-│   ├── baseline-assessment.md
-│   ├── alternative-exercises-crowded-gym.md
-│   └── meal-templates-160g-protein.md
-├── phase_1/                   ← Phase 1 program + log
-│   ├── 4-week-program-phase1.md
-│   └── training-log-week1.md
-└── phase_2/                   ← current layout (from W8; template for future phases)
-    ├── phase2-program-overview.md   ← overview: schedule, progression maps, rules, nutrition, links
-    ├── daily-workouts/              ← ONE NOTE PER TRAINING DAY, numbered to sort in session order
-    │   ├── 1_Monday.md
-    │   ├── 2_Tuesday.md
-    │   ├── 3_Wednesday.md
-    │   └── 4_Saturday.md
-    ├── warmup-protocol.md           ← general warm-up rules; exact ladders live inline in the day notes
-    ├── training-log-phase2.md
-    ├── smart-scale-tracking.md
-    └── weekly-review-summary.md     ← historical reviews (NOT in the program file)
+├── baseline-assessment.md          ← cross-phase (moved from 00_gym_knowledge)
+├── blood-panel-baseline.md         ← cross-phase (one draw + 6-month retest)
+├── body-measurements-monthly.md    ← cross-phase (tape + photos, 1st Sunday)
+├── 00_gym_knowledge/               ← reference materials (meal templates, watch settings, shopping list)
+├── audit/                          ← training_audit_YYYYMMDD.md
+├── phase_N/
+│   ├── phaseN-program-overview.md  ← live plan ONLY (no review history)
+│   ├── warmup-protocol.md
+│   ├── food-log.md                 ← live food system for this phase
+│   ├── daily-workouts/{gym,home}/  ← numbered day notes 1_Monday..5_Sunday per location
+│   └── logs/
+│       ├── daily/                  ← training-log-phaseN.md (sessions + check-in tables), run-walk-log.md
+│       └── weekly/                 ← smart-scale-weekly.md, blood-pressure-log.md, phaseN-weekly-review-summary.md
+└── (templates live in the GLOBAL Obsidian templates folder, NOT inside fitness/)
 ```
 
 When creating new files:
-- **Phase-specific files** → `fitness/phase_{N}/`
+- **Cross-phase → root.** Baseline assessment, blood panel, monthly tape/photos carry forward through every phase; never lock them inside a phase folder. User requested this split explicitly ("monthly log at root of the fitness").
+- **Logs split by fill-cadence:** `logs/daily/` = "fill on the day" (training log with check-ins, run-walk log); `logs/weekly/` = "fill on Sunday" (BIA, BP, review summary). Keep the two-folder split minimal — don't fragment further.
+- **Review-summary naming:** use `phaseN-weekly-review-summary.md`. Plain `weekly-review-summary.md` in two phases collides in Obsidian (name-based wikilinks go ambiguous; shortest path wins).
 - **Day notes** → `fitness/phase_{N}/daily-workouts/`, numbered `1_Monday.md`…`4_Saturday.md`; exercises in session order with the warm-up ladder INLINE under each exercise (template: `templates/day-note.md`). Rationale: Panomete opens one file at the gym and follows it top to bottom.
-- **Reference materials** (meal templates, alt exercises, baseline) → `fitness/00_gym_knowledge/`
+- **Reference materials** (meal templates, alt exercises, watch settings, shopping lists) → `fitness/00_gym_knowledge/`
 - **Never write phase files flat** in `fitness/` — the user will reorganize them into subdirectories anyway
+- **Wikilinks are name-based** — they survive file moves; raw `file.md` path text does not. After ANY restructure (yours or the user's), grep for old paths and repatch every reference.
 - **Before writing**, discover the current layout with `find` or `search_files` — the vault may have been restructured since last session
 
 ## Smart Scale Body Composition Analysis
@@ -267,3 +284,4 @@ Beginners often pyramid up within a session (10→12→12) while finding their w
 - `scripts/verify-program.py` — Integrity checker for program notes. Run: `python verify-program.py <vault_path> <program_filename>`
 - `templates/day-note.md` — Per-training-day gym note template (warm-up inline under each exercise, rest conventions, Obsidian pitfalls).
 - `references/vault-restructure-w8.md` — Canonical W8+ vault layout (overview + daily-workouts + warmup-protocol + review summary) and warm-up rest conventions.
+- `references/illness-reentry-protocol.md` — Post-illness re-entry playbook (W10 flu-A worked example, re-entry weight tables, gates, bookkeeping).

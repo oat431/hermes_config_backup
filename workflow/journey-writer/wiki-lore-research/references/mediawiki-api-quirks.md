@@ -27,7 +27,19 @@ GET <api>?action=query&format=json&prop=extracts&explaintext=1&titles=<one urlen
 GET <api>?action=query&format=json&meta=siteinfo&siprop=general|extensions
 ```
 
+## Getting PAST Cloudflare on Fandom HTML pages (verified live)
+
+Fandom's *HTML* pages (the wiki URL a user pastes) sit behind a Cloudflare bot challenge: browser navigation times out, plain curl receives a "Just a moment..." interstitial, and searxng `web_url_read` gets 403. **The `/api.php` endpoint is NOT challenged** — go straight to the API with a descriptive User-Agent and skip every HTML path:
+
+```
+GET https://<sub>.fandom.com/api.php?action=query&prop=revisions&rvprop=content&rvslots=main&titles=<urlencoded title>&format=json
+```
+
+Parse `query.pages[*].revisions[0].slots.main['*']` — that's the raw wikitext (tables, refs, templates intact; good enough for quotes/lyrics/lore).
+
 ## Quirks (verified live)
+
+- **Fandom lacks the TextExtracts extension**: `prop=extracts&explaintext=1` returns `Unrecognized value for parameter "prop": extracts` warnings and NO content (works on bg3.wiki/Wikipedia, not Fandom). On Fandom use the `prop=revisions&rvprop=content&rvslots=main` wikitext call above instead.
 
 - **`prop=extracts` fills only the FIRST full extract per multi-title request** — remaining pages return 0-char extracts. Batch page *discovery*, never batch *extracts*.
 - **Cargo detection**: siteinfo `extensions` list contains `Cargo` on bg3.wiki. Fandom wikis: no Cargo. wiki.gg may rebrand it as `LIBRARIAN`.

@@ -110,6 +110,70 @@ brave-search:
   timeout: 30
 ```
 
+### everyfile — Instant Local File Search via Everything
+
+`everyfile` does NOT ship a built-in MCP server module. You must write a bridge
+script that wraps the `everyfile` Python API using the MCP SDK (`MCPServer` in
+MCP 2.x, `FastMCP` in 1.x).
+
+**Prerequisites:** Windows, Python ≥ 3.11, VoidTools Everything installed and
+running. Install: `pip install everyfile[mcp]` (or `pipx install everyfile[mcp]`).
+
+**Bridge script** (save as `everyfile_mcp_server.py`):
+
+```python
+from everyfile import Everything, EverythingError
+from mcp.server.mcpserver import MCPServer
+
+mcp = MCPServer("everyfile")
+
+@mcp.tool()
+def search_files(query: str, max_results: int = 50, sort: str = "name",
+                 descending: bool = False, match_case: bool = False,
+                 match_path: bool = False, regex: bool = False) -> str:
+    ev = Everything()
+    cursor = ev.search(query, sort=sort, descending=descending,
+                       limit=max_results, match_case=match_case,
+                       match_path=match_path, regex=regex)
+    results = [row.to_dict() for row in cursor]
+    return json.dumps({"results": results, "count": len(results),
+                       "total": cursor.total}, default=str, ensure_ascii=False)
+
+if __name__ == "__main__":
+    mcp.run()
+```
+
+**Config (Hermes + Claude Code):**
+
+```yaml
+# Hermes config.yaml
+everyfile:
+  command: "C:/Users/<user>/AppData/Local/pipx/pipx/venvs/everyfile/Scripts/python.exe"
+  args:
+    - "C:/Users/<user>/AppData/Local/hermes/everyfile_mcp_server.py"
+```
+
+```bash
+# Claude Code
+claude mcp add -s user everyfile -- \
+  "C:/Users/<user>/AppData/Local/pipx/pipx/venvs/everyfile/Scripts/python.exe" \
+  "C:/Users/<user>/AppData/Local/hermes/everyfile_mcp_server.py"
+```
+
+**Why:** Sub-millisecond filename/path/metadata search across all NTFS drives
+(reads the MFT directly). Complements ripgrep — Everything for filenames, rg
+for content. Also works as a standalone CLI (`ev` command) and Python API.
+
+**Pitfall — MCP 2.x API rename:** `FastMCP` was renamed to `MCPServer` in MCP
+2.x. If you see `ModuleNotFoundError: No module named 'mcp.server.fastmcp'`,
+you're on MCP 2.x — import from `mcp.server.mcpserver` instead. The migration
+guide is at https://py.sdk.modelcontextprotocol.io/v2/migration/.
+
+**Pitfall — async functions in MCP 2.x:** Any `@mcp.tool()` that uses `await`
+(e.g. `await ctx.info(...)`) MUST be declared `async def`. A plain `def` with
+`await` inside produces `SyntaxError: 'await' outside async function`. If the
+tool doesn't need `await`, a plain `def` is fine.
+
 ### Obsidian MCP — Direct Vault Manipulation
 
 ```yaml

@@ -63,6 +63,17 @@ Apply these rules from SOUL.md without asking the user:
 | Run/cardio >90s below expected pace two sessions | Flag deload next week |
 | Sleep <6h average for the week | Cut one quality session |
 
+### 3b. Skipped Week (Illness) — Special Case
+
+If the user reports a week lost to illness (no log, no data):
+- Do NOT invent metrics. Write `## Week N — SKIPPED (illness)` with the reason and zero tables — no fake check-in, no backfilled averages.
+- Re-frame for the user: a sick week is a data point, not a failure — no apology needed, no make-up volume.
+- Set re-entry targets: barbell −5% of last earned finals after ≥2 weeks off; rebuild +2.5 kg/week (fitness-coaching: `references/illness-reentry-protocol.md`).
+- Cardio: walk-first for the first week back after respiratory illness; intervals return only after a clean easy session.
+- Reschedule measurement baselines that were due in the skipped week (e.g., BP baseline week slides to the return week).
+- Kcal: hold; re-arm the drop-watch trigger on the return week's data. Protein priority over kcal if appetite is suppressed.
+- Expected post-illness RHR 65–75 for 1–2 weeks — recovery, not a reason to cut sessions.
+
 ### 4. Compare Actual Weights to Targets
 - For each exercise, compare the logged weight to the target from the previous review
 - Note: overshoots, undershoots, rep drops, form notes, ramping (multiple weights logged for same exercise)
@@ -178,7 +189,7 @@ Before finalizing a weekly review, synchronize every place that carries next-wee
 
 1. **Weight notation confusion.** Panomete sometimes logs warm-up sets as separate weights (15→20→20→25 for 3 sets). Clarify whether the first number is a warm-up or a working set. Ask: "is this warm-up + 3 working sets, or 4 working sets?"
 
-2. **Vault path changes.** The Obsidian vault may move (it moved from `F:\projects\orlita_md` to `F:\obsidian_note\oralita_md` mid-session). Always use `search_files` if `read_file` returns "file not found." The user may restructure the vault (flat → subdirectories per phase). Use `find` or `search_files` to discover the current layout before writing files.
+2. **Vault path changes.** The Obsidian vault may move (it moved from `F:\projects\orlita_md` to `F:\obsidian_note\oralita_md` mid-session). Always use `search_files` if `read_file` returns "file not found." The user may restructure the vault (flat → subdirectories per phase). Use `find` or `search_files` to discover the current layout before writing files. Another Hermes coach session also edits this vault — files can move between sessions (e.g., `fitness/template/` → global `templates/fitness/`; a patch then fails "Failed to read file"). Search for the note's new location before concluding it's gone. Same-named files in two phases (e.g., `weekly-review-summary.md`) make name-based wikilinks ambiguous — prefix phase-N copies (`phase3-weekly-review-summary.md`).
 
 3. **User-requested changes mid-review.** If the user corrects a weight or adds context (e.g., "it was 20 kg, not 25"), rebuild the review with the corrected numbers before saving to the file.
 

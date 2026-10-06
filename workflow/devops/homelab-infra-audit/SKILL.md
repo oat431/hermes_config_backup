@@ -338,6 +338,30 @@ reference. Key points:
   ```
   Nginx proxies `discovery.panomete.com` → `:3999`, services register on `:8999`.
   This avoids the complexity of configuring Eureka to serve on two separate ports.
+- **Docker ignores loopback nameservers — containers silently lose public DNS.**
+  If the host's `/etc/resolv.conf` points at a loopback resolver (AdGuard/Pi-hole
+  on `127.0.0.1`, owning `:53`), Docker's embedded DNS (`127.0.0.11`) drops it
+  and, with no other upstream, answers every external query with `SERVFAIL`.
+  Symptom: containers log `getaddrinfo ENOTFOUND` for public domains (Uptime
+  Kuma monitors all failing is the classic) while internal container names still
+  resolve and everything shows `(healthy)`. Detect:
+  `docker exec <c> cat /etc/resolv.conf` — broken shows `NO EXTERNAL NAMESERVERS
+  DEFINED`, working shows `ExtServers: [...]`. Fix: recreate, not restart —
+  `docker compose up -d --force-recreate <svc>` (data safe; `resolv.conf` is
+  regenerated at container creation). Prevent: pin
+  `{"dns":["1.1.1.1","8.8.8.8"]}` in `/etc/docker/daemon.json`.
+  Full recipe: `references/docker-dns-loopback-trap.md`.
+- **"Healthy" ≠ "monitored" — audit monitoring coverage when asked what to watch.**
+  Cross-reference the exposed public surface (Nginx `server_name`s — use
+  `grep -Hn server_name /etc/nginx/sites-enabled/*`, the glob form follows the
+  symlinks that `-r` silently skips — plus the Cloudflare tunnel `hostname:`
+  ingress) against Uptime Kuma's live `monitor` table (`docker cp
+  uptime-kuma:/app/data/kuma.db /tmp/` then host `python3 -c "import sqlite3; …"`;
+  `better-sqlite3` is NOT importable inside the container). Then `curl` each gap
+  to learn its REAL expected code before adding it. See
+  `references/monitoring-coverage-audit.md` — includes the false-positive traps
+  (SearXNG `429` rate-limit, `proxy_pass https://` → plain-HTTP backend `502`,
+  self-monitoring caveat).
 
 ## Phase 7: Live deployment debugging (when the user hits 502 / crash loops)
 

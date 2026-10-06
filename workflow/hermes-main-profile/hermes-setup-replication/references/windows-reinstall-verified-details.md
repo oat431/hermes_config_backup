@@ -27,24 +27,36 @@ ls 'F:/obsidian_note/oralita_md/soul-collection/'
 - Antivirus false positive on `uv.exe` → whitelist folder:
   `Add-MpPreference -ExclusionPath "$env:LOCALAPPDATA\hermes\bin"` (folder, not hash).
 
-## OpenRouter model ladder (prices fetched live 2026-08-06, $ per 1M tokens, in/out)
+## QwenCloud Token Plan — model ladder (verified 2026-08-29)
 
-| Tier | Model ID | ≈ in / out |
-|---|---|---|
-| Frontier | anthropic/claude-opus-4.8 | $5 / $25 |
-| Frontier | anthropic/claude-sonnet-5 | $2 / $10 |
-| Frontier | google/gemini-2.5-pro | $1 / $10 |
-| Like-me (Chinese) | deepseek/deepseek-v4-pro | ~$0 / ~$1 |
-| Like-me (Chinese) | qwen/qwen3.7-plus | ~$1 / ~$1 |
-| Like-me (Chinese) | z-ai/glm-4.7-flash | ≈ $0 |
-| Like-me (Chinese) | moonshotai/kimi-k2.5 | $1 / $3 |
-| Budget | deepseek/deepseek-v4-flash | ≈ $0 |
-| Budget | qwen/qwen3.7-flash | ≈ $0 |
-| Budget | google/gemini-2.5-flash-lite | ≈ $0 |
+Single provider for main + all 14 profiles. All 6 models on the Personal Edition:
 
-- `~`-prefixed IDs (e.g. `~anthropic/claude-opus-latest`) auto-track latest.
-- Panomete's own educator profile uses `openrouter` + `z-ai/glm-5.2` (reference pick).
-- Refresh: `curl -fsSL https://openrouter.ai/api/v1/models` and filter with python/jq.
+| Model | Good for |
+|---|---|
+| `qwen3.8-max` | strongest Qwen — general/writing |
+| `qwen3.8-flash` | fast Qwen — bulk/light work |
+| `qwen3.7-max` | prior-gen Qwen max |
+| `deepseek-v4-pro` | heavy reasoning — code, infra, analysis |
+| `deepseek-v4-flash-0731` | **default** — fast + capable, good all-rounder |
+| `glm-5.2` | multimodal + reasoning — visual/teaching tasks |
+
+Config:
+```yaml
+model:
+  default: deepseek-v4-flash-0731
+  provider: alibaba
+```
+
+Env (REQUIRED in every profile's `.env` — NOT inherited from main):
+```ini
+DASHSCOPE_API_KEY=<token-plan-key>
+DASHSCOPE_BASE_URL=https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic
+```
+
+⚠️ The `alibaba` provider defaults to OpenAI-compatible `dashscope-intl.aliyuncs.com`,
+but the Token Plan key only works against the Anthropic-protocol token-plan gateway.
+`DASHSCOPE_BASE_URL` is **required** — without it, the provider resolves the wrong
+endpoint and auth fails silently.
 
 ## searxng facts
 

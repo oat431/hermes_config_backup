@@ -71,6 +71,7 @@ Symptom: `web_extract` errors with `Set web.extract_backend to firecrawl, tavily
 - Docs: https://hermes-agent.nousresearch.com/docs/user-guide/configuration → "Web Search Backends". If `web_extract` is broken, curl the docs page and strip HTML with python (`re.sub(r'<[^>]+>', ' ', ...)`) — avoids the broken extract path entirely.
 - Self-hosted Firecrawl: set FIRECRAWL_API_URL, key becomes optional (server-side `USE_DB_AUTHENTICATION`). Needs Docker — check daemon state first (Panomete's Docker was DOWN at 2026-08-05).
 - Provider plugins only advertise capabilities they implement (`supports_search` / `supports_extract`); registry routes each call to the right provider.
+- **Do NOT retry `web_extract` when the error is "search-only backend."** Retrying with the same backend (or another search-only backend) returns the same error. The only productive paths are: (a) `curl -sL "<url>"` to bypass the extract path entirely, (b) `web_search` for finding information, or (c) asking the user to set up a keyed extract backend (tavily/firecrawl/exa/parallel). A retry loop wastes turns.
 
 ## Signup links
 
