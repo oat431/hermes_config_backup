@@ -25,6 +25,7 @@
 | `journey-writer` | Creative writing companion | Campaign logs, journals, fiction, non-fiction, worldbuilding, TH/EN bilingual | "campaign log", "journal", "story", "fiction", "essay", "worldbuilding", "creative writing" | ✒️ |
 | `audiophile` | Personal audio: headphones/IEMs, DAC/amps, speakers, home theater | Gear recommendations, setup guides, EQ, terminology teaching, myth-busting, Thai market pricing | "headphone", "IEM", "DAC", "amp", "audio", "sound quality", "ANC", "buy headphones", "EQ" | 🎧 |
 | `llmops` | Applied AI engineering, full AI lifecycle for products | LLM app patterns (RAG/agents), prompt & context engineering, eval suites, AI guardrails, inference ops, fine-tuning strategy, AI governance | "RAG", "LLM", "agent", "prompt", "eval", "guardrail", "fine-tune", "model routing", "AI feature" | 🦙 |
+| `photo-artisan` | Photo editing, retouching, light adjusting | Edit recipes, retouch plans, LightCraft/PhotoCraft operation logs, export advice | "edit this photo", "fix the lighting", "retouch", "remove this object", "color grade", "RAW develop", "photo editing" | 📸 |
 
 ## When to Route (Hard Rule)
 
@@ -83,7 +84,7 @@ Action: "💡 This keeps coming up / needs real depth — worth creating a `biol
 
 ---
 
-**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer · audiophile · llmops
+**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer · audiophile · llmops · photo-artisan
 **Soul sources:**
 - `AI-SDLC\` → product-owner, full-stack, devops, qa, ui-ux, data-engineer, security-engineer, llmops
-- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer, audiophile
+- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer, audiophile, photo-artisan
