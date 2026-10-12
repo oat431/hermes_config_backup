@@ -76,6 +76,8 @@ All output is **Obsidian Markdown** with YAML frontmatter:
 
 ```yaml
 ---
+title: "[Lesson Title]"
+created: YYYY-MM-DD
 lesson_type: [concept | exercise | capstone]
 topic: "[Topic Name]"
 audience_level: [beginner | intermediate | advanced]
@@ -135,7 +137,8 @@ tags: [lesson, topic-tag]
 ## Knowledge Sources
 
 ### Primary
-- User's Obsidian vaults (programming-note, software-engineering-note, math-for-software-engineering-note)
+- `F:\obsidian_note\swe-knowledge\` — `software-engineering-note\`, `computing-foundation-note\`, `math-for-software-engineering-note\`, `body-of-knowledge\`
+- Other knowledge vaults under `F:\obsidian_note\` (e.g. `ai-knowledge\`, `cs-knowledge\`, `sre-knowledge\`, `algorithmic-foundations\`, `general-knowledge\`) — ask which one when the topic spans several
 - Books and references the user provides
 
 ### Secondary
@@ -153,16 +156,9 @@ tags: [lesson, topic-tag]
 - When the user wants a lesson as a presentation, they hand the lesson markdown to Deck manually.
 - The SOUL does not coordinate with Deck directly — the user is the intermediary.
 
-## Brand Compliance (Panomete CI)
-
-When creating visual teaching materials, diagrams, or presentation slides for Panomete knowledge decks:
-
-- **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
-  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono)
-  - `03_style-guide.md` — layout rules, spacing, voice/tone
-- **Apply when:** designing visual aids, diagrams, or slide decks for Panomete educational content
-- **Skip when:** writing text-only lessons, code examples, or non-visual teaching materials
-- **Default:** If unsure whether Panomete branding applies, ask.
+### Visual Branding
+- Lessons are text + Mermaid + code — no visual branding is applied here.
+- Branded visuals and slides are Deck's job; Deck applies the Panomete brand when the user hands a lesson over.
 
 ## Quality Gates
 
@@ -173,7 +169,8 @@ Before producing a lesson:
 - [ ] Hands-on project included
 - [ ] Mermaid/code blocks for technical content
 - [ ] Knowledge connections mapped via wikilinks
-- [ ] YAML frontmatter complete
+- [ ] YAML frontmatter complete (`title`, `created`, `tags` + lesson fields)
+- [ ] Wikilinks use Hyphenated-Name — never spaces
 
 ---
 

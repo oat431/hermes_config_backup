@@ -2,8 +2,8 @@
 
 > **Purpose:** Single source of truth for routing. The main `OraMesLita` soul reads this to recommend the right specialist profile. Also the backup manifest for re-installing Hermes on a new device.
 >
-> **Source of truth:** `F:\obsidian_note\oralita_md\soul-collection\`
-> Each profile's full soul lives there. Backups: `profiles\_soul_backup_*\` (profile-local).
+> **Source of truth:** `F:\obsidian_note\hermes_config_backup\soul-collection\`
+> Each profile's full soul lives there; live copies are `$HERMES_HOME\profiles\<name>\SOUL.md`. Backups: `profiles\_soul_backup_*\` (profile-local).
 
 ## Routing Quick-Reference
 
@@ -35,6 +35,34 @@ If the question/context matches a specialist's domain above → **route, don't d
 3. List the **context to bring** ("mention your API spec", "bring the test plan", etc.).
 
 **Exception — light-touch direct help:** general questions, non-technical chat, brainstorming, quick research, small scripts/glue, Hermes configuration help. Handle these directly. Only deep specialist work gets routed.
+
+**Overlaps:** when two profiles both match, use the tie-break table in `hermes-main-soul.md` (llmops vs data-engineer, qa vs full-stack, devops vs security-engineer, product-owner vs engineering).
+
+## Document Ownership Matrix (shared templates)
+
+Where several profiles touch the same template, **one owns it** (writes and maintains it) and the others **contribute** a section or input. A contributor never produces a competing copy — it hands its section to the owner.
+
+| Template | Owner | Contributors (what they add) |
+|---|---|---|
+| `13_Testing_and_Verification\Test-Strategy.md` | `qa` | `full-stack` (unit/integration layer), `security-engineer` (security-verification section), `llmops` (eval-suite section) |
+| `13_Testing_and_Verification\Performance-Test-Report.md` | `qa` | `devops` (load environment, capacity findings) |
+| `13_Testing_and_Verification\Security-Test-Report.md` | `security-engineer` | `qa` (execution evidence) |
+| `16_Deployment_and_Operations\SLO-SLI-Definitions.md` | `devops` | `full-stack` (service SLIs), `product-owner` (targets & error-budget policy), `qa` (evidence) |
+| `16_Deployment_and_Operations\Deployment-Plan.md` | `devops` | `full-stack` (app-specific steps, migrations, env requirements) |
+| `16_Deployment_and_Operations\Operations-Manual-Runbook.md` | `devops` | `full-stack` (service procedures); data runbooks use `15_Data_Management\Database-Operational-Runbook.md` (owner `data-engineer`) |
+| `16_Deployment_and_Operations\Rollback-Plan.md` | `devops` | `full-stack` (schema/data rollback) |
+| `16_Deployment_and_Operations\CI-CD-Pipeline-Configuration.md` | `devops` | `security-engineer` (gates), `qa` (test stages), `data-engineer` (data/ML stages) |
+| `14_Security\DevSecOps-Pipeline-Configuration.md` | `security-engineer` (which controls, thresholds) | `devops` (implements them in the pipeline) |
+| `14_Security\Incident-Response-Plan.md` | `security-engineer` | `devops` (operational steps) |
+| `16_Deployment_and_Operations\Incident-Management-Process.md` | `devops` | `security-engineer` (security-incident branch) |
+| `14_Security\SAST-Report.md` / `DAST-Report.md` / `SCA-Report.md` | `security-engineer` | `devops`, `full-stack` (remediation status) |
+| `14_Security\Threat-Model.md` | `security-engineer` | `llmops` (LLM threat model), `full-stack` (architecture context) |
+| `15_Data_Management\Backup-Recovery-Plan.md` | `data-engineer` | `devops` (infra, schedules, offsite sync) |
+| `15_Data_Management\Data-Classification-Schema.md` | `data-engineer` | `security-engineer` (handling controls) |
+| `15_Data_Management\Privacy-Impact-Assessment.md` | `data-engineer` | `security-engineer`, `product-owner` |
+| `04_Requirements_Engineering\Acceptance-Criteria.md` / `Nonfunctional-Requirements-Catalog.md` | `product-owner` | `qa` (testability), engineering profiles (feasibility) |
+| `09_Systems_Architecture_and_Design\Architecture-Decision-Records.md` | whoever makes the decision | shared template — one ADR per decision, written by the deciding profile |
+| `05_Project_Management_Planning\Risk-Register.md` | `product-owner` (maintains) | every profile adds its domain risks |
 
 ## When to Suggest a NEW Specialist Profile
 

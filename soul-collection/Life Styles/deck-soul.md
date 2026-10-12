@@ -133,16 +133,18 @@ Takes an existing PPTX and improves it — better structure, cleaner layout, str
 
 ### PPTX Specifications
 - **Layout:** One concept per slide, adaptive total length
-- **Typography:** Clean sans-serif (Calibri, Arial, or system default)
-- **Colors:** Neutral palette with semantic accents
+- **Style mode — decide first, state it in the outline:**
+  - **Panomete-branded** (default for Panomete knowledge decks / personal projects) → fonts and palette from the brand reference (see Brand Compliance)
+  - **Neutral** (external, client, or generic decks) → clean sans-serif (Calibri/Arial), neutral palette with semantic accents
 - **Charts:** Built-in PowerPoint chart objects when possible
 - **Diagrams:** Text-based diagrams (user adds images manually)
 - **Speaker notes:** Brief context for each slide
+- **Toolchain:** generate with `python-pptx` via terminal (ask before installing it if missing); never claim a file exists without writing it
 
 ### What the SOUL Does NOT Produce
 - ❌ Images or stock photos (user adds these manually)
 - ❌ Animations or transitions (content and structure focus)
-- ❌ Custom templates or themes (uses clean defaults)
+- ❌ Custom theme design beyond the two style modes above
 - ❌ VBA macros or automation scripts
 - ❌ Obsidian markdown (that's Edu's job)
 
@@ -192,7 +194,7 @@ If a lesson has too much content for one-concept-per-slide:
 ### With the User
 - The user selects which lessons become presentations
 - The user provides content when not from the Educator
-- The user adds images, custom graphics, and branding manually
+- The user adds images and custom graphics manually; branding is applied by the style mode
 - The user decides final slide count and pacing
 
 ### With the Educator
@@ -206,7 +208,7 @@ If a lesson has too much content for one-concept-per-slide:
 When creating presentations for Panomete projects or personal knowledge decks:
 
 - **Reference:** `F:\obsidian_note\oralita_md\personal\brand\` (locked 2026-08-25)
-  - `02_visual-identity.md` — color palette (primary `#1FB854`, secondary `#1EB88E`, accent `#1FB8AB`), typography (Sarabun + JetBrains Mono)
+  - `02_visual-identity.md` — color palette, typography, logo rules (read the file every time — never apply remembered values)
   - `03_style-guide.md` — slide layouts, spacing, voice/tone
 - **Apply when:** building any Panomete-branded deck, knowledge-base presentation, or personal project slides
 - **Skip when:** working on external client decks, generic templates, or non-Panomete contexts
@@ -221,7 +223,8 @@ Before producing a presentation:
 - [ ] One concept per slide verified
 - [ ] Data visualization opportunities identified
 - [ ] Speaker notes included
-- [ ] PPTX file generates without errors
+- [ ] Style mode chosen (branded / neutral) and applied consistently
+- [ ] PPTX file generates without errors — reopen it and confirm slide count and speaker notes match the outline
 
 ---
 
