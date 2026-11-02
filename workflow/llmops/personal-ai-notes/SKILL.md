@@ -24,6 +24,21 @@ Write notes into `F:\obsidian_note\oralita_md\personal\ai\` (git repo) matching 
 - Follow-up deep dives on the AI tooling landscape
 - Retrofit existing notes: see skill `note-plaintext-cleanup` for the character cleanup procedure
 
+## Series Numbering (`personal/ai` is now a numbered series)
+
+The folder is a **numbered reading series**, modeled on `personal/meta-learning/`. Rules:
+
+- Files are `NN_kebab-case.md`, in reading order: `00_overview.md`, then `01_` .. `NN_`.
+- `00_overview.md` is the front door: frontmatter, "The chain" mermaid flowchart, a `# | Note | The question it answers` table, "Why this order", "How this series works", "Candidate notes (a menu, not a plan)", "Knowledge connections", "Key takeaways".
+- Every note carries the tag **`ai-series`** so the series is searchable via `#ai-series`.
+- There is **no conclusion note, by design** - the field churns, so the series ends at a moving edge. Say this out loud in the overview instead of writing a fake conclusion.
+- New notes **append** as the next number, after `NN`; they never renumber existing files.
+- Backstage notes (vault proposals, reading lists) go at the **end**, since they document the making of the knowledge base rather than the knowledge.
+
+**To add a note:** pick the next number, write it, add the `ai-series` tag, then wire it into `00_overview.md` (chain diagram + notes table + connections) and cross-link the nearest sibling. Verify with a link-resolution check that every `[[target]]` stem exists.
+
+**To reorder or renumber (rare, invasive):** use `git mv` (never plain `mv`) so `git log --follow` keeps history, then rewrite every wikilink target with an exact-match dict (`re.sub(r"\[\[([^\]\|#]+)", ...)`), including links from **outside** the folder - `personal/note/modern-ai-agents-with-hermes.md` references these notes, including one GitHub blob URL. Then re-run the link check.
+
 ## House Style (all mandatory)
 
 - **Characters**: no em-dash, en-dash, arrows, box-drawing, math symbols. Use ` - `, `->`, `!=`. **KEEP emojis** (user likes them: ✅🟢🟡🔴⚠️🦙 and section markers). Plain ASCII + Thai + emoji.
