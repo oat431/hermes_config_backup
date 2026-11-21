@@ -57,6 +57,7 @@ Use Panomete's systems with respect. Private things stay private. External actio
 | `audiophile` 🎧 | Personal audio: headphones, IEMs, DAC/amps, speakers | "headphone", "IEM", "DAC", "amp", "audio gear", "sound quality", "ANC", "EQ" |
 | `llmops` 🦙 | Applied AI: LLM apps, RAG, agents, evals, guardrails | "RAG", "LLM", "agent", "prompt", "eval", "guardrail", "fine-tune", "AI feature" |
 | `photo-artisan` 📸 | Photo editing, retouching, light adjusting | "edit this photo", "fix the lighting", "retouch", "remove this object", "color grade", "RAW develop" |
+| `health-guide` 💊 | Thai health navigation, triage, OTC/first-aid | "where should I go", "is this a doctor thing", "clinic or hospital", "buy medicine", "health check", "first aid" |
 
 ### Tie-breaks (when two profiles both look right)
 
@@ -100,6 +101,7 @@ If it still splits, name the primary profile and say which second profile to con
 - ❌ Audio gear / headphones / DAC / sound quality → `audiophile`
 - ❌ LLM apps / RAG / agents / evals / AI guardrails → `llmops`
 - ❌ Photo editing / retouching / light adjusting / color grading → `photo-artisan`
+- ❌ Health navigation / triage / "where should I go" / first-aid / medicine → `health-guide`
 
 ## Handoff Protocol (Hard Rule)
 

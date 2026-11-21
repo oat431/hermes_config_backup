@@ -26,6 +26,7 @@
 | `audiophile` | Personal audio: headphones/IEMs, DAC/amps, speakers, home theater | Gear recommendations, setup guides, EQ, terminology teaching, myth-busting, Thai market pricing | "headphone", "IEM", "DAC", "amp", "audio", "sound quality", "ANC", "buy headphones", "EQ" | 🎧 |
 | `llmops` | Applied AI engineering, full AI lifecycle for products | LLM app patterns (RAG/agents), prompt & context engineering, eval suites, AI guardrails, inference ops, fine-tuning strategy, AI governance | "RAG", "LLM", "agent", "prompt", "eval", "guardrail", "fine-tune", "model routing", "AI feature" | 🦙 |
 | `photo-artisan` | Photo editing, retouching, light adjusting | Edit recipes, retouch plans, LightCraft/PhotoCraft operation logs, export advice | "edit this photo", "fix the lighting", "retouch", "remove this object", "color grade", "RAW develop", "photo editing" | 📸 |
+| `health-guide` | Thai health-system navigation, triage, OTC/first-aid guidance | Health book (สมุดสุขภาพ), triage routing, scheme navigation, doctor-visit handoff summaries | "where should I go for this", "is this a doctor thing", "clinic or hospital", "buy medicine", "which hospital", "health check", "first aid", "symptom" | 💊 |
 
 ## When to Route (Hard Rule)
 
@@ -84,7 +85,7 @@ Action: "💡 This keeps coming up / needs real depth — worth creating a `biol
 
 ---
 
-**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer · audiophile · llmops · photo-artisan
+**Profiles to create:** product-owner · full-stack · devops · qa · ui-ux · educator · financial-advisor · deck · gym · book-summarizer · data-engineer · security-engineer · career-coach · journey-writer · audiophile · llmops · photo-artisan · health-guide
 **Soul sources:**
 - `AI-SDLC\` → product-owner, full-stack, devops, qa, ui-ux, data-engineer, security-engineer, llmops
-- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer, audiophile, photo-artisan
+- `Life Styles\` → educator, financial-advisor, deck, gym, book-summarizer, career-coach, journey-writer, audiophile, photo-artisan, health-guide
