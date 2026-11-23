@@ -1,6 +1,6 @@
 ---
 name: mermaid-render-validation
-description: Use when validating or repairing mermaid diagrams in vaults.
+description: Use when validating, repairing, or theming mermaid diagrams.
 ---
 
 # Mermaid Render Validation & Repair
@@ -23,6 +23,10 @@ puppeteer.json:
 
 Invoke mmdc as `node_modules/.bin/mmdc.exe` directly — `bun x mmdc` from Python subprocess fails (FileNotFoundError). Smoke test: `mmdc -i block.mmd -o out.png -p puppeteer.json -q`.
 
+Two CLI facts that cost a round trip: there is no width flag (`-w` is rejected; scale with `-s`), and `-i <note>.md` switches to Markdown mode, which then requires `-o` to end in `.md`, `.svg`, `.png`, or `.pdf` — to validate one block from a vault note, extract it to `.mmd` and render that.
+
+Keep the `.mmd` files in the same directory as `node_modules`, or pass absolute native paths. On Windows the bash `$TMPDIR` (`/tmp`) and the Hermes Python scratch directory are different places, so a block written from Python is invisible to a shell that `cd`s to `$TMPDIR`.
+
 ## Extraction: fence-aware, never regex
 
 Regex `\`\`\`mermaid\n(.*?)\`\`\`` over-captures when fences are mis-fenced or unterminated: it pairs the opener with the NEXT ``` anywhere in the file, swallowing sections into the block. Real vault case: regex found 209 blocks, a line-based fence walk (open on ```mermaid, close on next ``` line, EOF = unterminated) found 218 — the 9 extra were broken blocks the first render pass never tested. Always walk fences line-by-line; include unterminated-to-EOF blocks in the render (they are broken in Obsidian and must be repaired too).
@@ -34,6 +38,36 @@ Regex `\`\`\`mermaid\n(.*?)\`\`\`` over-captures when fences are mis-fenced or u
 ## Reading the error
 
 mmdc prints a long puppeteer stack trace; the actual message is the FIRST stderr lines (`Error: Parse error on line N:`). Capturing `stderr[-600:]` keeps only the stack — re-run failures capturing stderr HEAD (first ~8 lines).
+
+## Theming a diagram to a design system
+
+When the user says "style the diagram as my CI/brand", the job is a token map, not decoration. Find the brand source first (a tokens CSS file or a visual-identity note); never invent colors.
+
+- One `%%{init: {"theme":"base","themeVariables":{...}}}%%` line at the top of the fence. `theme: base` is required — the other named themes override `themeVariables` unpredictably.
+- `"background":"transparent"` so the note's own surface shows through; a hard-coded background fights the vault theme.
+- Map **meaning** to tokens (base / receptive / productive / application), not a rainbow. One `classDef` per semantic group, applied with `class A,B,C group`.
+- Font must cover the content language: a mono family chosen for code will tofu on Thai. JetBrains Mono has no Thai glyphs; Sarabun does.
+- Black text on a saturated brand fill (`color:#000000` on `#1FB854`); white-on-green fails contrast in most systems.
+- `<br/>` for line breaks in node labels; the `\n` escape renders inconsistently across mermaid versions.
+- Drop emoji from nodes when the system specifies outline iconography — emoji read as clip-art on a flat dark surface.
+- Theme clusters with `style <SUBGRAPH_ID> fill:...,stroke:...,color:...`; that `color` is the cluster title, the first thing the eye lands on.
+
+Full derivation, worked token table and the Panomete theme block: `references/design-system-theming.md`.
+
+Layout follows the theme. After theming, render and look at the PNG — edges can cut through cluster titles even when the source is valid. The fix is structural (uncluster single-node groups, add `direction LR` inside the crowded cluster), never a color change.
+
+### Batch-theming a vault
+
+Do it as one deterministic pass, separate from any prose editing:
+
+1. Extract every block fence-aware and record `(file, start, end)`.
+2. Render the baseline set **before** theming — pre-existing parse failures must not be attributed to the new colors.
+3. Per fence: drop any existing `%%{init ...}%%` line, insert the one standard init directly after the opener. Re-running the pass must be idempotent, not additive.
+4. Assert every ```mermaid is followed by the init line before re-extracting.
+5. Re-render all blocks and compare the fail set against the baseline; repair only new failures.
+6. Render one diagram on the vault's own background (`-b "#1B1717"`) and look at it. A transparent PNG flatters contrast; the note's surface is what the reader sees.
+
+Never let a prose-editing agent touch fences in the same pass. Two writers on one file region is a silent overwrite, not a merge conflict you can see.
 
 ## Failure classes (both pre-exist in source; theming/appends only inherit them)
 

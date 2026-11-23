@@ -6,7 +6,7 @@
 
 ---
 
-## Skills Map (22 Main + 8 shared + 83 Profile-Specific = 113)
+## Skills Map (22 Main + 8 shared + 96 Profile-Specific = 126)
 
 ### 📚 PDF & Book Summarization _(in `hermes-main-profile/`)_
 
@@ -152,6 +152,32 @@ hermes -s <skill-name>
 
 ---
 
+## Added 2026-11-22 (13 skills)
+
+New agent-created skills captured in this pass.
+
+| Profile | Skill | Use when |
+|---------|-------|----------|
+| `devops` | **artcraft-mcp-wiring** | Wiring PhotoCraft / LightCraft / DeckCraft / FigCraft MCP servers. |
+| `devops` | **hermes-mcp-diagnosis** | A Hermes MCP server looks down, stale or half-configured. |
+| `deck` | **deckcraft-decks** | Building branded PPTX decks via DeckCraft CLI/MCP. |
+| `ui-ux` | **figcraft-design-system** | Building or extending FigCraft design-system files. |
+| `full-stack` | **knowledge-base-maintenance** | Auditing stale docs, building verification checklists. |
+| `full-stack` | **technology-selection-trade-study** | Choosing a platform or vendor, with a written trade study. |
+| `journey-writer` | **kien-thai** | Writing Thai prose (technical docs, marketing, explainers, translations) that reads native — includes the kien/wai style rules and `references/` style guides. |
+| `journey-writer` | **kode-thai** | Iterative audit→fix loop over Thai prose; drives **kien-thai** until clean. |
+| `journey-writer` | **thai-translation-pipeline** | Translating or refining Thai at scale, multi-pass. |
+| `journey-writer` | **vault-note-cleanup** | Cleaning a note or vault to house style (frontmatter, wikilinks, sections). |
+| `journey-writer` | **vault-readme-enhance** | Writing or upgrading a README for a public vault. |
+| `photo-artisan` | **lightcraft-mcp** | Driving LightCraft MCP for photo edits and exports. |
+| `health-guide` | **thai-health-navigation** | Thai health routing, refills, entitlement gates and booking flow. |
+
+Also refreshed (live had drifted ahead of the backup): `career-coaching`, `career-path-vault-authoring`, `fitness-coaching` *(backup kept — see note)*, `hermes-profile-setup`, `mermaid-render-validation`, `obsidian-vault-maintenance`, `personal-ai-notes`, `swe-knowledge-vault-refine`, `wish-snippet-library`, `wishes-snippet-library`, `writing-practice-audit`.
+
+> ⚠️ **`gym/fitness-coaching` is divergent — do not overwrite.** The live skill's `SKILL.md` still cites `references/formulas.md`, `scripts/verify-baseline.py`, `references/note-format.md` etc., but those files were moved to `.archive/fitness-coaching/` in the live profile. The backup here holds the **complete original** (20 files). Resolve in the `gym` profile (either restore the refs or strip the citations from SKILL.md), then re-back-up.
+
+---
+
 ## Skill Lifecycle
 
 ```
@@ -179,4 +205,4 @@ These skills were consolidated into others. Full content preserved in `archived/
 
 ---
 
-*Last updated: 2026-08-24*
+*Last updated: 2026-11-22*

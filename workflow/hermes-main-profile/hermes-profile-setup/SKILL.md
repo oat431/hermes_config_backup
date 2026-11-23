@@ -214,6 +214,8 @@ ui-ux              ↔ AI-SDLC/ui-ux-designer-soul.md
 career-coach       ↔ Life Styles/career-coach-soul.md
 journey-writer     ↔ Life Styles/journey-writer-soul.md
 audiophile         ↔ Life Styles/audiophile-soul.md
+photo-artisan      ↔ Life Styles/photo-artisan-soul.md
+health-guide       ↔ Life Styles/health-guide-soul.md
 ```
 Writing a verification loop that guesses `<profile>-soul.md` will report false "MISMATCH" on every profile whose collection name has a middle token. Use an explicit `declare -A` map instead, and have the loop search BOTH `AI-SDLC/` and `Life Styles/`.
 

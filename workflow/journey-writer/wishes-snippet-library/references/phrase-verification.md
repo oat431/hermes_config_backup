@@ -47,6 +47,42 @@ Also tell them which candidates to check per language (names, works, line refs) 
 - Rune "love/protection" readings (ᚷ ᚹ ᛖ = partnership; ᛉ = protection) are modern esoteric; attested = gift/joy/horse/elk.
 - kærleikr is 14th–15th c. religious prose, not a Viking-age word — label late if used.
 - Modern-language cousins are not the originals: Icelandic *til hamingju* is modern, not Old Norse.
+- **"Ārambhatha nikkhamatha…" ≠ Dhp 382** — it is *Theragāthā 3.13* (PTS Th 256); SC reads ārambhatha/nikkamatha, PTS ārabhatha/nikkhamatha.
+- **Thai สุขสันติ์ is not a dictionary spelling** — use สุขสันต์ (สุขสันติ์ occurs only in names).
+- **Sanskritized नूतनवर्ष is effectively unused** — prefer नववर्ष (118 vs 0 full-text hits on hi.wikipedia).
+- **Pindar "ἀρχομένου δ' ἔργου…" = *Olympian* 6.3–4** — any "fragment" citation is a miscitation.
+- **"ves þú heill" is unattested** — use "ves heill" (FJ) / "ver þú heill" (Neckel–Kuhn), Hymiskviða 11.
+- **Roman formula split**: the long "quod bonum faustum felix fortunatumque sit" is epigraphic (Arval Acts, Q.B.F.F.S.); Livy = "quod bonum, faustum felixque sit" — don't cross-attribute.
+- **"bonis auspiciis" is not the classical set phrase** — use "bonis avibus" (Ovid *Met.* 15.640; *Fasti* 1.513).
+- **Dagaz "breakthrough" / Berkanan "growth" = modern esoteric** — the poems say Day = the Lord's messenger; Beorc = fruitless yet fair (Dickins even glosses 'poplar').
+- **"τὰ μὲν προτετύχθαι ἐάσομεν…" = Iliad 19.65–66** (also 18.112–113; 16.60 shorter) — NOT 24.522–524; the Priam consolation has different wording ("ἄλγεα δ' ἔμπης…").
+- **"Pax vobiscum" is liturgical, not biblical** — the Clementine Vulgate reads "Pax vobis" (Luke 24:36; John 20:19); "pax et bonum" provenance unverified.
+- **"सर्वे भवन्तु सुखिनः…" is not in any Upaniṣad** (the "Bṛhadāraṇyaka 1.4.14" citation is false) — real variants: Garuḍa Purāṇa 35.51, Bhaviṣya Purāṇa 3.2.35.14, Uvaṭa colophon; popular 4-line form is modern.
+- **"lokāḥ samastāḥ sukhino bhavantu" is not Vedic/Upaniṣadic** — medieval mangala inscription (Sangama dynasty) + modern yoga closing chant.
+- **Mettā precision**: root reads "sabbasattā bhavantu sukhitattā" (Khp 9/Sn 1.8); the "averā… sukhī attānaṁ pariharantu" formula is AN 10.176/MN 41 (long ī), not the Mettā Sutta; "sabbe sattā dukkhā pamuccantu" has NO canonical locus (modern karuṇā appendage).
+- **Aeneid numbering**: "forsan et haec…" = 1.203; "durate…" = 1.207 (speech runs 1.198–207); Seneca "curae leves…" = Phaedra 607.
+- **No Hávamál "patience / fair-weather-after-foul" stanza exists** — only st. 74 (weather changes fast, wry register).
+- **Statius' birthday poem = *Silvae* 2.7** (not 4.5) — and it is posthumous (dead addressee, commissioned by his widow); no attested classical birthday-wish line exists (birthday POEMS ≠ greetings).
+- **"compos voti" is dictionary Latin** — corpus form: Suetonius' accusative "voti compotem" (*Cal.* 13).
+- **"May it come through the gate of horn" is craft** — the attested texts are descriptive (Od. 19.562–567; Verg. *Aen.* 6.893–898); and Aeneas exits via the ivory gate (6.898).
+- **Baldrs draumar is not a Codex Regius poem** (AM 748 I a 4to only) — and it is death-dream/necromancy register, not a generic dream poem.
+- **"Idaṃ me puññaṃ āsavakkhayāvahaṃ hotu" is a traditional chanting formula** (no sutta locus); Khp 7 reads "Idaṃ VO ñātīnaṃ hotu" — the *me* form is Petavatthu 27.
+- **No "four kinds of dreams" sutta** — AN 5.196 = five great dreams of the Bodhisatta; the sixteen dreams are King Pasenadi's (Ja 77).
+- **Thai ฝัน is native Tai** (*hwan), not from Pali supina/Sanskrit svapna; जन्मदिन की शुभकामनाएँ / मुबारक हो are modern Hindi (मुबारक Arabic via Urdu).
+- **"Vesper adest, iuvenes…" = Catullus 62.1–2**, not 61 (and possibly not Catullus); 61's refrain is "o Hymenaee Hymen, o Hymen Hymenaee".
+- **"jīvema śaradaḥ śatam" = RV 7.66.16**, not 1.89.9 (that verse is "where sons are with fathers"); the singular birthday form is a modern adaptation.
+- **The Œþel/Beorc rune poems are Old English (Anglo-Saxon)**, not Old Norse; the ON younger-futhark poems have no óðal rune (ON material = óðal vocabulary + Icelandic Maðr line).
+- **The Hymen/Hymenaeus cry is not in Thesmophoriazusae** — attested in Aristophanes *Peace* 1331ff and *Birds* 1731ff.
+- **Sappho fr. 112 ≠ fr. 44** (fr. 44 = Hector–Andromache narrative); the epithalamia are frs. 112/115/116/117 V.
+- **Saptapadī mantras are Gṛhya-Sūtra liturgy, not RV 10.85**; the **maṅgalasūtra is not Vedic** (Gṛhya Sūtras silent; medieval Smārta/regional, tāḷi).
+- **"पुत्रपौत्राभिवृद्धिरस्तु" is not the pūṇyāhavācana wording** — "putra-pautra-samṛddhir astu" / "-saṃpad-astu" are (they travel right after धनधान्यसमृद्धिरस्तु).
+- **DN 31 has no "six ways of cherishing"** — the duties are fivefold, set in six directions.
+- **Catullus 101 "ave atque vale" = funeral epicedium** ("ad inferias") — never a travel farewell, despite line 1's travel language.
+- **"Ubi bene, ibi patria" is not Cicero verbatim** — *Tusc.* 5.108 has "Patria est, ubicumque est bene" (Teucer/Pacuvius); the familiar form is a later proverb.
+- **"Navigare necesse est" is Greek in origin** — Plutarch, *Pomp.* 50 (Πλεῖν ἀνάγκη, ζῆν οὐκ ἀνάγκη); the Latin wording is a later rendering, not classical Latin.
+- **RV 1.89: only v.6 is the svasti verse** (v.7 = Maruts; v.8 = bhadraṁ karṇebhiḥ). "svasti prāpta" and "kṣemaṁ gaccha" are unattested; the epic imperative is **svasti prāpṇuhi** (MBh 3.37.24), spoken by Draupadī, not Kuntī.
+- **DN 32 Āṭānāṭiya contains no travel wording** — the traveller application is later paritta practice; avihiṁsā = "non-harming," rendered loosely as "safety".
+- **Thai ไปดีนะ** doubles as a death/breakup farewell — not a cheerful send-off; keep ใน in ชีวิตใหม่ในต่างแดน.
 
 ## Provenance footer
 

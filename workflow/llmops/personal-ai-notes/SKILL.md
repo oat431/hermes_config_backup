@@ -52,7 +52,7 @@ The folder is a **numbered reading series**, modeled on `personal/meta-learning/
 
 ## Workflow
 
-1. Web-verify facts first (search + read primary sources); cite with verification date. Tooling/policy facts churn - never cite from memory alone.
+1. Web-verify facts first (search + read primary sources); cite with verification date. Tooling/policy facts churn - never cite from memory alone. Note: the `web_extract` tool fails on a SearXNG-only backend ("search-only backend and cannot extract URL content") - read pages with the searxng MCP tool `mcp__searxng__web_url_read` instead, using `startChar`/`maxLength` to page through long articles and `section` to pull one heading.
 2. Check the folder for existing notes to cross-link.
 3. Write the note with write_file.
 4. Patch a companion line into the closest sibling note (keeps the graph connected).
@@ -62,6 +62,8 @@ The folder is a **numbered reading series**, modeled on `personal/meta-learning/
 ## Pitfalls
 
 - Em-dash sneaks back in via copied text - always run the scan after writing.
+- Em-dashes also sneak in through TABLE CELLS: using "—" as an "absent/not applicable" marker is the easiest way to fail the scan. Use `no` (or an emoji already allowed) instead.
+- After editing, validate markdown tables programmatically (cell count per row) - a stray pipe silently breaks the whole table in Obsidian.
 - Thai text must stay intact (it is content).
 - Do not strip emoji - that was a user correction (2026-09-21); emojis stay.
 - Prefer `execute_code` scans WITHOUT subprocess calls (subprocess can trigger consent prompts); do git status via terminal tool instead.

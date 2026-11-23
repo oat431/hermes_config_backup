@@ -82,6 +82,24 @@ Use `/grill-me` skill to extract stories. Run 3 sessions minimum:
 
 Each session produces one polished STAR story. Add to Block 7 of master profile.
 
+## Round-Specific Interview Prep
+
+A confirmed interview is a *round*, and the round type decides the artifact set. Classify it from the invitation before drafting anything:
+
+| Round type | Artifact set | Reference |
+|---|---|---|
+| Panel / hiring manager / culture fit | 6-file prep vault (battle card, fit assessment, STAR, study plan) | `references/interview-prep-vault.md` |
+| Live coding, pair programming, debug-and-extend, assignment defence | prep pack + a **run-and-verify rehearsal repo** | `references/live-coding-round-prep.md` |
+| Take-home assignment | scope discipline, layering, externalised config, then the live-refactor review | `references/live-coding-round-prep.md` |
+
+Always-on rules for any round:
+
+- **Check the candidate's local toolchain before writing a word of prep.** A live round is lost before the first sentence if the language/runtime/build tool the exercise needs is not installed. One `java -version; mvn -v; node -v` costs ten seconds and is usually the highest-severity finding available on day one — report it above any content advice.
+- **Recon by exercise text, not company name.** Quote a distinctive phrase from the invitation into search ("small banking application", "debug existing functionality"); published candidate reports reproduce the wording and hand you the round structure, the rubric, and what comes next. Company-name searches return salary threads instead.
+- **Ask for three things before finalising a drill plan**: the interview **date** (plans are written T-3/T-2/T-1 and are useless unanchored), the **format** (shared browser IDE / Codespace / own machine — this decides the toolchain risk), and **current employment state** (if the candidate is inside a probation period, a "why are you leaving a job you just started" answer must exist).
+- **Answer "should I be worried?" with a ranked concern register**, never a flat list: severity × fixability, each item carrying the evidence, the fix, and the hours it costs. Close with a verdict table splitting genuinely-strong / drill-needed / broken-today. No reassurance, no doom.
+- **Every practice artifact must be executed before delivery.** A kata that does not run, or that cannot be solved, is worse than no kata — solvability is proven by applying the fixes to a throwaway copy and re-running (recipe in the reference).
+
 ## Personality & Values Assessment Coaching
 
 When the user takes, brings, or asks about personality/values tests — their own or employer-mandated:
@@ -102,6 +120,14 @@ Maintain one living tracker at the career-folder root (`00-Improvement-TODO.md`)
 - **Done = artifact or evidence link, never intention.** Every open item wikilinks to the real vault artifact it will modify (STAR file, study base, relocation plan, assessment summary); no dangling TODOs.
 - Standing **hygiene item**: diff the master profile against reality each review (story counts, stale "to be developed" markers, last-updated dates) — the profile drifts after every prep session.
 - Cadence: weekly review (doubles as the load gauge) + monthly deep review; scheduled retests go in 🟢 with a target month.
+
+## Vault Phase Folding — when a phase of the user's life ends
+
+The interview-prep vault is career HQ, not just interview prep: it grows phase folders as life moves (job hunt → moved in → probation → next chapter). When a phase ends, fold it — don't scatter updates:
+
+- **Close the phase in place.** Write a final outcome note in the phase folder: what happened, exact numbers/terms, the honest trade-off, what remains (no marketingspeak). Flip the phase index frontmatter to `status: complete` and put a `🏁 RESOLVED <what>` block at the top of the index. Dated checklists get a one-line resolved banner under the header — never rewritten; they are the archive.
+- **Open the next phase as its own folder** with a numbered `00-Index` hub (e.g. `life-in-bangkok/` after a relocation — housing, budget, settling checklist). The active folder owns living facts; closed folders link forward instead of duplicating them.
+- **Move the tracker item**: flip the finished item into ✅ Done with its artifact link, and add the new phase's open item with a link to its checklist — the tracker is the cross-phase map.
 
 ## Thai Market Specifics
 
@@ -127,7 +153,7 @@ Agent drafts accumulate fabrication over time — details carried from earlier d
 7. **Planned-but-never-used tech** — users often list tech they plan to learn. Confirm "did you use this in production?" — learning plans never go on resume/LinkedIn.
 8. **Log corrections** — append a numbered "Review Notes (date)" section to the vault note documenting every correction and why, so future sessions don't reintroduce errors. Save durable corrections to memory too.
 
-When unsure about a fact, ask the user in ONE batched question (2–4 items) before rewriting — don't guess.
+When unsure about a fact, ask the user in ONE batched question (2–4 items) before rewriting — don't guess. Extends to vault/life facts (addresses, contract terms, dates, figures): research first, then batch-confirm; anything still unknown is written as a flagged TODO, never as a silent gap.
 
 ### English Certification → Fluency Level (honest mapping)
 
@@ -151,6 +177,10 @@ Never claim "Full Professional" on a B2 cert — interviewers probe English live
 - **LinkedIn language levels are often wrong** — native speakers underrate themselves
 - **Curate LinkedIn projects** — 10 projects dilutes the strong ones; keep 2-4
 - **Don't skip market research** — Thai conventions differ from US/EU conventions
+- **Quote `;`-separated classpaths on Windows bash** — `java -cp out/main;out/test` ends the command at the semicolon and prints a `Usage: java` dump; write `java -cp "out/main;out/test"`. A usage dump in the output means the command was split, not that the build failed.
+- **Anchor patches to the signature, not the body** — overloaded factories share identical bodies (`of(String)` / `of(double)` both containing `new BigDecimal(value)`); a body-level replace silently breaks the overload that was already correct. Put the signature line in the old_string and replace once.
+- **Never state an exact count for a non-deterministic check** — a concurrency probe reports 8 failures on one run and 9 on the next. Write "expect 8, sometimes 9" or the user concludes the artifact is broken and reports it as your bug.
+- **Cross-vault wikilinks die silently** — each top-level folder under `F:\obsidian_note\` is its own Obsidian vault, so a `[[note]]` from the interview-prep vault to swe-knowledge resolves to nothing. Link cross-vault with a plain code path (`career-path/01_.../02_Debugging_Method.md`), wikilinks only inside the same vault.
 
 ## Related Skills
 

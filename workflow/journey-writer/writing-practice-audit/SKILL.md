@@ -26,6 +26,16 @@ Fill-in templates live separately at `F:\obsidian_note\oralita_md\templates\writ
 5. **Never rewrite the piece** unless explicitly asked — the story/wish/review belongs to the writer
 6. **Final say is always his**
 
+## Beyond the writing-practice vault
+
+The contract is not scoped to `writing/`. When he says "review this note" about a knowledge-vault note (curriculum, teaching, translation), the same order holds:
+
+1. **Mechanical checks first** — links resolve, frontmatter fields present, no dead targets. They are objective and cheap; do them before judging prose. Link-repair procedure: `obsidian-vault-maintenance`.
+2. **Then the prose** against the governing rule set — `kien-thai` for Thai prose; his own knowledge guides for drafts.
+3. **Problems first**, each quoted, tagged `[objective]` / `[taste]`; his ear decides.
+
+Language matters: **"refine" / "แก้ให้" grants permission to rewrite in place** — back up the file first, then edit. **"Review" / "audit" / "วิเคราะห์" does not** — report and wait. When refining, rewrite prose freely but leave structural claims (what a diagram asserts, what a table includes) alone; flag those as suggestions instead of changing them silently.
+
 ## Audit file placement & naming
 
 `01_audit/yyyymmdd_[category]_<title>.md` — e.g. `20260823_review_00example.md`.
@@ -52,7 +62,7 @@ Audit against HIS knowledge guides (`00_knowledge/`), not generic writing advice
 - Identical practice filenames (`00_example.md` × N folders) make `[[wikilinks]]` ambiguous in Obsidian — encourage dated unique filenames from birth.
 - ALWAYS `read_file` before overwriting any vault file (past data-loss incident in BG3 vault).
 - Genre honesty: label pieces what they are (a reflective true essay filed under short_story is personal essay/memoir lane — fine, but say so).
-- Facts about reviewed media (plot claims etc.) cannot be verified without the source; factual accuracy stays the author's responsibility — note this once per audit if plot-heavy.
+- Facts about reviewed media split in two: verifiable public facts (cast, character names, runtime, release dates) CAN be checked via web_search against studio/Wikipedia sources — do it and report the result honestly (validated 2026-10-16 Whalefall audit); unverifiable plot claims stay the author's responsibility — note this once per audit if plot-heavy.
 - Recurring root cause seen in POC audits: idea arrives before the specific (philosophy without person, thesis without counterargument). Probe for "one detail only this subject could have generated" in every audit.
 
 ## Exemplars
